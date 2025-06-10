@@ -1,0 +1,332 @@
+INFO 2025-06-09 19:38:27,363 autoreload 4516 8313151232 Watching for file changes with StatReloader
+ERROR 2025-06-09 19:38:32,806 log 4516 6131232768 Internal Server Error: /
+Traceback (most recent call last):
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/urls/base.py", line 71, in reverse
+    extra, resolver = resolver.namespace_dict[ns]
+KeyError: 'routes'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 175, in render
+    return self._render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/test/utils.py", line 112, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 1005, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 966, in render_annotated
+    return self.render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/loader_tags.py", line 157, in render
+    return compiled_parent._render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/test/utils.py", line 112, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 1005, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 966, in render_annotated
+    return self.render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/defaulttags.py", line 471, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/urls/base.py", line 82, in reverse
+    raise NoReverseMatch("%s is not a registered namespace" % key)
+django.urls.exceptions.NoReverseMatch: 'routes' is not a registered namespace
+ERROR 2025-06-09 19:38:32,819 basehttp 4516 6131232768 "GET / HTTP/1.1" 500 159180
+INFO 2025-06-09 19:39:12,815 autoreload 4516 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/core/views.py changed, reloading.
+INFO 2025-06-09 19:39:13,022 autoreload 4576 8313151232 Watching for file changes with StatReloader
+ERROR 2025-06-09 19:39:25,832 log 4576 6202667008 Internal Server Error: /
+Traceback (most recent call last):
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/urls/base.py", line 71, in reverse
+    extra, resolver = resolver.namespace_dict[ns]
+KeyError: 'routes'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 175, in render
+    return self._render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/test/utils.py", line 112, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 1005, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 966, in render_annotated
+    return self.render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/loader_tags.py", line 157, in render
+    return compiled_parent._render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/test/utils.py", line 112, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 1005, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 966, in render_annotated
+    return self.render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/defaulttags.py", line 471, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/urls/base.py", line 82, in reverse
+    raise NoReverseMatch("%s is not a registered namespace" % key)
+django.urls.exceptions.NoReverseMatch: 'routes' is not a registered namespace
+ERROR 2025-06-09 19:39:25,841 basehttp 4576 6202667008 "GET / HTTP/1.1" 500 158358
+INFO 2025-06-09 19:39:25,842 basehttp 4576 6202667008 - Broken pipe from ('127.0.0.1', 51341)
+ERROR 2025-06-09 19:40:09,449 log 4576 6202667008 Internal Server Error: /
+Traceback (most recent call last):
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/urls/base.py", line 71, in reverse
+    extra, resolver = resolver.namespace_dict[ns]
+KeyError: 'users'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 175, in render
+    return self._render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/test/utils.py", line 112, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 1005, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 966, in render_annotated
+    return self.render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/loader_tags.py", line 157, in render
+    return compiled_parent._render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/test/utils.py", line 112, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 1005, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 966, in render_annotated
+    return self.render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/loader_tags.py", line 63, in render
+    result = block.nodelist.render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 1005, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 966, in render_annotated
+    return self.render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/defaulttags.py", line 321, in render
+    return nodelist.render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 1005, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 966, in render_annotated
+    return self.render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/defaulttags.py", line 471, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/urls/base.py", line 82, in reverse
+    raise NoReverseMatch("%s is not a registered namespace" % key)
+django.urls.exceptions.NoReverseMatch: 'users' is not a registered namespace
+ERROR 2025-06-09 19:40:09,457 basehttp 4576 6202667008 "GET / HTTP/1.1" 500 193745
+INFO 2025-06-09 19:40:43,842 basehttp 4576 6202667008 "GET / HTTP/1.1" 200 30935
+INFO 2025-06-09 19:40:50,019 basehttp 4576 6202667008 "GET / HTTP/1.1" 200 30933
+INFO 2025-06-09 19:40:57,613 basehttp 4576 6202667008 "GET /sobre/ HTTP/1.1" 200 27182
+INFO 2025-06-09 19:40:57,628 basehttp 4576 6202667008 "GET /contato/ HTTP/1.1" 200 22945
+INFO 2025-06-09 19:40:57,668 basehttp 4576 6202667008 "GET /ajuda/ HTTP/1.1" 200 1
+INFO 2025-06-09 20:01:42,093 autoreload 5268 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-09 20:01:49,464 basehttp 5268 6157217792 "GET / HTTP/1.1" 200 30935
+INFO 2025-06-09 20:02:27,989 basehttp 5268 6157217792 "GET / HTTP/1.1" 200 30933
+INFO 2025-06-09 20:02:28,108 basehttp 5268 6157217792 "GET /static/css/busfeed.css HTTP/1.1" 200 9016
+INFO 2025-06-09 20:02:28,108 basehttp 5268 6174044160 "GET /static/debug_toolbar/css/toolbar.css HTTP/1.1" 200 12621
+INFO 2025-06-09 20:02:28,109 basehttp 5268 6190870528 "GET /static/js/busfeed.js HTTP/1.1" 200 12780
+INFO 2025-06-09 20:02:28,109 basehttp 5268 6207696896 "GET /static/debug_toolbar/js/toolbar.js HTTP/1.1" 200 13404
+INFO 2025-06-09 20:02:28,320 basehttp 5268 6207696896 "GET /static/debug_toolbar/css/print.css HTTP/1.1" 200 43
+INFO 2025-06-09 20:02:28,320 basehttp 5268 6190870528 "GET /static/debug_toolbar/js/utils.js HTTP/1.1" 200 4527
+WARNING 2025-06-09 20:02:28,359 log 5268 6207696896 Not Found: /sw.js
+WARNING 2025-06-09 20:02:28,360 basehttp 5268 6207696896 "GET /sw.js HTTP/1.1" 404 13457
+WARNING 2025-06-09 20:02:28,532 basehttp 5268 6207696896 "GET /static/images/favicon.ico HTTP/1.1" 404 1914
+INFO 2025-06-09 20:04:11,075 basehttp 5268 6157217792 "GET /sobre/ HTTP/1.1" 200 27184
+WARNING 2025-06-09 20:04:11,126 log 5268 6157217792 Not Found: /sw.js
+WARNING 2025-06-09 20:04:11,126 basehttp 5268 6157217792 "GET /sw.js HTTP/1.1" 404 13457
+INFO 2025-06-09 20:04:19,864 basehttp 5268 6157217792 "GET / HTTP/1.1" 200 30935
+WARNING 2025-06-09 20:04:19,922 log 5268 6157217792 Not Found: /sw.js
+WARNING 2025-06-09 20:04:19,922 basehttp 5268 6157217792 "GET /sw.js HTTP/1.1" 404 13457
+INFO 2025-06-09 20:04:25,611 basehttp 5268 6157217792 "GET /admin/login/ HTTP/1.1" 200 13702
+INFO 2025-06-09 20:04:25,647 basehttp 5268 6174044160 "GET /static/admin/css/dark_mode.css HTTP/1.1" 200 2929
+INFO 2025-06-09 20:04:25,648 basehttp 5268 6190870528 "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 200 2694
+INFO 2025-06-09 20:04:25,648 basehttp 5268 6207696896 "GET /static/admin/css/login.css HTTP/1.1" 200 958
+INFO 2025-06-09 20:04:25,649 basehttp 5268 6157217792 "GET /static/admin/css/base.css HTTP/1.1" 200 21207
+INFO 2025-06-09 20:04:25,649 basehttp 5268 6241349632 "GET /static/admin/js/theme.js HTTP/1.1" 200 1943
+INFO 2025-06-09 20:04:25,649 basehttp 5268 6224523264 "GET /static/admin/css/responsive.css HTTP/1.1" 200 18533
+INFO 2025-06-09 20:04:25,649 basehttp 5268 6174044160 "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 200 3063
+WARNING 2025-06-09 20:04:25,687 log 5268 6174044160 Not Found: /favicon.ico
+WARNING 2025-06-09 20:04:25,687 basehttp 5268 6174044160 "GET /favicon.ico HTTP/1.1" 404 13481
+WARNING 2025-06-09 20:04:28,582 log 5268 6157217792 Not Found: /sw.js
+WARNING 2025-06-09 20:04:28,582 basehttp 5268 6157217792 "GET /sw.js HTTP/1.1" 404 13457
+INFO 2025-06-09 20:04:42,691 basehttp 5268 6157217792 "GET /?origem=plano&destino=ceilandia HTTP/1.1" 200 31005
+WARNING 2025-06-09 20:04:42,749 log 5268 6157217792 Not Found: /sw.js
+WARNING 2025-06-09 20:04:42,749 basehttp 5268 6157217792 "GET /sw.js HTTP/1.1" 404 13457
+INFO 2025-06-09 21:23:03,414 basehttp 5268 6157217792 "GET / HTTP/1.1" 200 40829
+INFO 2025-06-09 21:23:34,180 basehttp 5268 6157217792 "HEAD / HTTP/1.1" 200 0
+INFO 2025-06-09 21:27:08,280 autoreload 6775 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-09 21:27:16,077 basehttp 5268 6157217792 "GET / HTTP/1.1" 200 40828
+INFO 2025-06-09 21:32:11,179 basehttp 5268 6157217792 "GET / HTTP/1.1" 200 40830
+INFO 2025-06-09 21:32:11,205 basehttp 5268 13035925504 "GET /static/debug_toolbar/css/toolbar.css HTTP/1.1" 304 0
+INFO 2025-06-09 21:32:11,206 basehttp 5268 13052751872 "GET /static/js/busfeed.js HTTP/1.1" 304 0
+INFO 2025-06-09 21:32:11,207 basehttp 5268 6157217792 "GET /static/css/busfeed.css HTTP/1.1" 200 23157
+INFO 2025-06-09 21:32:11,207 basehttp 5268 13069578240 "GET /static/debug_toolbar/js/toolbar.js HTTP/1.1" 304 0
+INFO 2025-06-09 21:32:11,494 basehttp 5268 6157217792 "GET /static/debug_toolbar/css/print.css HTTP/1.1" 304 0
+INFO 2025-06-09 21:32:11,499 basehttp 5268 6157217792 "GET /static/debug_toolbar/js/utils.js HTTP/1.1" 304 0
+WARNING 2025-06-09 21:32:11,516 log 5268 13069578240 Not Found: /sw.js
+WARNING 2025-06-09 21:32:11,516 basehttp 5268 13069578240 "GET /sw.js HTTP/1.1" 404 13457
+INFO 2025-06-09 21:32:11,640 basehttp 5268 13086404608 "GET /static/manifest.json HTTP/1.1" 200 3069
+WARNING 2025-06-09 21:32:11,652 basehttp 5268 13069578240 "GET /static/images/icon-144x144.png HTTP/1.1" 404 1929
+INFO 2025-06-09 21:47:13,978 autoreload 7359 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-09 21:49:08,720 autoreload 7441 8313151232 Watching for file changes with StatReloader
+ERROR 2025-06-09 21:49:35,558 log 7441 6164901888 Internal Server Error: /
+Traceback (most recent call last):
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 175, in render
+    return self._render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/test/utils.py", line 112, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 1005, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 966, in render_annotated
+    return self.render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/loader_tags.py", line 132, in render
+    compiled_parent = self.get_parent(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/loader_tags.py", line 129, in get_parent
+    return self.find_template(parent, context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/loader_tags.py", line 107, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/engine.py", line 157, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 200, in compile_nodelist
+    return parser.parse()
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 513, in parse
+    raise self.error(token, e)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 511, in parse
+    compiled_result = compile_func(self, token)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/loader_tags.py", line 226, in do_block
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'block' tag with name 'meta_description' appears more than once
+ERROR 2025-06-09 21:49:35,578 basehttp 7441 6164901888 "GET / HTTP/1.1" 500 214569
+INFO 2025-06-09 21:49:35,679 basehttp 7441 6164901888 "GET /static/debug_toolbar/css/toolbar.css HTTP/1.1" 200 12621
+INFO 2025-06-09 21:49:35,680 basehttp 7441 6198554624 "GET /static/debug_toolbar/css/print.css HTTP/1.1" 200 43
+INFO 2025-06-09 21:49:35,680 basehttp 7441 6181728256 "GET /static/debug_toolbar/js/toolbar.js HTTP/1.1" 200 13404
+INFO 2025-06-09 21:49:35,713 basehttp 7441 6198554624 "GET /static/debug_toolbar/js/utils.js HTTP/1.1" 200 4527
+WARNING 2025-06-09 21:49:35,754 log 7441 6198554624 Not Found: /favicon.ico
+WARNING 2025-06-09 21:49:35,754 basehttp 7441 6198554624 "GET /favicon.ico HTTP/1.1" 404 13479
+INFO 2025-06-09 21:50:32,309 autoreload 7485 8313151232 Watching for file changes with StatReloader
+ERROR 2025-06-09 21:51:19,461 log 7441 6164901888 Internal Server Error: /
+Traceback (most recent call last):
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 175, in render
+    return self._render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/test/utils.py", line 112, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 1005, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 966, in render_annotated
+    return self.render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/loader_tags.py", line 132, in render
+    compiled_parent = self.get_parent(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/loader_tags.py", line 129, in get_parent
+    return self.find_template(parent, context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/loader_tags.py", line 107, in find_template
+    template, origin = context.template.engine.find_template(
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/engine.py", line 157, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 200, in compile_nodelist
+    return parser.parse()
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 513, in parse
+    raise self.error(token, e)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 511, in parse
+    compiled_result = compile_func(self, token)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/loader_tags.py", line 226, in do_block
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: 'block' tag with name 'title' appears more than once
+ERROR 2025-06-09 21:51:19,471 basehttp 7441 6164901888 "GET / HTTP/1.1" 500 211901
+INFO 2025-06-09 21:52:02,127 autoreload 7528 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-09 21:52:18,035 basehttp 7441 6164901888 "GET / HTTP/1.1" 200 25113
+INFO 2025-06-09 21:52:18,051 basehttp 7441 6164901888 "GET /static/css/busfeed.css HTTP/1.1" 200 35329
+INFO 2025-06-09 21:52:18,056 basehttp 7441 6164901888 "GET /static/js/busfeed.js HTTP/1.1" 200 12780
+WARNING 2025-06-09 21:52:18,143 log 7441 6164901888 Not Found: /sw.js
+WARNING 2025-06-09 21:52:18,143 basehttp 7441 6164901888 "GET /sw.js HTTP/1.1" 404 13457
+INFO 2025-06-09 21:52:18,237 basehttp 7441 6181728256 "GET /static/manifest.json HTTP/1.1" 200 3069
+WARNING 2025-06-09 21:52:18,240 basehttp 7441 6164901888 "GET /static/images/favicon.ico HTTP/1.1" 404 1914
+WARNING 2025-06-09 21:52:18,265 log 7441 6164901888 Not Found: /sw.js
+WARNING 2025-06-09 21:52:18,265 basehttp 7441 6164901888 "GET /sw.js HTTP/1.1" 404 13457
+WARNING 2025-06-09 21:52:18,275 basehttp 7441 6164901888 "GET /static/images/icon-144x144.png HTTP/1.1" 404 1929
+INFO 2025-06-09 21:52:34,013 basehttp 7441 6164901888 "GET /?destino=Teste HTTP/1.1" 200 28480
+WARNING 2025-06-09 21:52:34,076 log 7441 6164901888 Not Found: /sw.js
+WARNING 2025-06-09 21:52:34,076 basehttp 7441 6164901888 "GET /sw.js HTTP/1.1" 404 13457
+WARNING 2025-06-09 21:52:34,089 basehttp 7441 6164901888 "GET /static/images/icon-144x144.png HTTP/1.1" 404 1929
+INFO 2025-06-09 21:52:37,501 basehttp 7441 6164901888 "GET /?destino=Teste HTTP/1.1" 200 28480
+WARNING 2025-06-09 21:52:37,554 basehttp 7441 6181728256 "GET /static/images/icon-144x144.png HTTP/1.1" 404 1929
+WARNING 2025-06-09 21:52:37,560 log 7441 6164901888 Not Found: /sw.js
+WARNING 2025-06-09 21:52:37,561 basehttp 7441 6164901888 "GET /sw.js HTTP/1.1" 404 13457
+INFO 2025-06-09 21:52:38,295 basehttp 7441 6164901888 "GET /?destino=Teste HTTP/1.1" 200 28480
+WARNING 2025-06-09 21:52:38,333 log 7441 6164901888 Not Found: /sw.js
+WARNING 2025-06-09 21:52:38,334 basehttp 7441 6181728256 "GET /static/images/icon-144x144.png HTTP/1.1" 404 1929
+WARNING 2025-06-09 21:52:38,334 basehttp 7441 6164901888 "GET /sw.js HTTP/1.1" 404 13457

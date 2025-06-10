@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ page_title }}{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+
+{% block breadcrumb %}
+<nav aria-label="Localização atual" class="container">
+    <ol class="breadcrumb bg-light p-3 mt-3 rounded">
+        <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Início</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Acessibilidade</li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <h1 class="display-5 fw-bold mb-4">
+                <i class="bi bi-universal-access text-primary me-3" aria-hidden="true"></i>
+                Acessibilidade
+            </h1>
+            <p class="lead">
+                O BusFeed foi desenvolvido seguindo as diretrizes de acessibilidade WCAG 2.1, 
+                garantindo que todos possam usar nossos serviços independentemente de suas capacidades.
+            </p>
+
+            <!-- Recursos de Acessibilidade -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h2 class="h4 mb-0">Recursos de Acessibilidade</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <h3 class="h6 fw-bold">
+                                <i class="bi bi-eye text-primary me-2" aria-hidden="true"></i>
+                                Para Usuários com Deficiência Visual
+                            </h3>
+                            <ul class="small">
+                                <li>Compatible com leitores de tela (NVDA, JAWS, VoiceOver)</li>
+                                <li>Navegação por teclado em todas as funcionalidades</li>
+                                <li>Alto contraste disponível</li>
+                                <li>Textos alternativos em todas as imagens</li>
+                                <li>Estrutura semântica clara</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h3 class="h6 fw-bold">
+                                <i class="bi bi-hand-index text-success me-2" aria-hidden="true"></i>
+                                Para Usuários com Deficiência Motora
+                            </h3>
+                            <ul class="small">
+                                <li>Áreas de clique aumentadas em botões</li>
+                                <li>Navegação apenas por teclado</li>
+                                <li>Tempo de sessão estendido</li>
+                                <li>Atalhos de teclado disponíveis</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Atalhos de Teclado -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h2 class="h4 mb-0">Atalhos de Teclado</h2>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Atalho</th>
+                                    <th>Função</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><kbd>Alt + 1</kbd></td>
+                                    <td>Ir para página inicial</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>Alt + 2</kbd></td>
+                                    <td>Ir para busca de rotas</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>Alt + 3</kbd></td>
+                                    <td>Ir para lista de paradas</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>Alt + M</kbd></td>
+                                    <td>Ir para menu principal</td>
+                                </tr>
+                                <tr>
+                                    <td><kbd>Escape</kbd></td>
+                                    <td>Fechar modais e menus</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conformidade -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="h4 mb-0">Conformidade e Padrões</h2>
+                </div>
+                <div class="card-body">
+                    <p>O BusFeed está em conformidade com:</p>
+                    <ul>
+                        <li><strong>WCAG 2.1 Nível AA:</strong> Diretrizes de Acessibilidade para Conteúdo Web</li>
+                        <li><strong>Lei Brasileira de Inclusão (LBI):</strong> Lei 13.146/2015</li>
+                        <li><strong>eMAG:</strong> Modelo de Acessibilidade em Governo Eletrônico</li>
+                    </ul>
+
+                    <h3 class="h5 mt-4">Melhorias Contínuas</h3>
+                    <p>
+                        Trabalhamos constantemente para melhorar a acessibilidade. 
+                        Se você encontrar alguma barreira ou tiver sugestões, entre em contato conosco.
+                    </p>
+                    
+                    <a href="{% url 'core:contact' %}" class="btn btn-primary">
+                        <i class="bi bi-envelope me-2" aria-hidden="true"></i>
+                        Reportar Problema de Acessibilidade
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

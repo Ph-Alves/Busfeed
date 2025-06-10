@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}BusFeed - Sistema Inteligente de Transporte Público{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Ocultar navbar e footer na landing page */
+    .navbar, footer {
+        display: none;
+    }
+    
+    body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section - Landing Page -->
+<section class="hero-section">
+    <div class="hero-content">
+        <!-- Título Principal -->
+        <h1 class="hero-title">Bem-vindo(a) ao BusFeed!!</h1>
+        <p class="hero-subtitle">Para onde quer ir?</p>
+        
+        <!-- Container de Busca -->
+        <div class="search-container">
+            <form method="GET" action="{% url 'core:home' %}" id="route-search-form">
+                <div class="search-input-group">
+                    <input 
+                        type="text" 
+                        class="search-input" 
+                        name="destino" 
+                        placeholder="Estação Guará"
+                        value="{{ request.GET.destino }}"
+                        aria-label="Digite o destino desejado"
+                        autocomplete="off"
+                    >
+                </div>
+                
+                <!-- Botão Principal -->
+                <div class="d-flex justify-content-center mb-4">
+                    <button type="submit" class="btn-primary">
+                        🚌 A bordo!
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Botões Secundários -->
+        <div class="action-buttons">
+            <a href="#" onclick="showComingSoon('Paradas')" class="btn-secondary">
+                📍 Paradas
+            </a>
+            <a href="#" onclick="showComingSoon('Linhas')" class="btn-secondary">
+                🚍 Linhas
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Resultados da Busca (se existirem) -->
+{% if request.GET.destino %}
+<section class="py-5" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="text-center mb-4" style="color: var(--primary-dark);">
+                    Resultados para "{{ request.GET.destino }}"
+                </h2>
+                
+                <!-- Route Cards -->
+                <div class="route-card">
+                    <div class="route-header">
+                        <span class="route-name">Metrô sentido central</span>
+                        <span class="route-price">R$ 5,50</span>
+                    </div>
+                    <div class="route-info">
+                        <span class="route-time">⏱️ 3 min</span>
+                        <span class="ms-2">Parte em breve</span>
+                    </div>
+                    <div class="text-end">
+                        <a href="#" class="btn-primary btn-sm" onclick="showComingSoon('Rota Detalhada')">
+                            Iniciar
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="route-card">
+                    <div class="route-header">
+                        <span class="route-name">Linha 0.039 → 0.089</span>
+                        <span class="route-price">R$ 7,60</span>
+                    </div>
+                    <div class="route-info">
+                        <span class="route-time">⏱️ 5 min</span>
+                        <span class="ms-2">Via Plano Piloto</span>
+                    </div>
+                    <div class="text-end">
+                        <a href="#" class="btn-primary btn-sm" onclick="showComingSoon('Rota Detalhada')">
+                            Iniciar
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="route-card">
+                    <div class="route-header">
+                        <span class="route-name">Linha 0.886 → Metrô sentido central</span>
+                        <span class="route-price" style="color: #ef4444;">R$8,95</span>
+                    </div>
+                    <div class="route-info">
+                        <span class="route-time">⏱️ 12 min</span>
+                        <span class="ms-2">Conexão necessária</span>
+                    </div>
+                    <div class="text-end">
+                        <a href="#" class="btn-primary btn-sm" onclick="showComingSoon('Rota Detalhada')">
+                            Iniciar
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Mapa Placeholder -->
+                <div class="map-container mt-4">
+                    <div class="d-flex align-items-center justify-content-center h-100" style="color: var(--text-light);">
+                        <div class="text-center">
+                            <i class="bi bi-map fs-1 mb-3"></i>
+                            <p class="mb-0">Mapa de rotas será exibido aqui</p>
+                            <small>Integração com Leaflet em desenvolvimento</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-focus no campo de busca
+    const searchInput = document.querySelector('.search-input');
+    if (searchInput && !searchInput.value) {
+        setTimeout(() => searchInput.focus(), 500);
+    }
+    
+    // Prevent empty searches
+    const form = document.getElementById('route-search-form');
+    form.addEventListener('submit', function(e) {
+        const input = this.querySelector('input[name="destino"]');
+        if (!input.value.trim()) {
+            e.preventDefault();
+            input.focus();
+            showToast('Por favor, digite um destino', 'warning');
+        }
+    });
+    
+    // Enhance search with suggestions (mock)
+    searchInput.addEventListener('input', function() {
+        // TODO: Implement search suggestions
+        const query = this.value.toLowerCase();
+        if (query.length >= 2) {
+            // Mock suggestions based on Brasília locations
+            const suggestions = [
+                'Estação Guará',
+                'Ceilândia Centro',
+                'Plano Piloto',
+                'Taguatinga Centro',
+                'Samambaia',
+                'Águas Claras',
+                'Asa Norte',
+                'Asa Sul'
+            ].filter(item => item.toLowerCase().includes(query));
+            
+            // TODO: Show dropdown with suggestions
+        }
+    });
+});
+
+function showComingSoon(feature) {
+    showToast(`${feature} estará disponível em breve!`, 'info');
+}
+
+function showToast(message, type = 'info') {
+    // Create toast element
+    const toast = document.createElement('div');
+    toast.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+    toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    toast.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    document.body.appendChild(toast);
+    
+    // Auto remove after 3 seconds
+    setTimeout(() => {
+        toast.remove();
+    }, 3000);
+}
+</script>
+{% endblock %} 

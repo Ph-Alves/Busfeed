@@ -1,0 +1,15 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+Regra 1: Foco na Experiência do Usuário Centrada no Cidadão e Acessibilidade Urbana
+
+O BusFeed deve ser uma aplicação acessível, confiável e amigável ao cidadão brasiliense que depende do transporte público. A interface deve ser clara, leve e responsiva, considerando diferentes contextos de uso (ambientes com pouca conectividade, uso em movimento, luz solar intensa etc.). A UI deve se adaptar a preferências do sistema, como modo claro/escuro, tamanho de fonte e contraste, e ser construída com foco em acessibilidade (uso de leitores de tela, navegação via teclado, uso de ícones compreensíveis e textos alternativos).
+
+A estrutura do frontend deve respeitar a separação de responsabilidades definida pela arquitetura MVC, utilizando Django Templates com Bootstrap 5 para um layout responsivo e limpo. Feedbacks visuais devem ser imediatos e informativos, com mensagens de carregamento, confirmação e erro sempre presentes.
+
+Bibliotecas envolvidas:
+	•	django-crispy-forms
+	•	django-widget-tweaks
+	•	bootstrap5 (via CDN ou pacote)

@@ -1,0 +1,10 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+Regra 3: Arquitetura Modular e Escalável com Separação Clara de Responsabilidades
+
+O backend e o frontend do BusFeed devem seguir os princípios de arquitetura limpa (Clean Architecture) e o padrão MVC com camadas bem definidas. Cada módulo – seja para gerenciamento de usuários, planejamento de rotas, visualização de mapas ou notificações – deve ser implementado de forma desacoplada, com interfaces bem definidas, facilitando testes, manutenção e futuras expansões.
+
+A aplicação deve ser escalável horizontalmente, considerando o aumento progressivo de usuários e a possível integração futura com novos modais de transporte (como metrô ou bicicletas compartilhadas). O uso de boas práticas como versionamento de API, injeção de dependência e cobertura de testes automatizados deve ser incentivado desde o início.
