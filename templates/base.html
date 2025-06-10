@@ -78,13 +78,15 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'core:about' %}">
-                            <i class="bi bi-info-circle me-1" aria-hidden="true"></i>
-                            Sobre
+                        <a class="nav-link{% if 'routes' in request.resolver_match.namespace %} active{% endif %}" 
+                           href="{% url 'routes:list' %}">
+                            <i class="bi bi-diagram-3 me-1" aria-hidden="true"></i>
+                            Rotas
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="alert('Em desenvolvimento')">
+                        <a class="nav-link{% if 'stops' in request.resolver_match.namespace %} active{% endif %}" 
+                           href="{% url 'stops:list' %}">
                             <i class="bi bi-geo-alt me-1" aria-hidden="true"></i>
                             Paradas
                         </a>
@@ -93,6 +95,12 @@
                         <a class="nav-link" href="#" onclick="alert('Em desenvolvimento')">
                             <i class="bi bi-clock me-1" aria-hidden="true"></i>
                             Horários
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'core:about' %}">
+                            <i class="bi bi-info-circle me-1" aria-hidden="true"></i>
+                            Sobre
                         </a>
                     </li>
                     <li class="nav-item">

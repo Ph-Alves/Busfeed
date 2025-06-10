@@ -1,0 +1,444 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Rotas de Ônibus - BusFeed{% endblock %}
+
+{% block extra_css %}
+<style>
+    .filter-card {
+        background: var(--white);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        padding: var(--spacing-lg);
+        margin-bottom: var(--spacing-lg);
+    }
+    
+    .route-grid {
+        display: grid;
+        gap: var(--spacing-md);
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+    
+    .route-card-enhanced {
+        background: var(--white);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        padding: var(--spacing-lg);
+        transition: var(--transition-base);
+        border-left: 4px solid var(--primary-color);
+        position: relative;
+    }
+    
+    .route-card-enhanced:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .route-number {
+        background: var(--primary-color);
+        color: var(--white);
+        font-weight: 600;
+        padding: var(--spacing-xs) var(--spacing-sm);
+        border-radius: var(--radius-md);
+        font-size: 0.875rem;
+        display: inline-block;
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    .route-name {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--gray-dark);
+        margin-bottom: var(--spacing-xs);
+    }
+    
+    .route-terminals {
+        color: var(--gray-medium);
+        font-size: 0.9rem;
+        margin-bottom: var(--spacing-md);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+    }
+    
+    .route-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: var(--spacing-md);
+        padding-top: var(--spacing-md);
+        border-top: 1px solid var(--gray-light);
+    }
+    
+    .route-fare {
+        font-weight: 600;
+        color: var(--primary-color);
+        font-size: 1.1rem;
+    }
+    
+    .route-features {
+        display: flex;
+        gap: var(--spacing-xs);
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    .feature-badge {
+        background: var(--quaternary-color);
+        color: var(--primary-color);
+        padding: 2px 6px;
+        border-radius: var(--radius-sm);
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
+    
+    .feature-badge.accessibility {
+        background: var(--success-green);
+        color: var(--white);
+    }
+    
+    .status-indicator {
+        position: absolute;
+        top: var(--spacing-sm);
+        right: var(--spacing-sm);
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--success-green);
+    }
+    
+    .status-indicator.inactive {
+        background: var(--error-red);
+    }
+    
+    .pagination-custom {
+        display: flex;
+        justify-content: center;
+        margin-top: var(--spacing-2xl);
+    }
+    
+    .pagination-custom .page-link {
+        color: var(--primary-color);
+        border: 1px solid var(--primary-color);
+        margin: 0 2px;
+        border-radius: var(--radius-sm);
+    }
+    
+    .pagination-custom .page-link:hover {
+        background: var(--primary-color);
+        color: var(--white);
+    }
+    
+    .pagination-custom .page-item.active .page-link {
+        background: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+    
+    @media (max-width: 768px) {
+        .route-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .filter-card {
+            padding: var(--spacing-md);
+        }
+        
+        .route-terminals {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: var(--spacing-xs);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb" class="container mt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Início</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Rotas</li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Cabeçalho da Página -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="display-6 mb-2">
+                <i class="bi bi-diagram-3 me-2" style="color: var(--primary-color);" aria-hidden="true"></i>
+                Rotas de Ônibus
+            </h1>
+            <p class="lead text-muted mb-0">
+                Consulte informações sobre as linhas de ônibus disponíveis em Brasília
+            </p>
+        </div>
+    </div>
+    
+    <!-- Filtros -->
+    <div class="filter-card">
+        <form method="GET" class="row g-3" id="filter-form">
+            <div class="col-md-4">
+                <label for="search" class="form-label">Buscar Rota</label>
+                <input type="text" 
+                       class="form-control" 
+                       id="search" 
+                       name="search" 
+                       value="{{ search_term }}"
+                       placeholder="Número, nome ou terminal..."
+                       aria-label="Buscar rota">
+            </div>
+            
+            <div class="col-md-3">
+                <label for="type" class="form-label">Tipo de Rota</label>
+                <select class="form-select" id="type" name="type" aria-label="Filtrar por tipo de rota">
+                    <option value="">Todos os tipos</option>
+                    {% for route_type in route_types %}
+                        <option value="{{ route_type.id }}" 
+                                {% if selected_type == route_type.id|stringformat:"s" %}selected{% endif %}>
+                            {{ route_type.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="col-md-3">
+                <label for="company" class="form-label">Empresa</label>
+                <select class="form-select" id="company" name="company" aria-label="Filtrar por empresa">
+                    <option value="">Todas as empresas</option>
+                    {% for company in companies %}
+                        <option value="{{ company.id }}" 
+                                {% if selected_company == company.id|stringformat:"s" %}selected{% endif %}>
+                            {{ company.short_name|default:company.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="col-md-2">
+                <label class="form-label">&nbsp;</label>
+                <div class="form-check">
+                    <input class="form-check-input" 
+                           type="checkbox" 
+                           id="wheelchair" 
+                           name="wheelchair" 
+                           value="true"
+                           {% if wheelchair_filter == 'true' %}checked{% endif %}>
+                    <label class="form-check-label" for="wheelchair">
+                        <i class="bi bi-person-wheelchair" aria-hidden="true"></i>
+                        Acessível
+                    </label>
+                </div>
+            </div>
+            
+            <div class="col-12">
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn-primary">
+                        <i class="bi bi-search me-1" aria-hidden="true"></i>
+                        Filtrar
+                    </button>
+                    <a href="{% url 'routes:list' %}" class="btn-secondary">
+                        <i class="bi bi-arrow-clockwise me-1" aria-hidden="true"></i>
+                        Limpar
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    <!-- Resultados -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <p class="mb-0 text-muted">
+            {% if routes %}
+                Mostrando {{ routes|length }} 
+                {% if page_obj.paginator.count > routes|length %}
+                    de {{ page_obj.paginator.count }}
+                {% endif %}
+                rota{% if page_obj.paginator.count != 1 %}s{% endif %}
+            {% else %}
+                Nenhuma rota encontrada
+            {% endif %}
+        </p>
+        
+        {% if routes %}
+        <div class="d-flex gap-2">
+            <button class="btn btn-outline-secondary btn-sm" onclick="toggleView('grid')" id="grid-view">
+                <i class="bi bi-grid-3x3-gap" aria-hidden="true"></i>
+            </button>
+            <button class="btn btn-outline-secondary btn-sm" onclick="toggleView('list')" id="list-view">
+                <i class="bi bi-list" aria-hidden="true"></i>
+            </button>
+        </div>
+        {% endif %}
+    </div>
+    
+    <!-- Lista de Rotas -->
+    {% if routes %}
+        <div class="route-grid" id="routes-container">
+            {% for route in routes %}
+                <div class="route-card-enhanced">
+                    <!-- Indicador de Status -->
+                    <div class="status-indicator {% if not route.is_operational_today %}inactive{% endif %}"
+                         title="{% if route.is_operational_today %}Em operação{% else %}Fora de operação{% endif %}">
+                    </div>
+                    
+                    <!-- Número da Rota -->
+                    <div class="route-number">{{ route.number }}</div>
+                    
+                    <!-- Nome da Rota -->
+                    <div class="route-name">{{ route.name }}</div>
+                    
+                    <!-- Features/Badges -->
+                    <div class="route-features">
+                        <span class="feature-badge">{{ route.route_type.name }}</span>
+                        {% if route.wheelchair_accessible %}
+                            <span class="feature-badge accessibility">
+                                <i class="bi bi-person-wheelchair" aria-hidden="true"></i>
+                                Acessível
+                            </span>
+                        {% endif %}
+                        {% if route.accepts_integration %}
+                            <span class="feature-badge">Integração</span>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Terminais -->
+                    <div class="route-terminals">
+                        <div>
+                            <i class="bi bi-geo-alt text-success" aria-hidden="true"></i>
+                            {{ route.origin_terminal }}
+                        </div>
+                        <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                        <div>
+                            <i class="bi bi-geo-alt-fill text-danger" aria-hidden="true"></i>
+                            {{ route.destination_terminal }}
+                        </div>
+                    </div>
+                    
+                    <!-- Meta informações -->
+                    <div class="route-meta">
+                        <div class="route-fare">
+                            {% if route.get_current_fare %}
+                                R$ {{ route.get_current_fare }}
+                            {% else %}
+                                Consultar
+                            {% endif %}
+                        </div>
+                        
+                        <div>
+                            <a href="{% url 'routes:detail' route.number %}" 
+                               class="btn-primary btn-sm">
+                                Ver Detalhes
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Paginação -->
+        {% if is_paginated %}
+            <nav aria-label="Navegação de páginas" class="pagination-custom">
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page=1" aria-label="Primeira página">
+                                <i class="bi bi-chevron-double-left" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.previous_page_number }}" aria-label="Página anterior">
+                                <i class="bi bi-chevron-left" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+                    
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ num }}</span>
+                            </li>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                            <li class="page-item">
+                                <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ num }}">{{ num }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.next_page_number }}" aria-label="Próxima página">
+                                <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.paginator.num_pages }}" aria-label="Última página">
+                                <i class="bi bi-chevron-double-right" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% endif %}
+        
+    {% else %}
+        <!-- Estado Vazio -->
+        <div class="text-center py-5">
+            <i class="bi bi-bus-front display-1 text-muted mb-3" aria-hidden="true"></i>
+            <h3 class="text-muted">Nenhuma rota encontrada</h3>
+            <p class="text-muted mb-4">
+                {% if search_term or selected_type or selected_company or wheelchair_filter %}
+                    Tente ajustar os filtros ou fazer uma nova busca.
+                {% else %}
+                    Não há rotas cadastradas no momento.
+                {% endif %}
+            </p>
+            {% if search_term or selected_type or selected_company or wheelchair_filter %}
+                <a href="{% url 'routes:list' %}" class="btn-primary">
+                    <i class="bi bi-arrow-clockwise me-1" aria-hidden="true"></i>
+                    Ver Todas as Rotas
+                </a>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Função para alternar visualização
+    function toggleView(viewType) {
+        const container = document.getElementById('routes-container');
+        const gridBtn = document.getElementById('grid-view');
+        const listBtn = document.getElementById('list-view');
+        
+        if (viewType === 'list') {
+            container.style.gridTemplateColumns = '1fr';
+            gridBtn.classList.remove('btn-secondary');
+            gridBtn.classList.add('btn-outline-secondary');
+            listBtn.classList.remove('btn-outline-secondary');
+            listBtn.classList.add('btn-secondary');
+        } else {
+            container.style.gridTemplateColumns = 'repeat(auto-fill, minmax(300px, 1fr))';
+            listBtn.classList.remove('btn-secondary');
+            listBtn.classList.add('btn-outline-secondary');
+            gridBtn.classList.remove('btn-outline-secondary');
+            gridBtn.classList.add('btn-secondary');
+        }
+        
+        // Salvar preferência no localStorage
+        localStorage.setItem('routesViewType', viewType);
+    }
+    
+    // Restaurar visualização salva
+    document.addEventListener('DOMContentLoaded', function() {
+        const savedView = localStorage.getItem('routesViewType') || 'grid';
+        toggleView(savedView);
+        
+        // Auto-submit no filtro de acessibilidade
+        document.getElementById('wheelchair').addEventListener('change', function() {
+            document.getElementById('filter-form').submit();
+        });
+    });
+</script>
+{% endblock %} 

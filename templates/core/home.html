@@ -19,11 +19,12 @@
 {% endblock %}
 
 {% block content %}
-<!-- Hero Section - Landing Page -->
+<!-- Landing Page Hero Section -->
+{% if not request.GET.section %}
 <section class="hero-section">
     <div class="hero-content">
         <!-- Título Principal -->
-        <h1 class="hero-title">Bem-vindo(a) ao BusFeed!!</h1>
+        <h1 class="hero-title">Bem-vindo(a) ao Busfeed!!</h1>
         <p class="hero-subtitle">Para onde quer ir?</p>
         
         <!-- Container de Busca -->
@@ -44,7 +45,7 @@
                 <!-- Botão Principal -->
                 <div class="d-flex justify-content-center mb-4">
                     <button type="submit" class="btn-primary">
-                        🚌 A bordo!
+                        A bordo!
                     </button>
                 </div>
             </form>
@@ -52,136 +53,347 @@
         
         <!-- Botões Secundários -->
         <div class="action-buttons">
-            <a href="#" onclick="showComingSoon('Paradas')" class="btn-secondary">
-                📍 Paradas
+            <a href="?section=paradas" class="btn-secondary">
+                Paradas
             </a>
-            <a href="#" onclick="showComingSoon('Linhas')" class="btn-secondary">
-                🚍 Linhas
+            <a href="?section=linhas" class="btn-secondary">
+                Linhas
             </a>
         </div>
     </div>
 </section>
+{% endif %}
 
-<!-- Resultados da Busca (se existirem) -->
-{% if request.GET.destino %}
-<section class="py-5" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mx-auto">
-                <h2 class="text-center mb-4" style="color: var(--primary-dark);">
-                    Resultados para "{{ request.GET.destino }}"
-                </h2>
-                
-                <!-- Route Cards -->
-                <div class="route-card">
-                    <div class="route-header">
-                        <span class="route-name">Metrô sentido central</span>
-                        <span class="route-price">R$ 5,50</span>
-                    </div>
-                    <div class="route-info">
-                        <span class="route-time">⏱️ 3 min</span>
-                        <span class="ms-2">Parte em breve</span>
-                    </div>
-                    <div class="text-end">
-                        <a href="#" class="btn-primary btn-sm" onclick="showComingSoon('Rota Detalhada')">
-                            Iniciar
-                        </a>
-                    </div>
+<!-- Páginas Internas -->
+{% if request.GET.section or request.GET.destino %}
+<div class="internal-header">
+    <div class="header-content">
+        <div class="logo-section">
+            <a href="{% url 'core:home' %}" class="logo-text">Busfeed</a>
+        </div>
+        
+        <div class="header-search">
+            <form method="GET" action="{% url 'core:home' %}">
+                <input 
+                    type="text" 
+                    class="search-input" 
+                    name="destino" 
+                    placeholder="Pesquisar Destino..."
+                    value="{{ request.GET.destino }}"
+                    aria-label="Pesquisar destino"
+                >
+                {% if request.GET.section %}
+                    <input type="hidden" name="section" value="{{ request.GET.section }}">
+                {% endif %}
+            </form>
+        </div>
+        
+        <!-- Navegação por abas -->
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link{% if not request.GET.section and request.GET.destino %} active{% endif %}" 
+                       href="?{% if request.GET.destino %}destino={{ request.GET.destino }}{% endif %}">
+                        Destino
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link{% if request.GET.section == 'paradas' %} active{% endif %}" 
+                       href="?section=paradas{% if request.GET.destino %}&destino={{ request.GET.destino }}{% endif %}">
+                        Paradas
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link{% if request.GET.section == 'linhas' %} active{% endif %}" 
+                       href="?section=linhas{% if request.GET.destino %}&destino={{ request.GET.destino }}{% endif %}">
+                        Linhas
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Conteúdo das Páginas Internas -->
+<div class="container-fluid p-0">
+    <!-- Seção Destino - Resultados de Busca -->
+    {% if request.GET.destino and not request.GET.section %}
+    <div class="row g-0">
+        <div class="col-lg-4 p-3" style="background: var(--white);">
+            <!-- Cards de Rota -->
+            <div class="route-card">
+                <div class="route-header">
+                    <span class="route-name">Metrô sentido central</span>
+                    <span class="route-price">R$ 5,50</span>
                 </div>
-                
-                <div class="route-card">
-                    <div class="route-header">
-                        <span class="route-name">Linha 0.039 → 0.089</span>
-                        <span class="route-price">R$ 7,60</span>
-                    </div>
-                    <div class="route-info">
-                        <span class="route-time">⏱️ 5 min</span>
-                        <span class="ms-2">Via Plano Piloto</span>
-                    </div>
-                    <div class="text-end">
-                        <a href="#" class="btn-primary btn-sm" onclick="showComingSoon('Rota Detalhada')">
-                            Iniciar
-                        </a>
-                    </div>
+                <div class="route-info">
+                    <span class="route-time">Parte em: 3 min ✅</span>
                 </div>
-                
-                <div class="route-card">
-                    <div class="route-header">
-                        <span class="route-name">Linha 0.886 → Metrô sentido central</span>
-                        <span class="route-price" style="color: #ef4444;">R$8,95</span>
-                    </div>
-                    <div class="route-info">
-                        <span class="route-time">⏱️ 12 min</span>
-                        <span class="ms-2">Conexão necessária</span>
-                    </div>
-                    <div class="text-end">
-                        <a href="#" class="btn-primary btn-sm" onclick="showComingSoon('Rota Detalhada')">
-                            Iniciar
-                        </a>
-                    </div>
+                <div class="text-end">
+                    <a href="#" class="btn-primary btn-sm" onclick="showRouteDetails('metro')">
+                        Iniciar
+                    </a>
                 </div>
-                
-                <!-- Mapa Placeholder -->
-                <div class="map-container mt-4">
-                    <div class="d-flex align-items-center justify-content-center h-100" style="color: var(--text-light);">
-                        <div class="text-center">
-                            <i class="bi bi-map fs-1 mb-3"></i>
-                            <p class="mb-0">Mapa de rotas será exibido aqui</p>
-                            <small>Integração com Leaflet em desenvolvimento</small>
-                        </div>
+            </div>
+            
+            <div class="route-card">
+                <div class="route-header">
+                    <span class="route-name">Linha 0.039 → 0.089</span>
+                    <span class="route-price">R$ 7,60</span>
+                </div>
+                <div class="route-info">
+                    <span class="route-time">Parte em: 5 min ✅</span>
+                </div>
+                <div class="text-end">
+                    <a href="#" class="btn-primary btn-sm" onclick="showRouteDetails('linha039')">
+                        Iniciar
+                    </a>
+                </div>
+            </div>
+            
+            <div class="route-card">
+                <div class="route-header">
+                    <span class="route-name">Linha 0.886 → Metrô sentido central</span>
+                    <span class="route-price" style="color: var(--error-red);">R$9,30</span>
+                </div>
+                <div class="route-info">
+                    <span class="route-time">Parte em: 8 min ✅</span>
+                </div>
+                <div class="text-end">
+                    <a href="#" class="btn-primary btn-sm" onclick="showRouteDetails('linha886')">
+                        Iniciar
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-8">
+            <!-- Mapa -->
+            <div class="map-container" style="height: 100vh;">
+                <div class="d-flex align-items-center justify-content-center h-100">
+                    <div class="text-center">
+                        <i class="bi bi-map fs-1 mb-3" style="color: var(--primary-color);"></i>
+                        <p class="mb-0">Mapa de rotas será exibido aqui</p>
+                        <small>Integração com Leaflet em desenvolvimento</small>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</section>
+    {% endif %}
+
+    <!-- Seção Paradas -->
+    {% if request.GET.section == 'paradas' %}
+    <div class="row g-0">
+        <div class="col-lg-4 p-3" style="background: var(--white);">
+            <div class="stop-info-card">
+                <div class="stop-name">Parada Hélio Prates</div>
+                <div class="stop-lines">
+                    <div class="text-white mb-2">Linhas → Ida</div>
+                    
+                    <div class="line-item">
+                        <span class="line-name">Linha 1</span>
+                        <span class="line-price">R$3,80</span>
+                    </div>
+                    
+                    <div class="line-item">
+                        <span class="line-name">Linha 2</span>
+                        <span class="line-price">R$2,70</span>
+                    </div>
+                    
+                    <div class="line-item">
+                        <span class="line-name">Linha 3</span>
+                        <span class="line-price">R$3,80</span>
+                    </div>
+                    
+                    <div class="line-item">
+                        <span class="line-name">Linha 4</span>
+                        <span class="line-price">R$2,70</span>
+                    </div>
+                    
+                    <div class="line-item">
+                        <span class="line-name">Linha 5</span>
+                        <span class="line-price">R$3,80</span>
+                    </div>
+                    
+                    <div class="line-item">
+                        <span class="line-name">Linha 6</span>
+                        <span class="line-price unavailable">R$5,50</span>
+                    </div>
+                    
+                    <div class="line-item">
+                        <span class="line-name">Linha 7</span>
+                        <span class="line-price unavailable">R$5,50</span>
+                    </div>
+                    
+                    <div class="mt-3 pt-3" style="border-top: 1px solid rgba(255, 255, 255, 0.2);">
+                        <div class="text-center">
+                            <div class="text-white-50 mb-1">Média de Preço</div>
+                            <div class="fs-5 fw-bold">R$X,00</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-8">
+            <!-- Mapa com paradas -->
+            <div class="map-container" style="height: 100vh;">
+                <div class="d-flex align-items-center justify-content-center h-100">
+                    <div class="text-center">
+                        <i class="bi bi-geo-alt fs-1 mb-3" style="color: var(--primary-color);"></i>
+                        <p class="mb-0">Mapa de paradas será exibido aqui</p>
+                        <small>Paradas próximas e detalhes das linhas</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Seção Linhas -->
+    {% if request.GET.section == 'linhas' %}
+    <div class="row g-0">
+        <div class="col-lg-4 p-3" style="background: var(--white); max-height: 100vh; overflow-y: auto;">
+            <!-- Lista de Linhas -->
+            <div class="route-card mb-3">
+                <div class="route-header">
+                    <span class="route-name">Linha 0.092 ⭐</span>
+                    <span class="route-price">R$ 3,80</span>
+                </div>
+            </div>
+            
+            <div class="route-card mb-3">
+                <div class="route-header">
+                    <span class="route-name">Linha 154.2 ⭐</span>
+                    <span class="route-price">R$ 3,80</span>
+                </div>
+            </div>
+            
+            <div class="route-card mb-3">
+                <div class="route-header">
+                    <span class="route-name">Linha 162.1</span>
+                    <span class="route-price">R$3,80</span>
+                </div>
+            </div>
+            
+            <div class="route-card mb-3">
+                <div class="route-header">
+                    <span class="route-name">Linha 86.1</span>
+                    <span class="route-price">R$ 3,80</span>
+                </div>
+            </div>
+            
+            <div class="route-card mb-3">
+                <div class="route-header">
+                    <span class="route-name">Linha 153.2</span>
+                    <span class="route-price">R$ 3,80</span>
+                </div>
+            </div>
+            
+            <div class="route-card mb-3">
+                <div class="route-header">
+                    <span class="route-name">Linha 156.2</span>
+                    <span class="route-price">R$3,80</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-8">
+            <!-- Detalhes da Linha Selecionada -->
+            <div class="p-4" style="background: var(--white); height: 100vh; overflow-y: auto;">
+                <div class="stop-info-card">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="stop-name">Linha 0.092</div>
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-bus-front fs-2 me-3"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="text-white mb-2">Guará I - II / Núcleo Bandeirante / Candangolândia - Pistão Sul-Norte / Tag. Centro (ParkShopping)</div>
+                        <div class="text-white mb-3">Marechal e São José</div>
+                        
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="text-white-50 mb-1">Cores:</div>
+                                <div class="d-flex gap-2">
+                                    <span class="badge" style="background-color: #22c55e; width: 20px; height: 20px; border-radius: 4px;"></span>
+                                    <span class="badge" style="background-color: #f97316; width: 20px; height: 20px; border-radius: 4px;"></span>
+                                </div>
+                            </div>
+                            <div class="col-6 text-end">
+                                <div class="text-white-50 mb-1">Frequência (min)</div>
+                                <div class="text-white fw-bold">15-30</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <a href="#" class="btn-primary" onclick="showStops('092')">
+                            Ver Paradas
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
 {% endif %}
 {% endblock %}
 
 {% block extra_js %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Auto-focus no campo de busca
+    // Auto-focus no campo de busca apenas na landing page
     const searchInput = document.querySelector('.search-input');
-    if (searchInput && !searchInput.value) {
+    if (searchInput && !searchInput.value && window.location.search === '') {
         setTimeout(() => searchInput.focus(), 500);
     }
     
-    // Prevent empty searches
+    // Prevent empty searches na landing page
     const form = document.getElementById('route-search-form');
-    form.addEventListener('submit', function(e) {
-        const input = this.querySelector('input[name="destino"]');
-        if (!input.value.trim()) {
-            e.preventDefault();
-            input.focus();
-            showToast('Por favor, digite um destino', 'warning');
-        }
-    });
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            const input = this.querySelector('input[name="destino"]');
+            if (!input.value.trim()) {
+                e.preventDefault();
+                input.focus();
+                showToast('Por favor, digite um destino', 'warning');
+            }
+        });
+    }
     
     // Enhance search with suggestions (mock)
-    searchInput.addEventListener('input', function() {
-        // TODO: Implement search suggestions
-        const query = this.value.toLowerCase();
-        if (query.length >= 2) {
-            // Mock suggestions based on Brasília locations
-            const suggestions = [
-                'Estação Guará',
-                'Ceilândia Centro',
-                'Plano Piloto',
-                'Taguatinga Centro',
-                'Samambaia',
-                'Águas Claras',
-                'Asa Norte',
-                'Asa Sul'
-            ].filter(item => item.toLowerCase().includes(query));
-            
-            // TODO: Show dropdown with suggestions
-        }
-    });
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            if (query.length >= 2) {
+                // Mock suggestions based on Brasília locations
+                const suggestions = [
+                    'Estação Guará',
+                    'Ceilândia Centro',
+                    'Plano Piloto',
+                    'Taguatinga Centro',
+                    'Samambaia',
+                    'Águas Claras',
+                    'Asa Norte',
+                    'Asa Sul'
+                ].filter(item => item.toLowerCase().includes(query));
+                
+                // TODO: Show dropdown with suggestions
+            }
+        });
+    }
 });
 
-function showComingSoon(feature) {
-    showToast(`${feature} estará disponível em breve!`, 'info');
+function showRouteDetails(routeId) {
+    showToast(`Detalhes da rota ${routeId} em desenvolvimento!`, 'info');
+}
+
+function showStops(lineNumber) {
+    showToast(`Paradas da linha ${lineNumber} em desenvolvimento!`, 'info');
 }
 
 function showToast(message, type = 'info') {

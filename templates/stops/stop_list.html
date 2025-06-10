@@ -1,0 +1,471 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Paradas de Ônibus - BusFeed{% endblock %}
+
+{% block extra_css %}
+<style>
+    .filter-card {
+        background: var(--white);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        padding: var(--spacing-lg);
+        margin-bottom: var(--spacing-lg);
+    }
+    
+    .stop-grid {
+        display: grid;
+        gap: var(--spacing-md);
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+    
+    .stop-card-enhanced {
+        background: var(--white);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        padding: var(--spacing-lg);
+        transition: var(--transition-base);
+        border-left: 4px solid var(--tertiary-color);
+        position: relative;
+    }
+    
+    .stop-card-enhanced:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .stop-code {
+        background: var(--tertiary-color);
+        color: var(--white);
+        font-weight: 600;
+        padding: var(--spacing-xs) var(--spacing-sm);
+        border-radius: var(--radius-md);
+        font-size: 0.875rem;
+        display: inline-block;
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    .stop-name {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--gray-dark);
+        margin-bottom: var(--spacing-xs);
+    }
+    
+    .stop-location {
+        color: var(--gray-medium);
+        font-size: 0.9rem;
+        margin-bottom: var(--spacing-md);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+    }
+    
+    .stop-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: var(--spacing-md);
+        padding-top: var(--spacing-md);
+        border-top: 1px solid var(--gray-light);
+    }
+    
+    .stop-routes-count {
+        font-weight: 600;
+        color: var(--tertiary-color);
+        font-size: 0.9rem;
+    }
+    
+    .stop-features {
+        display: flex;
+        gap: var(--spacing-xs);
+        margin-bottom: var(--spacing-sm);
+        flex-wrap: wrap;
+    }
+    
+    .feature-badge {
+        background: var(--quaternary-color);
+        color: var(--primary-color);
+        padding: 2px 6px;
+        border-radius: var(--radius-sm);
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
+    
+    .feature-badge.accessibility {
+        background: var(--success-green);
+        color: var(--white);
+    }
+    
+    .feature-badge.shelter {
+        background: var(--tertiary-color);
+        color: var(--white);
+    }
+    
+    .status-indicator {
+        position: absolute;
+        top: var(--spacing-sm);
+        right: var(--spacing-sm);
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--success-green);
+    }
+    
+    .status-indicator.inactive {
+        background: var(--error-red);
+    }
+    
+    .pagination-custom {
+        display: flex;
+        justify-content: center;
+        margin-top: var(--spacing-2xl);
+    }
+    
+    .pagination-custom .page-link {
+        color: var(--tertiary-color);
+        border: 1px solid var(--tertiary-color);
+        margin: 0 2px;
+        border-radius: var(--radius-sm);
+    }
+    
+    .pagination-custom .page-link:hover {
+        background: var(--tertiary-color);
+        color: var(--white);
+    }
+    
+    .pagination-custom .page-item.active .page-link {
+        background: var(--tertiary-color);
+        border-color: var(--tertiary-color);
+    }
+    
+    @media (max-width: 768px) {
+        .stop-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .filter-card {
+            padding: var(--spacing-md);
+        }
+        
+        .stop-location {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: var(--spacing-xs);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb" class="container mt-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Início</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Paradas</li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Cabeçalho da Página -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="display-6 mb-2">
+                <i class="bi bi-geo-alt me-2" style="color: var(--tertiary-color);" aria-hidden="true"></i>
+                Paradas de Ônibus
+            </h1>
+            <p class="lead text-muted mb-0">
+                Encontre informações sobre as paradas de ônibus de Brasília
+            </p>
+        </div>
+    </div>
+    
+    <!-- Filtros -->
+    <div class="filter-card">
+        <form method="GET" class="row g-3" id="filter-form">
+            <div class="col-md-4">
+                <label for="search" class="form-label">Buscar Parada</label>
+                <input type="text" 
+                       class="form-control" 
+                       id="search" 
+                       name="search" 
+                       value="{{ search_term }}"
+                       placeholder="Código, nome ou bairro..."
+                       aria-label="Buscar parada">
+            </div>
+            
+            <div class="col-md-3">
+                <label for="type" class="form-label">Tipo de Parada</label>
+                <select class="form-select" id="type" name="type" aria-label="Filtrar por tipo de parada">
+                    <option value="">Todos os tipos</option>
+                    {% for stop_type in stop_types %}
+                        <option value="{{ stop_type.id }}" 
+                                {% if selected_type == stop_type.id|stringformat:"s" %}selected{% endif %}>
+                            {{ stop_type.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="col-md-3">
+                <label for="neighborhood" class="form-label">Bairro</label>
+                <select class="form-select" id="neighborhood" name="neighborhood" aria-label="Filtrar por bairro">
+                    <option value="">Todos os bairros</option>
+                    {% for neighborhood in neighborhoods %}
+                        <option value="{{ neighborhood }}" 
+                                {% if selected_neighborhood == neighborhood %}selected{% endif %}>
+                            {{ neighborhood }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="col-md-2">
+                <label class="form-label">&nbsp;</label>
+                <div class="form-check">
+                    <input class="form-check-input" 
+                           type="checkbox" 
+                           id="wheelchair" 
+                           name="wheelchair" 
+                           value="true"
+                           {% if wheelchair_filter == 'true' %}checked{% endif %}>
+                    <label class="form-check-label" for="wheelchair">
+                        <i class="bi bi-person-wheelchair" aria-hidden="true"></i>
+                        Acessível
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" 
+                           type="checkbox" 
+                           id="shelter" 
+                           name="shelter" 
+                           value="true"
+                           {% if shelter_filter == 'true' %}checked{% endif %}>
+                    <label class="form-check-label" for="shelter">
+                        <i class="bi bi-house" aria-hidden="true"></i>
+                        Com Abrigo
+                    </label>
+                </div>
+            </div>
+            
+            <div class="col-12">
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn-primary">
+                        <i class="bi bi-search me-1" aria-hidden="true"></i>
+                        Filtrar
+                    </button>
+                    <a href="{% url 'stops:list' %}" class="btn-secondary">
+                        <i class="bi bi-arrow-clockwise me-1" aria-hidden="true"></i>
+                        Limpar
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    <!-- Resultados -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <p class="mb-0 text-muted">
+            {% if stops %}
+                Mostrando {{ stops|length }} 
+                {% if page_obj.paginator.count > stops|length %}
+                    de {{ page_obj.paginator.count }}
+                {% endif %}
+                parada{% if page_obj.paginator.count != 1 %}s{% endif %}
+            {% else %}
+                Nenhuma parada encontrada
+            {% endif %}
+        </p>
+        
+        {% if stops %}
+        <div class="d-flex gap-2">
+            <button class="btn btn-outline-secondary btn-sm" onclick="toggleView('grid')" id="grid-view">
+                <i class="bi bi-grid-3x3-gap" aria-hidden="true"></i>
+            </button>
+            <button class="btn btn-outline-secondary btn-sm" onclick="toggleView('list')" id="list-view">
+                <i class="bi bi-list" aria-hidden="true"></i>
+            </button>
+        </div>
+        {% endif %}
+    </div>
+    
+    <!-- Lista de Paradas -->
+    {% if stops %}
+        <div class="stop-grid" id="stops-container">
+            {% for stop in stops %}
+                <div class="stop-card-enhanced">
+                    <!-- Indicador de Status -->
+                    <div class="status-indicator {% if not stop.is_operational %}inactive{% endif %}"
+                         title="{% if stop.is_operational %}Em funcionamento{% else %}Fora de funcionamento{% endif %}">
+                    </div>
+                    
+                    <!-- Código da Parada -->
+                    <div class="stop-code">{{ stop.code }}</div>
+                    
+                    <!-- Nome da Parada -->
+                    <div class="stop-name">{{ stop.name }}</div>
+                    
+                    <!-- Features/Badges -->
+                    <div class="stop-features">
+                        <span class="feature-badge">{{ stop.stop_type.name }}</span>
+                        {% if stop.wheelchair_accessible %}
+                            <span class="feature-badge accessibility">
+                                <i class="bi bi-person-wheelchair" aria-hidden="true"></i>
+                                Acessível
+                            </span>
+                        {% endif %}
+                        {% if stop.has_shelter %}
+                            <span class="feature-badge shelter">
+                                <i class="bi bi-house" aria-hidden="true"></i>
+                                Abrigo
+                            </span>
+                        {% endif %}
+                        {% if stop.has_seating %}
+                            <span class="feature-badge">Assentos</span>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Localização -->
+                    <div class="stop-location">
+                        {% if stop.neighborhood %}
+                            <div>
+                                <i class="bi bi-geo text-primary" aria-hidden="true"></i>
+                                {{ stop.neighborhood }}
+                            </div>
+                        {% endif %}
+                        {% if stop.reference_point %}
+                            <div>
+                                <i class="bi bi-signpost text-muted" aria-hidden="true"></i>
+                                {{ stop.reference_point }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Meta informações -->
+                    <div class="stop-meta">
+                        <div class="stop-routes-count">
+                            {{ stop.route_stops.count }} rota{% if stop.route_stops.count != 1 %}s{% endif %}
+                        </div>
+                        
+                        <div>
+                            <a href="{% url 'stops:detail' stop.code %}" 
+                               class="btn-primary btn-sm">
+                                Ver Detalhes
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Paginação -->
+        {% if is_paginated %}
+            <nav aria-label="Navegação de páginas" class="pagination-custom">
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page=1" aria-label="Primeira página">
+                                <i class="bi bi-chevron-double-left" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.previous_page_number }}" aria-label="Página anterior">
+                                <i class="bi bi-chevron-left" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+                    
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ num }}</span>
+                            </li>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                            <li class="page-item">
+                                <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ num }}">{{ num }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.next_page_number }}" aria-label="Próxima página">
+                                <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.paginator.num_pages }}" aria-label="Última página">
+                                <i class="bi bi-chevron-double-right" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% endif %}
+        
+    {% else %}
+        <!-- Estado Vazio -->
+        <div class="text-center py-5">
+            <i class="bi bi-geo-alt display-1 text-muted mb-3" aria-hidden="true"></i>
+            <h3 class="text-muted">Nenhuma parada encontrada</h3>
+            <p class="text-muted mb-4">
+                {% if search_term or selected_type or selected_neighborhood or wheelchair_filter or shelter_filter %}
+                    Tente ajustar os filtros ou fazer uma nova busca.
+                {% else %}
+                    Não há paradas cadastradas no momento.
+                {% endif %}
+            </p>
+            {% if search_term or selected_type or selected_neighborhood or wheelchair_filter or shelter_filter %}
+                <a href="{% url 'stops:list' %}" class="btn-primary">
+                    <i class="bi bi-arrow-clockwise me-1" aria-hidden="true"></i>
+                    Ver Todas as Paradas
+                </a>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Função para alternar visualização
+    function toggleView(viewType) {
+        const container = document.getElementById('stops-container');
+        const gridBtn = document.getElementById('grid-view');
+        const listBtn = document.getElementById('list-view');
+        
+        if (viewType === 'list') {
+            container.style.gridTemplateColumns = '1fr';
+            gridBtn.classList.remove('btn-secondary');
+            gridBtn.classList.add('btn-outline-secondary');
+            listBtn.classList.remove('btn-outline-secondary');
+            listBtn.classList.add('btn-secondary');
+        } else {
+            container.style.gridTemplateColumns = 'repeat(auto-fill, minmax(300px, 1fr))';
+            listBtn.classList.remove('btn-secondary');
+            listBtn.classList.add('btn-outline-secondary');
+            gridBtn.classList.remove('btn-outline-secondary');
+            gridBtn.classList.add('btn-secondary');
+        }
+        
+        // Salvar preferência no localStorage
+        localStorage.setItem('stopsViewType', viewType);
+    }
+    
+    // Restaurar visualização salva
+    document.addEventListener('DOMContentLoaded', function() {
+        const savedView = localStorage.getItem('stopsViewType') || 'grid';
+        toggleView(savedView);
+        
+        // Auto-submit nos filtros
+        document.getElementById('wheelchair').addEventListener('change', function() {
+            document.getElementById('filter-form').submit();
+        });
+        
+        document.getElementById('shelter').addEventListener('change', function() {
+            document.getElementById('filter-form').submit();
+        });
+    });
+</script>
+{% endblock %} 

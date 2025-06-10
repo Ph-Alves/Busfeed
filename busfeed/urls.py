@@ -16,9 +16,9 @@ urlpatterns = [
     # App principal - Core
     path('', include('core.urls')),
     
-    # Apps funcionais (serão implementados posteriormente)
-    # path('rotas/', include('routes.urls')),
-    # path('paradas/', include('stops.urls')),
+    # Apps funcionais
+    path('rotas/', include('routes.urls')),
+    path('paradas/', include('stops.urls')),
     # path('horarios/', include('schedules.urls')),
     # path('usuario/', include('users.urls')),
     # path('notificacoes/', include('notifications.urls')),
