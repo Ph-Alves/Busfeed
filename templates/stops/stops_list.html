@@ -1,0 +1,479 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Paradas - BusFeed{% endblock %}
+
+{% block extra_css %}
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Inter', sans-serif;
+        background-color: #f5f5f5;
+    }
+    
+    /* Container principal com melhor espaçamento */
+    .container-fluid {
+        height: calc(100vh - 76px);
+        padding: var(--spacing-lg);
+        background: var(--gray-light);
+    }
+    
+    .row.g-0 {
+        height: 100%;
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow-lg);
+        background: var(--white);
+    }
+    
+    /* Coluna esquerda com lista de paradas */
+    .col-lg-4 {
+        background: var(--white);
+        border-right: 3px solid var(--gray-light);
+        overflow-y: auto;
+        max-height: calc(100vh - 76px - var(--spacing-2xl));
+        position: relative;
+    }
+    
+    /* Coluna direita com mapa */
+    .col-lg-8 {
+        padding: 0;
+        position: relative;
+        background: var(--gray-light);
+    }
+    
+    /* Cards de parada seguindo o design melhorado */
+    .stop-info-card {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--quaternary-color) 100%);
+        padding: var(--spacing-xl);
+        margin-bottom: 3px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        position: relative;
+        border-left: 4px solid transparent;
+        color: var(--white);
+    }
+    
+    .stop-info-card:hover {
+        background: linear-gradient(135deg, var(--quaternary-color) 0%, var(--primary-color) 100%);
+        border-left-color: var(--tertiary-color);
+        transform: translateX(8px);
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .stop-info-card.active {
+        background: linear-gradient(135deg, var(--tertiary-color) 0%, var(--quaternary-color) 100%);
+        border-left-color: var(--white);
+        transform: translateX(8px);
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .stop-name {
+        font-weight: 600;
+        font-size: 1.1rem;
+        color: var(--white);
+        margin-bottom: var(--spacing-xs);
+        line-height: 1.3;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+    
+    .stop-name i {
+        color: var(--quaternary-color);
+        font-size: 1.2rem;
+    }
+    
+    .stop-lines {
+        margin-top: var(--spacing-lg);
+        padding-top: var(--spacing-lg);
+        border-top: 2px solid var(--gray-light);
+    }
+    
+    .lines-header {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--gray-medium);
+        margin-bottom: var(--spacing-md);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .line-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: var(--spacing-md) 0;
+        border-bottom: 1px solid var(--gray-light);
+        transition: var(--transition-fast);
+    }
+    
+    .line-item:hover {
+        background: rgba(66, 242, 247, 0.05);
+        padding-left: var(--spacing-sm);
+        padding-right: var(--spacing-sm);
+        border-radius: var(--radius-sm);
+        margin: 0 calc(-1 * var(--spacing-sm));
+    }
+    
+    .line-item:last-child {
+        border-bottom: none;
+    }
+    
+    .line-name {
+        font-weight: 500;
+        color: var(--gray-dark);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+    }
+    
+    .line-name .line-number {
+        background: var(--primary-color);
+        color: var(--white);
+        padding: var(--spacing-xs) var(--spacing-sm);
+        border-radius: var(--radius-sm);
+        font-size: 0.8rem;
+        font-weight: 600;
+        min-width: 40px;
+        text-align: center;
+    }
+    
+    .line-price {
+        font-weight: 600;
+        color: var(--quaternary-color);
+        background: rgba(66, 242, 247, 0.1);
+        padding: var(--spacing-xs) var(--spacing-sm);
+        border-radius: var(--radius-sm);
+        font-size: 0.9rem;
+    }
+    
+    .line-price.unavailable {
+        color: var(--error-red);
+        background: rgba(239, 68, 68, 0.1);
+    }
+    
+    /* Botão de iniciar melhorado */
+    .btn-iniciar {
+        background: var(--quaternary-color);
+        color: var(--primary-color);
+        border: none;
+        padding: var(--spacing-sm) var(--spacing-lg);
+        border-radius: var(--radius-lg);
+        font-weight: 600;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+        margin-top: var(--spacing-lg);
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--spacing-sm);
+    }
+    
+    .btn-iniciar:hover {
+        background: var(--primary-color);
+        color: var(--white);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-md);
+    }
+    
+    /* Header da lista com melhor visual */
+    .stops-list-header {
+        background: linear-gradient(135deg, var(--primary-color), var(--tertiary-color));
+        color: var(--white);
+        padding: var(--spacing-xl) var(--spacing-xl);
+        border-bottom: 3px solid var(--quaternary-color);
+        font-weight: 600;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: var(--shadow-md);
+    }
+    
+    .stops-list-header h2 {
+        margin: 0;
+        font-size: 1.25rem;
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+    }
+    
+    /* Container de mapa melhorado */
+    .map-container {
+        height: calc(100vh - 76px - var(--spacing-2xl));
+        background: var(--white);
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+        margin: 0;
+    }
+    
+    .map-placeholder {
+        text-align: center;
+        color: var(--gray-medium);
+        padding: var(--spacing-2xl);
+    }
+    
+    .map-placeholder i {
+        font-size: 4rem;
+        margin-bottom: var(--spacing-lg);
+        opacity: 0.3;
+        color: var(--gray-medium);
+    }
+    
+    .map-placeholder h3 {
+        color: var(--gray-dark);
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .map-placeholder p {
+        color: var(--gray-medium);
+        max-width: 300px;
+        margin: 0 auto;
+    }
+    
+    /* Contador de paradas */
+    .stops-counter {
+        background: var(--quaternary-color);
+        color: var(--primary-color);
+        padding: var(--spacing-xs) var(--spacing-sm);
+        border-radius: var(--radius-lg);
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-left: var(--spacing-sm);
+    }
+    
+    /* Scroll customizado melhorado */
+    .col-lg-4::-webkit-scrollbar {
+        width: 8px;
+    }
+    
+    .col-lg-4::-webkit-scrollbar-track {
+        background: var(--gray-light);
+        border-radius: var(--radius-sm);
+    }
+    
+    .col-lg-4::-webkit-scrollbar-thumb {
+        background: var(--gray-medium);
+        border-radius: var(--radius-sm);
+        transition: var(--transition-base);
+    }
+    
+    .col-lg-4::-webkit-scrollbar-thumb:hover {
+        background: var(--primary-color);
+    }
+    
+    /* Badge de status da parada */
+    .stop-status {
+        font-size: 0.75rem;
+        padding: var(--spacing-xs) var(--spacing-sm);
+        border-radius: var(--radius-sm);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .stop-status.active {
+        background: rgba(34, 197, 94, 0.1);
+        color: var(--success-green);
+    }
+    
+    .stop-status.inactive {
+        background: rgba(156, 163, 175, 0.2);
+        color: var(--gray-medium);
+    }
+    
+    /* Texto de localização sempre visível */
+    .stop-location-info {
+        color: rgba(255, 255, 255, 0.95);
+        font-size: 0.9rem;
+        margin-top: var(--spacing-xs);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-xs);
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        font-weight: 500;
+    }
+    
+    .stop-location-info i {
+        opacity: 1;
+        color: var(--quaternary-color);
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+    
+    /* Responsivo melhorado */
+    @media (max-width: 768px) {
+        .container-fluid {
+            height: auto;
+            padding: var(--spacing-md);
+        }
+        
+        .row.g-0 {
+            flex-direction: column;
+            height: auto;
+        }
+        
+        .col-lg-4,
+        .col-lg-8 {
+            max-height: 50vh;
+            border: none;
+        }
+        
+        .col-lg-4 {
+            border-bottom: 3px solid var(--gray-light);
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        }
+        
+        .col-lg-8 {
+            border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+        }
+        
+        .stop-info-card {
+            padding: var(--spacing-lg);
+        }
+        
+        .btn-iniciar {
+            position: static;
+            margin-top: var(--spacing-lg);
+            display: flex;
+        }
+        
+        .stops-list-header {
+            padding: var(--spacing-lg) var(--spacing-xl);
+        }
+        
+        .map-container {
+            height: 50vh;
+            border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .stop-info-card {
+            padding: var(--spacing-lg);
+        }
+        
+        .stop-name {
+            font-size: 1.1rem;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: var(--spacing-sm);
+        }
+        
+        .stops-list-header {
+            padding: var(--spacing-md) var(--spacing-lg);
+        }
+        
+        .stops-list-header h2 {
+            font-size: 1.1rem;
+        }
+        
+        .line-item {
+            padding: var(--spacing-sm) 0;
+        }
+        
+        .line-name {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: var(--spacing-xs);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Container principal -->
+<div class="container-fluid">
+    <div class="row g-0">
+        <!-- Coluna esquerda: Lista de paradas -->
+        <div class="col-lg-4">
+            <!-- Header da lista -->
+            <div class="stops-list-header">
+                <h2 class="h5 mb-0">
+                    <i class="bi bi-geo-alt" aria-hidden="true"></i>
+                    Paradas de Ônibus
+                    <span class="stops-counter">{{ stops|length }}</span>
+                </h2>
+            </div>
+            
+            <!-- Lista de paradas -->
+            {% for stop in stops %}
+            <div class="stop-info-card" onclick="selectStop('{{ stop.id }}')">
+                <div class="stop-name">{{ stop.name }}</div>
+                <div class="stop-location-info">
+                    <i class="bi bi-geo-alt me-1"></i>
+                    {{ stop.neighborhood|default:"Bairro não informado" }}
+                    {% if stop.reference_point %}
+                        - {{ stop.reference_point }}
+                    {% endif %}
+                </div>
+                
+                {% if stop.routes.exists %}
+                <div class="stop-lines">
+                    <div class="text-white-50 small mb-2">Linhas que passam:</div>
+                    {% for route in stop.routes.all|slice:":3" %}
+                    <div class="line-item">
+                        <span class="line-name">{{ route.name }}</span>
+                        <span class="line-price">
+                            {% if route.fare %}
+                                R$ {{ route.fare|floatformat:2 }}
+                            {% else %}
+                                <span class="unavailable">N/A</span>
+                            {% endif %}
+                        </span>
+                    </div>
+                    {% endfor %}
+                    {% if stop.routes.count > 3 %}
+                    <div class="text-white-50 small mt-2">
+                        +{{ stop.routes.count|add:"-3" }} linha{{ stop.routes.count|add:"-3"|pluralize }}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+                
+                <button class="btn-iniciar" onclick="event.stopPropagation(); showComingSoon()">
+                    Iniciar
+                </button>
+            </div>
+            {% empty %}
+            <div class="text-center p-4">
+                <i class="bi bi-exclamation-circle text-muted fs-2"></i>
+                <p class="text-muted mt-2">Nenhuma parada encontrada.</p>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Coluna direita: Mapa -->
+        <div class="col-lg-8">
+            <div class="map-container">
+                <div class="map-placeholder">
+                    <i class="bi bi-map"></i>
+                    <h4>Mapa das Paradas</h4>
+                    <p class="mb-0">Selecione uma parada para visualizar no mapa</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function selectStop(stopId) {
+    // Remove active class from all cards
+    document.querySelectorAll('.stop-info-card').forEach(card => {
+        card.classList.remove('active');
+    });
+    
+    // Add active class to clicked card
+    event.currentTarget.classList.add('active');
+    
+    // TODO: Implementar visualização da parada no mapa
+    console.log('Parada selecionada:', stopId);
+}
+
+function showComingSoon() {
+    alert('Funcionalidade em desenvolvimento! Em breve você poderá iniciar viagens a partir desta parada.');
+}
+</script>
+{% endblock %} 

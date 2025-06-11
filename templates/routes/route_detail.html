@@ -1,655 +1,351 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Rota {{ route.number }} - {{ route.name }} - BusFeed{% endblock %}
+{% block title %}Linha {{ route.number }} - BusFeed{% endblock %}
 
 {% block extra_css %}
 <style>
-    .route-header-card {
-        background: linear-gradient(135deg, var(--primary-color), var(--tertiary-color));
-        color: var(--white);
-        border-radius: var(--radius-lg);
-        padding: var(--spacing-xl);
-        margin-bottom: var(--spacing-lg);
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Inter', sans-serif;
+        background-color: #f5f5f5;
+    }
+    
+    /* Container principal */
+    .container-fluid {
+        height: calc(100vh - 76px); /* Altura total menos navbar */
+        padding: 0;
+    }
+    
+    .row.g-0 {
+        height: 100%;
+    }
+    
+    /* Coluna esquerda com informações da rota */
+    .col-lg-4 {
+        background: #f8f9fa;
+        border-right: 1px solid #e0e0e0;
+        overflow-y: auto;
+        max-height: calc(100vh - 76px);
+        padding: 0;
+    }
+    
+    /* Coluna direita com mapa */
+    .col-lg-8 {
+        padding: 0;
+    }
+    
+    /* Card de informações da rota */
+    .route-detail-card {
+        background: #2c5f6f;
+        color: white;
+        padding: 2rem;
+        margin: 0;
         position: relative;
-        overflow: hidden;
+        min-height: 100%;
     }
     
-    .route-header-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        background: url('data:image/svg+xml,<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
-        opacity: 0.3;
-    }
-    
-    .route-header-content {
-        position: relative;
-        z-index: 2;
-    }
-    
-    .route-number-large {
-        background: rgba(255, 255, 255, 0.2);
-        backdrop-filter: blur(10px);
-        padding: var(--spacing-sm) var(--spacing-md);
-        border-radius: var(--radius-lg);
+    .route-title {
         font-size: 1.5rem;
         font-weight: 700;
-        display: inline-block;
-        margin-bottom: var(--spacing-md);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-    
-    .route-terminals-large {
+        color: white;
+        margin-bottom: 1rem;
         display: flex;
         align-items: center;
-        gap: var(--spacing-md);
-        margin: var(--spacing-lg) 0;
-        flex-wrap: wrap;
+        gap: 0.5rem;
     }
     
-    .terminal-point {
-        flex: 1;
-        min-width: 200px;
-        text-align: center;
-        padding: var(--spacing-md);
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: var(--radius-md);
-        backdrop-filter: blur(5px);
+    .route-favorite {
+        color: #FFD700;
+        font-size: 1.3rem;
     }
     
-    .terminal-icon {
-        font-size: 1.5rem;
-        margin-bottom: var(--spacing-xs);
+    .route-info {
+        margin-bottom: 2rem;
     }
     
-    .info-cards {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: var(--spacing-md);
-        margin-bottom: var(--spacing-lg);
-    }
-    
-    .info-card {
-        background: var(--white);
-        border-radius: var(--radius-lg);
-        padding: var(--spacing-lg);
-        box-shadow: var(--shadow-md);
-        border-left: 4px solid var(--primary-color);
-    }
-    
-    .info-card h6 {
-        color: var(--primary-color);
-        font-weight: 600;
-        margin-bottom: var(--spacing-md);
-        display: flex;
-        align-items: center;
-        gap: var(--spacing-sm);
-    }
-    
-    .info-item {
+    .route-info-item {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: var(--spacing-xs) 0;
-        border-bottom: 1px solid var(--gray-light);
+        padding: 0.75rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
     
-    .info-item:last-child {
+    .route-info-item:last-child {
         border-bottom: none;
     }
     
-    .info-label {
-        color: var(--gray-medium);
-        font-size: 0.9rem;
-    }
-    
-    .info-value {
+    .route-info-label {
+        color: rgba(255, 255, 255, 0.8);
         font-weight: 500;
-        color: var(--gray-dark);
     }
     
-    .stops-section {
-        background: var(--white);
-        border-radius: var(--radius-lg);
-        box-shadow: var(--shadow-md);
-        overflow: hidden;
+    .route-info-value {
+        color: white;
+        font-weight: 600;
     }
     
-    .stops-header {
-        background: var(--gray-light);
-        padding: var(--spacing-lg);
-        border-bottom: 1px solid var(--gray-medium);
+    .route-price {
+        color: #42F2F7;
+        font-size: 1.1rem;
     }
     
-    .direction-tabs {
+    .route-status {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+    
+    .route-status.active {
+        background: rgba(40, 167, 69, 0.2);
+        color: #28a745;
+    }
+    
+    .route-status.inactive {
+        background: rgba(220, 53, 69, 0.2);
+        color: #dc3545;
+    }
+    
+    /* Seção de paradas */
+    .route-stops {
+        margin-top: 2rem;
+    }
+    
+    .route-section-title {
+        color: white;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
         display: flex;
-        gap: var(--spacing-sm);
-        margin-top: var(--spacing-md);
-    }
-    
-    .direction-tab {
-        padding: var(--spacing-sm) var(--spacing-md);
-        background: var(--white);
-        border: 1px solid var(--gray-medium);
-        border-radius: var(--radius-md);
-        cursor: pointer;
-        transition: var(--transition-base);
-        font-size: 0.9rem;
-    }
-    
-    .direction-tab.active {
-        background: var(--primary-color);
-        color: var(--white);
-        border-color: var(--primary-color);
-    }
-    
-    .stops-list {
-        max-height: 400px;
-        overflow-y: auto;
+        align-items: center;
+        gap: 0.5rem;
     }
     
     .stop-item {
-        display: flex;
-        align-items: center;
-        padding: var(--spacing-md) var(--spacing-lg);
-        border-bottom: 1px solid var(--gray-light);
-        transition: var(--transition-base);
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 0.5rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
     }
     
     .stop-item:hover {
-        background: var(--gray-light);
-    }
-    
-    .stop-sequence {
-        background: var(--primary-color);
-        color: var(--white);
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 600;
-        font-size: 0.9rem;
-        margin-right: var(--spacing-md);
-        flex-shrink: 0;
-    }
-    
-    .stop-info {
-        flex: 1;
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateX(5px);
     }
     
     .stop-name {
-        font-weight: 500;
-        color: var(--gray-dark);
-        margin-bottom: var(--spacing-xs);
+        font-weight: 600;
+        color: white;
+        margin-bottom: 0.25rem;
     }
     
-    .stop-code {
-        font-size: 0.8rem;
-        color: var(--gray-medium);
-        background: var(--gray-light);
-        padding: 2px 6px;
-        border-radius: var(--radius-sm);
-        display: inline-block;
+    .stop-description {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.7);
     }
     
-    .stop-features {
-        display: flex;
-        gap: var(--spacing-xs);
-        margin-left: var(--spacing-md);
-        flex-wrap: wrap;
+    /* Botão de ação */
+    .btn-route-action {
+        background: #42F2F7;
+        color: #114B5F;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 20px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        position: absolute;
+        bottom: 2rem;
+        left: 2rem;
+        right: 2rem;
+        text-align: center;
+        display: block;
     }
     
-    .stop-feature {
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.7rem;
-        color: var(--white);
+    .btn-route-action:hover {
+        background: #2dd4d9;
+        color: #114B5F;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(66, 242, 247, 0.3);
     }
     
-    .feature-wheelchair {
-        background: var(--success-green);
-    }
-    
-    .feature-shelter {
-        background: var(--tertiary-color);
-    }
-    
-    .map-section {
-        background: var(--white);
-        border-radius: var(--radius-lg);
-        box-shadow: var(--shadow-md);
-        overflow: hidden;
-        margin-bottom: var(--spacing-lg);
-    }
-    
-    .map-header {
-        background: var(--gray-light);
-        padding: var(--spacing-lg);
-        border-bottom: 1px solid var(--gray-medium);
-    }
-    
+    /* Container de mapa */
     .map-container {
-        height: 500px;
-        background: var(--gray-light);
+        height: calc(100vh - 76px);
+        background: #e9ecef;
+        position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
-        position: relative;
     }
     
     .map-placeholder {
         text-align: center;
-        color: var(--gray-medium);
+        color: #6c757d;
     }
     
-    .vehicles-section {
-        background: var(--white);
-        border-radius: var(--radius-lg);
-        box-shadow: var(--shadow-md);
-        padding: var(--spacing-lg);
+    .map-placeholder i {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        opacity: 0.3;
     }
     
-    .vehicle-item {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: var(--spacing-md);
-        border-radius: var(--radius-md);
-        background: var(--gray-light);
-        margin-bottom: var(--spacing-sm);
-    }
-    
-    .vehicle-info {
-        display: flex;
-        align-items: center;
-        gap: var(--spacing-md);
-    }
-    
-    .vehicle-status {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        background: var(--success-green);
-    }
-    
-    .status-badge {
-        padding: var(--spacing-xs) var(--spacing-sm);
-        border-radius: var(--radius-sm);
-        font-size: 0.8rem;
-        font-weight: 500;
-    }
-    
-    .status-operational {
-        background: var(--success-green);
-        color: var(--white);
-    }
-    
-    .status-inactive {
-        background: var(--error-red);
-        color: var(--white);
-    }
-    
+    /* Responsivo */
     @media (max-width: 768px) {
-        .route-terminals-large {
+        .container-fluid {
+            height: auto;
+        }
+        
+        .row.g-0 {
             flex-direction: column;
-            gap: var(--spacing-sm);
         }
         
-        .terminal-point {
-            min-width: auto;
+        .col-lg-4,
+        .col-lg-8 {
+            max-height: 50vh;
         }
         
-        .info-cards {
-            grid-template-columns: 1fr;
+        .route-detail-card {
+            padding: 1.5rem;
+            min-height: auto;
         }
         
-        .direction-tabs {
-            flex-wrap: wrap;
+        .btn-route-action {
+            position: static;
+            margin-top: 2rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .route-detail-card {
+            padding: 1rem;
         }
         
-        .stop-item {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: var(--spacing-sm);
-        }
-        
-        .stop-features {
-            margin-left: 0;
+        .route-title {
+            font-size: 1.3rem;
         }
     }
 </style>
 {% endblock %}
 
-{% block breadcrumb %}
-<nav aria-label="breadcrumb" class="container mt-3">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Início</a></li>
-        <li class="breadcrumb-item"><a href="{% url 'routes:list' %}">Rotas</a></li>
-        <li class="breadcrumb-item active" aria-current="page">{{ route.number }}</li>
-    </ol>
-</nav>
-{% endblock %}
-
 {% block content %}
-<div class="container py-4">
-    <!-- Cabeçalho da Rota -->
-    <div class="route-header-card">
-        <div class="route-header-content">
-            <div class="route-number-large">{{ route.number }}</div>
-            <h1 class="display-6 mb-2">{{ route.name }}</h1>
-            
-            {% if route.description %}
-                <p class="mb-3 opacity-90">{{ route.description }}</p>
-            {% endif %}
-            
-            <div class="route-terminals-large">
-                <div class="terminal-point">
-                    <div class="terminal-icon">
-                        <i class="bi bi-geo-alt" aria-hidden="true"></i>
-                    </div>
-                    <div class="fw-bold">Origem</div>
-                    <div>{{ route.origin_terminal }}</div>
-                </div>
-                
-                <div class="d-flex align-items-center justify-content-center">
-                    <i class="bi bi-arrow-right fs-2" aria-hidden="true"></i>
-                </div>
-                
-                <div class="terminal-point">
-                    <div class="terminal-icon">
-                        <i class="bi bi-geo-alt-fill" aria-hidden="true"></i>
-                    </div>
-                    <div class="fw-bold">Destino</div>
-                    <div>{{ route.destination_terminal }}</div>
-                </div>
-            </div>
-            
-            <!-- Status Badge -->
-            <div class="mt-3">
-                <span class="status-badge {% if is_operational %}status-operational{% else %}status-inactive{% endif %}">
-                    <i class="bi bi-circle-fill me-1" aria-hidden="true"></i>
-                    {% if is_operational %}Em Operação{% else %}Fora de Operação{% endif %}
-                </span>
-            </div>
-        </div>
-    </div>
-    
-    <div class="row">
-        <!-- Coluna Principal - Mapa e Informações -->
-        <div class="col-lg-8">
-            <!-- Mapa -->
-            <div class="map-section">
-                <div class="map-header">
-                    <h3 class="h5 mb-0">
-                        <i class="bi bi-map me-2" aria-hidden="true"></i>
-                        Trajeto da Rota
-                    </h3>
-                </div>
-                <div class="map-container" id="route-map">
-                    <div class="map-placeholder">
-                        <i class="bi bi-map display-4 mb-3" aria-hidden="true"></i>
-                        <p>Mapa do trajeto será exibido aqui</p>
-                        <small>Integração com Leaflet em desenvolvimento</small>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Paradas -->
-            <div class="stops-section">
-                <div class="stops-header">
-                    <h3 class="h5 mb-0">
-                        <i class="bi bi-geo-alt me-2" aria-hidden="true"></i>
-                        Paradas da Rota
-                        <span class="badge bg-primary ms-2">{{ total_stops }} parada{% if total_stops != 1 %}s{% endif %}</span>
-                    </h3>
-                    
-                    <div class="direction-tabs">
-                        {% if ida_stops %}
-                            <div class="direction-tab active" onclick="showStops('ida')" data-direction="ida">
-                                <i class="bi bi-arrow-right me-1" aria-hidden="true"></i>
-                                Ida ({{ ida_stops.count }})
-                            </div>
-                        {% endif %}
-                        {% if volta_stops %}
-                            <div class="direction-tab" onclick="showStops('volta')" data-direction="volta">
-                                <i class="bi bi-arrow-left me-1" aria-hidden="true"></i>
-                                Volta ({{ volta_stops.count }})
-                            </div>
-                        {% endif %}
-                    </div>
-                </div>
-                
-                <!-- Lista de Paradas - Ida -->
-                {% if ida_stops %}
-                    <div class="stops-list" id="stops-ida" style="display: block;">
-                        {% for route_stop in ida_stops %}
-                            <div class="stop-item">
-                                <div class="stop-sequence">{{ route_stop.sequence }}</div>
-                                <div class="stop-info">
-                                    <div class="stop-name">{{ route_stop.stop.name }}</div>
-                                    <div class="stop-code">{{ route_stop.stop.code }}</div>
-                                </div>
-                                <div class="stop-features">
-                                    {% if route_stop.stop.wheelchair_accessible %}
-                                        <div class="stop-feature feature-wheelchair" title="Acessível para cadeirantes">
-                                            <i class="bi bi-person-wheelchair" aria-hidden="true"></i>
-                                        </div>
-                                    {% endif %}
-                                    {% if route_stop.stop.has_shelter %}
-                                        <div class="stop-feature feature-shelter" title="Possui abrigo">
-                                            <i class="bi bi-house" aria-hidden="true"></i>
-                                        </div>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-                
-                <!-- Lista de Paradas - Volta -->
-                {% if volta_stops %}
-                    <div class="stops-list" id="stops-volta" style="display: none;">
-                        {% for route_stop in volta_stops %}
-                            <div class="stop-item">
-                                <div class="stop-sequence">{{ route_stop.sequence }}</div>
-                                <div class="stop-info">
-                                    <div class="stop-name">{{ route_stop.stop.name }}</div>
-                                    <div class="stop-code">{{ route_stop.stop.code }}</div>
-                                </div>
-                                <div class="stop-features">
-                                    {% if route_stop.stop.wheelchair_accessible %}
-                                        <div class="stop-feature feature-wheelchair" title="Acessível para cadeirantes">
-                                            <i class="bi bi-person-wheelchair" aria-hidden="true"></i>
-                                        </div>
-                                    {% endif %}
-                                    {% if route_stop.stop.has_shelter %}
-                                        <div class="stop-feature feature-shelter" title="Possui abrigo">
-                                            <i class="bi bi-house" aria-hidden="true"></i>
-                                        </div>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-        
-        <!-- Sidebar - Informações Adicionais -->
+<!-- Container principal -->
+<div class="container-fluid">
+    <div class="row g-0">
+        <!-- Coluna esquerda: Informações da rota -->
         <div class="col-lg-4">
-            <!-- Cards de Informação -->
-            <div class="info-cards">
-                <!-- Informações Operacionais -->
-                <div class="info-card">
-                    <h6>
-                        <i class="bi bi-clock" aria-hidden="true"></i>
-                        Informações Operacionais
-                    </h6>
-                    <div class="info-item">
-                        <span class="info-label">Tipo de Rota</span>
-                        <span class="info-value">{{ route.route_type.name }}</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Empresa</span>
-                        <span class="info-value">{{ route.transport_company.short_name|default:route.transport_company.name }}</span>
-                    </div>
-                    {% if route.first_departure %}
-                        <div class="info-item">
-                            <span class="info-label">Primeira Partida</span>
-                            <span class="info-value">{{ route.first_departure|time:"H:i" }}</span>
-                        </div>
-                    {% endif %}
-                    {% if route.last_departure %}
-                        <div class="info-item">
-                            <span class="info-label">Última Partida</span>
-                            <span class="info-value">{{ route.last_departure|time:"H:i" }}</span>
-                        </div>
-                    {% endif %}
-                    {% if route.average_frequency %}
-                        <div class="info-item">
-                            <span class="info-label">Frequência</span>
-                            <span class="info-value">{{ route.average_frequency }} min</span>
-                        </div>
+            <div class="route-detail-card">
+                <div class="route-title">
+                    {{ route.name }}
+                    {% if route.is_favorite %}
+                        <span class="route-favorite">★</span>
                     {% endif %}
                 </div>
                 
-                <!-- Tarifação -->
-                <div class="info-card">
-                    <h6>
-                        <i class="bi bi-credit-card" aria-hidden="true"></i>
-                        Tarifação
-                    </h6>
-                    <div class="info-item">
-                        <span class="info-label">Tarifa</span>
-                        <span class="info-value">
-                            {% if current_fare %}
-                                R$ {{ current_fare }}
+                <div class="route-info">
+                    <div class="route-info-item">
+                        <span class="route-info-label">Número da Linha</span>
+                        <span class="route-info-value">{{ route.number|default:"N/A" }}</span>
+                    </div>
+                    
+                    <div class="route-info-item">
+                        <span class="route-info-label">Preço da Passagem</span>
+                        <span class="route-info-value route-price">
+                            {% if route.fare %}
+                                R$ {{ route.fare|floatformat:2 }}
                             {% else %}
                                 Consultar
                             {% endif %}
                         </span>
                     </div>
-                    <div class="info-item">
-                        <span class="info-label">Integração</span>
-                        <span class="info-value">
-                            {% if route.accepts_integration %}
-                                <i class="bi bi-check-circle text-success" aria-hidden="true"></i> Aceita
-                            {% else %}
-                                <i class="bi bi-x-circle text-danger" aria-hidden="true"></i> Não aceita
-                            {% endif %}
+                    
+                    <div class="route-info-item">
+                        <span class="route-info-label">Status</span>
+                        <span class="route-status {% if route.is_active %}active{% else %}inactive{% endif %}">
+                            {% if route.is_active %}Ativa{% else %}Inativa{% endif %}
                         </span>
                     </div>
+                    
+                    {% if route.description %}
+                    <div class="route-info-item">
+                        <span class="route-info-label">Descrição</span>
+                        <span class="route-info-value">{{ route.description }}</span>
+                    </div>
+                    {% endif %}
+                    
+                    {% if route.duration %}
+                    <div class="route-info-item">
+                        <span class="route-info-label">Duração Estimada</span>
+                        <span class="route-info-value">{{ route.duration }} min</span>
+                    </div>
+                    {% endif %}
                 </div>
                 
-                <!-- Acessibilidade -->
-                <div class="info-card">
-                    <h6>
-                        <i class="bi bi-universal-access" aria-hidden="true"></i>
-                        Acessibilidade
-                    </h6>
-                    <div class="info-item">
-                        <span class="info-label">Cadeirantes</span>
-                        <span class="info-value">
-                            {% if route.wheelchair_accessible %}
-                                <i class="bi bi-check-circle text-success" aria-hidden="true"></i> Acessível
-                            {% else %}
-                                <i class="bi bi-x-circle text-danger" aria-hidden="true"></i> Não acessível
-                            {% endif %}
-                        </span>
+                {% if route.stops.exists %}
+                <div class="route-stops">
+                    <div class="route-section-title">
+                        <i class="bi bi-geo-alt"></i>
+                        Paradas desta Linha
                     </div>
-                    <div class="info-item">
-                        <span class="info-label">Anúncios Sonoros</span>
-                        <span class="info-value">
-                            {% if route.audio_announcements %}
-                                <i class="bi bi-check-circle text-success" aria-hidden="true"></i> Disponível
+                    
+                    {% for stop in route.stops.all|slice:":5" %}
+                    <div class="stop-item" onclick="selectStop('{{ stop.id }}')">
+                        <div class="stop-name">{{ stop.name }}</div>
+                        <div class="stop-description">
+                            {% if stop.neighborhood %}
+                                {{ stop.neighborhood }}
+                                {% if stop.reference_point %} - {{ stop.reference_point }}{% endif %}
                             {% else %}
-                                <i class="bi bi-x-circle text-danger" aria-hidden="true"></i> Indisponível
+                                Código: {{ stop.code }}
                             {% endif %}
-                        </span>
+                        </div>
                     </div>
+                    {% endfor %}
+                    
+                    {% if route.stops.count > 5 %}
+                    <div class="text-center mt-2">
+                        <small class="text-white-50">
+                            +{{ route.stops.count|add:"-5" }} parada{{ route.stops.count|add:"-5"|pluralize }} adiciona{{ route.stops.count|add:"-5"|pluralize:"l,is" }}
+                        </small>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+                
+                <a href="#" class="btn-route-action" onclick="showComingSoon()">
+                    Usar esta Linha
+                </a>
+            </div>
+        </div>
+        
+        <!-- Coluna direita: Mapa -->
+        <div class="col-lg-8">
+            <div class="map-container">
+                <div class="map-placeholder">
+                    <i class="bi bi-map"></i>
+                    <h4>Trajeto da Linha {{ route.name }}</h4>
+                    <p class="mb-0">Mapa com o percurso completo da linha</p>
                 </div>
             </div>
-            
-            <!-- Veículos Ativos -->
-            {% if active_vehicles %}
-                <div class="vehicles-section">
-                    <h6 class="mb-3">
-                        <i class="bi bi-bus-front me-2" aria-hidden="true"></i>
-                        Veículos Ativos
-                    </h6>
-                    {% for vehicle in active_vehicles %}
-                        <div class="vehicle-item">
-                            <div class="vehicle-info">
-                                <div class="vehicle-status"></div>
-                                <div>
-                                    <div class="fw-bold">{{ vehicle.fleet_number }}</div>
-                                    <div class="text-muted small">{{ vehicle.model }}</div>
-                                </div>
-                            </div>
-                            <div class="text-end">
-                                <div class="text-muted small">Ativo</div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endif %}
         </div>
     </div>
 </div>
-{% endblock %}
 
-{% block extra_js %}
 <script>
-    // Função para alternar entre paradas de ida e volta
-    function showStops(direction) {
-        // Ocultar todas as listas
-        document.querySelectorAll('.stops-list').forEach(list => {
-            list.style.display = 'none';
-        });
-        
-        // Remover classe active de todas as abas
-        document.querySelectorAll('.direction-tab').forEach(tab => {
-            tab.classList.remove('active');
-        });
-        
-        // Mostrar lista selecionada
-        const targetList = document.getElementById(`stops-${direction}`);
-        if (targetList) {
-            targetList.style.display = 'block';
-        }
-        
-        // Adicionar classe active na aba selecionada
-        const targetTab = document.querySelector(`[data-direction="${direction}"]`);
-        if (targetTab) {
-            targetTab.classList.add('active');
-        }
-    }
-    
-    // Inicialização do mapa (placeholder)
-    document.addEventListener('DOMContentLoaded', function() {
-        // Aqui seria inicializado o mapa Leaflet
-        console.log('Mapa será inicializado aqui');
-        
-        // Carregar dados do mapa via AJAX
-        fetch(`{% url 'routes:map_data' route.number %}`)
-            .then(response => response.json())
-            .then(data => {
-                console.log('Dados do mapa:', data);
-                // Processar dados e atualizar mapa
-            })
-            .catch(error => {
-                console.error('Erro ao carregar dados do mapa:', error);
-            });
-    });
+function selectStop(stopId) {
+    // TODO: Implementar visualização da parada específica
+    console.log('Parada selecionada:', stopId);
+    showComingSoon();
+}
+
+function showComingSoon() {
+    alert('Funcionalidade em desenvolvimento! Em breve você poderá ver o trajeto completo no mapa e usar esta linha.');
+}
 </script>
 {% endblock %} 

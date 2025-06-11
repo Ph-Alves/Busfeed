@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ title }} - BusFeed{% endblock %}
+
+{% block meta_description %}{{ page_description }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">
+                <i class="bi bi-activity text-primary me-2"></i>
+                {{ title }}
+            </h1>
+            <p class="lead text-muted mb-4">
+                {{ page_description }}
+            </p>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-lg-8 col-md-12">
+            <div class="card border-success mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-check-circle me-2"></i>
+                        Status Geral dos Serviços
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="status-indicator bg-success me-3"></div>
+                                <div>
+                                    <h6 class="mb-1">Sistema BusFeed</h6>
+                                    <small class="text-muted">Operacional</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="status-indicator bg-success me-3"></div>
+                                <div>
+                                    <h6 class="mb-1">API de Dados</h6>
+                                    <small class="text-muted">Funcionando normalmente</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="status-indicator bg-warning me-3"></div>
+                                <div>
+                                    <h6 class="mb-1">Integração DFTrans</h6>
+                                    <small class="text-muted">Em desenvolvimento</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="status-indicator bg-success me-3"></div>
+                                <div>
+                                    <h6 class="mb-1">Mapas e Rotas</h6>
+                                    <small class="text-muted">Disponível</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card border-primary">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Informações do Sistema
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        O BusFeed é um sistema em desenvolvimento contínuo para melhorar 
+                        a experiência de uso do transporte público em Brasília.
+                    </p>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <i class="bi bi-clock text-info me-2"></i>
+                            <strong>Última atualização:</strong> Tempo real
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-server text-info me-2"></i>
+                            <strong>Versão do sistema:</strong> v1.0.0-beta
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-globe text-info me-2"></i>
+                            <strong>Cobertura:</strong> Distrito Federal
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4 col-md-12">
+            <div class="card border-info mb-4">
+                <div class="card-header bg-info text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-bell me-2"></i>
+                        Avisos Importantes
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning" role="alert">
+                        <h6 class="alert-heading">
+                            <i class="bi bi-exclamation-triangle me-2"></i>
+                            Sistema em Beta
+                        </h6>
+                        <p class="mb-0 small">
+                            O BusFeed está em fase de testes. Algumas funcionalidades 
+                            podem estar limitadas ou indisponíveis.
+                        </p>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <a href="{% url 'notifications:list' %}" class="btn btn-outline-info btn-sm me-2">
+                            <i class="bi bi-megaphone me-2"></i>
+                            Ver Avisos
+                        </a>
+                        <a href="{% url 'core:contact' %}" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-envelope me-2"></i>
+                            Contato
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card border-secondary">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-graph-up me-2"></i>
+                        Estatísticas
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted small">
+                        Estatísticas de uso do sistema serão exibidas aqui quando 
+                        disponíveis.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="text-center">
+                <a href="{% url 'core:home' %}" class="btn btn-primary">
+                    <i class="bi bi-house me-2"></i>
+                    Voltar ao Início
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.status-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+</style>
+{% endblock %} 

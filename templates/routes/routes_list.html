@@ -1,0 +1,517 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Linhas - BusFeed{% endblock %}
+
+{% block extra_css %}
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Inter', sans-serif;
+        background-color: #f5f5f5;
+    }
+    
+    /* Container principal com melhor espaçamento */
+    .container-fluid {
+        height: calc(100vh - 76px);
+        padding: var(--spacing-lg);
+        background: var(--gray-light);
+    }
+    
+    .row.g-0 {
+        height: 100%;
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow-lg);
+        background: var(--white);
+    }
+    
+    /* Coluna esquerda com lista de rotas */
+    .col-lg-4 {
+        background: var(--white);
+        border-right: 3px solid var(--gray-light);
+        overflow-y: auto;
+        max-height: calc(100vh - 76px - var(--spacing-2xl));
+        position: relative;
+    }
+    
+    /* Coluna direita com mapa */
+    .col-lg-8 {
+        padding: 0;
+        position: relative;
+        background: var(--gray-light);
+    }
+    
+    /* Cabeçalho da lista com botões */
+    .routes-header {
+        padding: var(--spacing-xl);
+        border-bottom: 2px solid var(--gray-light);
+        background: var(--white);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+    
+    .routes-header h1 {
+        margin: 0 0 var(--spacing-md) 0;
+        font-size: 1.5rem;
+        color: var(--primary-color);
+    }
+    
+    .header-actions {
+        display: flex;
+        gap: var(--spacing-sm);
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .btn-map-all {
+        background: var(--secondary-color);
+        color: var(--white);
+        border: none;
+        padding: var(--spacing-sm) var(--spacing-md);
+        border-radius: var(--radius-md);
+        font-size: 0.9rem;
+        font-weight: 500;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: var(--spacing-xs);
+        transition: var(--transition-base);
+    }
+    
+    .btn-map-all:hover {
+        background: var(--tertiary-color);
+        color: var(--white);
+        transform: translateY(-1px);
+    }
+    
+    /* Lista de rotas com espaçamento melhorado */
+    .routes-list {
+        padding: 0;
+    }
+    
+    .route-card {
+        background: var(--white);
+        color: var(--gray-dark);
+        margin: 0;
+        padding: var(--spacing-xl);
+        border: none;
+        border-radius: 0;
+        border-bottom: 2px solid var(--gray-light);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+    }
+    
+    .route-card::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: transparent;
+        transition: var(--transition-base);
+    }
+    
+    .route-card:hover {
+        background: var(--gray-light);
+        transform: none;
+        box-shadow: var(--shadow-sm);
+    }
+    
+    .route-card.selected {
+        background: var(--quaternary-color);
+        border-left-color: var(--primary-color);
+    }
+    
+    .route-card.selected::before {
+        background: var(--primary-color);
+    }
+    
+    .route-header {
+        flex: 1;
+    }
+    
+    .route-number {
+        background: var(--primary-color);
+        color: var(--white);
+        padding: 4px 8px;
+        border-radius: var(--radius-sm);
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-bottom: var(--spacing-xs);
+        display: inline-block;
+    }
+    
+    .route-name {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--gray-dark);
+        margin: 0;
+        line-height: 1.3;
+    }
+    
+    .route-terminals {
+        font-size: 0.85rem;
+        color: var(--gray-medium);
+        margin-top: var(--spacing-xs);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-xs);
+    }
+    
+    .route-price {
+        text-align: right;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: var(--spacing-xs);
+    }
+    
+    .price-value {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--primary-color);
+    }
+    
+    .price-unavailable {
+        font-size: 0.9rem;
+        color: var(--gray-medium);
+        font-style: italic;
+    }
+    
+    .route-arrow {
+        color: var(--gray-medium);
+        font-size: 1.2rem;
+        margin-left: var(--spacing-sm);
+    }
+    
+    .route-features {
+        display: flex;
+        gap: var(--spacing-xs);
+        margin-top: var(--spacing-xs);
+    }
+    
+    .feature-badge {
+        background: var(--quaternary-color);
+        color: var(--primary-color);
+        padding: 2px 6px;
+        border-radius: var(--radius-sm);
+        font-size: 0.7rem;
+        font-weight: 500;
+    }
+    
+    .feature-badge.accessibility {
+        background: var(--success-green);
+        color: var(--white);
+    }
+    
+    /* Mapa placeholder */
+    .map-container {
+        height: 100%;
+        background: #e9ecef;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .map-placeholder {
+        text-align: center;
+        color: #6c757d;
+    }
+    
+    .map-placeholder i {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        opacity: 0.3;
+    }
+    
+    #route-map {
+        height: 100%;
+        width: 100%;
+    }
+    
+    /* Responsivo */
+    @media (max-width: 768px) {
+        .container-fluid {
+            height: auto;
+        }
+        
+        .row.g-0 {
+            flex-direction: column;
+        }
+        
+        .col-lg-4,
+        .col-lg-8 {
+            max-height: 50vh;
+        }
+        
+        .routes-header {
+            padding: var(--spacing-md);
+        }
+        
+        .route-card {
+            padding: var(--spacing-md);
+        }
+        
+        .header-actions {
+            flex-direction: column;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row g-0">
+        <!-- Coluna esquerda: Lista de rotas -->
+        <div class="col-lg-4">
+            <!-- Cabeçalho -->
+            <div class="routes-header">
+                <h1><i class="bi bi-diagram-3 me-2"></i>Linhas de Ônibus</h1>
+                
+                <div class="header-actions">
+                    <a href="{% url 'routes:routes_map' %}" class="btn-map-all">
+                        <i class="bi bi-map"></i>
+                        Ver Todas no Mapa
+                    </a>
+                </div>
+                
+                <div class="search-container">
+                    <div class="input-group">
+                        <input type="text" 
+                               class="form-control" 
+                               id="route-search" 
+                               placeholder="Buscar linha..."
+                               aria-label="Buscar linha">
+                        <button class="btn btn-outline-secondary" type="button">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Lista de rotas -->
+            <div class="routes-list">
+                {% for route in routes %}
+                <div class="route-card" onclick="selectRoute('{{ route.id }}', '{{ route.number }}')">
+                    <div class="route-header">
+                        <div class="route-number">{{ route.number }}</div>
+                        <h3 class="route-name">{{ route.name }}</h3>
+                        <div class="route-terminals">
+                            <i class="bi bi-arrow-right"></i>
+                            {{ route.origin_terminal }} → {{ route.destination_terminal }}
+                        </div>
+                        <div class="route-features">
+                            {% if route.wheelchair_accessible %}
+                                <span class="feature-badge accessibility">
+                                    <i class="bi bi-universal-access"></i> Acessível
+                                </span>
+                            {% endif %}
+                            <span class="feature-badge">{{ route.route_type.name }}</span>
+                        </div>
+                    </div>
+                    <div class="route-price">
+                        {% if route.base_fare %}
+                            <div class="price-value">R$ {{ route.base_fare|floatformat:2 }}</div>
+                        {% else %}
+                            <span class="price-unavailable">Indisponível</span>
+                        {% endif %}
+                        <i class="bi bi-chevron-right route-arrow"></i>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="text-center p-4">
+                    <i class="bi bi-exclamation-circle text-muted fs-2"></i>
+                    <p class="text-muted mt-2">Nenhuma linha encontrada.</p>
+                    <p class="text-muted">
+                        <small>Execute: <code>python manage.py populate_demo_routes</code></small>
+                    </p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <!-- Coluna direita: Mapa -->
+        <div class="col-lg-8">
+            <div class="map-container">
+                <div class="map-placeholder" id="map-placeholder">
+                    <i class="bi bi-map"></i>
+                    <h4>Mapa das Rotas</h4>
+                    <p class="mb-0">Selecione uma linha para visualizar no mapa</p>
+                </div>
+                <div id="route-map" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let map;
+let currentRouteLayer;
+let selectedRouteId = null;
+
+function selectRoute(routeId, routeNumber) {
+    // Remove seleção anterior
+    document.querySelectorAll('.route-card').forEach(card => {
+        card.classList.remove('selected');
+    });
+    
+    // Adiciona seleção atual
+    event.currentTarget.classList.add('selected');
+    selectedRouteId = routeId;
+    
+    // Carrega dados da rota no mapa
+    loadRouteOnMap(routeNumber);
+}
+
+function loadRouteOnMap(routeNumber) {
+    // Inicializa mapa se necessário
+    if (!map) {
+        initMap();
+    }
+    
+    // Mostra o mapa e esconde o placeholder
+    document.getElementById('map-placeholder').style.display = 'none';
+    document.getElementById('route-map').style.display = 'block';
+    
+    // Força redimensionamento do mapa
+    setTimeout(() => {
+        map.invalidateSize();
+    }, 100);
+    
+    // Carrega dados da rota
+    fetch(`/rotas/api/route/${routeNumber}/map-data/`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                displayRouteOnMap(data.route);
+            } else {
+                console.error('Erro ao carregar rota:', data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Erro na requisição:', error);
+        });
+}
+
+function initMap() {
+    // Coordenadas de Brasília
+    const brasiliaCoords = [-15.7801, -47.9292];
+    
+    map = L.map('route-map').setView(brasiliaCoords, 11);
+    
+    // Adiciona tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors | BusFeed',
+        maxZoom: 18,
+    }).addTo(map);
+}
+
+function displayRouteOnMap(route) {
+    // Remove layer anterior
+    if (currentRouteLayer) {
+        map.removeLayer(currentRouteLayer);
+    }
+    
+    // Cria grupo de layers para a rota
+    currentRouteLayer = L.layerGroup().addTo(map);
+    
+    let allCoordinates = [];
+    
+    // Processa cada direção
+    Object.entries(route.stops).forEach(([direction, stops]) => {
+        if (stops.length > 0) {
+            // Adiciona marcadores das paradas
+            stops.forEach((stop, index) => {
+                if (stop.lat && stop.lng) {
+                    const marker = L.circleMarker([stop.lat, stop.lng], {
+                        radius: 6,
+                        fillColor: route.color || '#007bff',
+                        color: '#fff',
+                        weight: 2,
+                        opacity: 1,
+                        fillOpacity: 0.8
+                    });
+                    
+                    marker.bindPopup(`
+                        <div class="stop-popup">
+                            <h6>${stop.name}</h6>
+                            <p><strong>Código:</strong> ${stop.code}</p>
+                            <p><strong>Direção:</strong> ${direction}</p>
+                            <p><strong>Sequência:</strong> ${stop.sequence}ª parada</p>
+                            <p><strong>Bairro:</strong> ${stop.neighborhood}</p>
+                            ${stop.wheelchair_accessible ? '<p><i class="bi bi-universal-access"></i> Acessível</p>' : ''}
+                            ${stop.has_shelter ? '<p><i class="bi bi-house"></i> Com abrigo</p>' : ''}
+                        </div>
+                    `);
+                    
+                    currentRouteLayer.addLayer(marker);
+                    allCoordinates.push([stop.lat, stop.lng]);
+                }
+            });
+            
+            // Desenha linha conectando as paradas
+            if (stops.length > 1) {
+                const coordinates = stops
+                    .filter(stop => stop.lat && stop.lng)
+                    .map(stop => [stop.lat, stop.lng]);
+                
+                if (coordinates.length > 1) {
+                    const polyline = L.polyline(coordinates, {
+                        color: route.color || '#007bff',
+                        weight: 4,
+                        opacity: 0.7,
+                        smoothFactor: 1
+                    });
+                    
+                    polyline.bindPopup(`
+                        <div class="route-popup">
+                            <h6>${route.number} - ${route.name}</h6>
+                            <p><strong>Direção:</strong> ${direction}</p>
+                            <p><strong>Tipo:</strong> ${route.type}</p>
+                            <p><strong>Empresa:</strong> ${route.company}</p>
+                            ${route.fare ? `<p><strong>Tarifa:</strong> R$ ${route.fare.toFixed(2)}</p>` : ''}
+                        </div>
+                    `);
+                    
+                    currentRouteLayer.addLayer(polyline);
+                }
+            }
+        }
+    });
+    
+    // Ajusta zoom para mostrar toda a rota
+    if (allCoordinates.length > 0) {
+        const bounds = L.latLngBounds(allCoordinates);
+        map.fitBounds(bounds, { padding: [20, 20] });
+    }
+}
+
+// Busca em tempo real
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('route-search');
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const routeCards = document.querySelectorAll('.route-card');
+            
+            routeCards.forEach(card => {
+                const routeText = card.textContent.toLowerCase();
+                if (routeText.includes(searchTerm)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    }
+});
+</script>
+{% endblock %} 

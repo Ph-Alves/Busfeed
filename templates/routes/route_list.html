@@ -237,9 +237,9 @@
                         <i class="bi bi-search me-1" aria-hidden="true"></i>
                         Filtrar
                     </button>
-                    <a href="{% url 'routes:list' %}" class="btn-secondary">
-                        <i class="bi bi-arrow-clockwise me-1" aria-hidden="true"></i>
-                        Limpar
+                    <a href="{% url 'routes:routes_list' %}" class="btn-secondary">
+                        <i class="bi bi-arrow-left me-2" aria-hidden="true"></i>
+                        Voltar para Lista
                     </a>
                 </div>
             </div>
@@ -394,7 +394,7 @@
                 {% endif %}
             </p>
             {% if search_term or selected_type or selected_company or wheelchair_filter %}
-                <a href="{% url 'routes:list' %}" class="btn-primary">
+                <a href="{% url 'routes:routes_list' %}" class="btn-primary">
                     <i class="bi bi-arrow-clockwise me-1" aria-hidden="true"></i>
                     Ver Todas as Rotas
                 </a>

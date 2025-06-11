@@ -1,0 +1,325 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Rotas de Ônibus - BusFeed{% endblock %}
+
+{% block extra_head %}
+<style>
+.route-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-left: 4px solid #007bff;
+}
+
+.route-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.route-number {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.badge-custom {
+    font-size: 0.75rem;
+}
+
+.filter-section {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <!-- Cabeçalho -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="h3 mb-0">
+                    <i class="fas fa-bus me-2"></i>
+                    Rotas de Ônibus
+                </h1>
+                <span class="badge bg-primary fs-6">
+                    {{ page_obj.paginator.count }} rota{{ page_obj.paginator.count|pluralize }}
+                </span>
+            </div>
+
+            <!-- Filtros -->
+            <div class="filter-section">
+                <form method="get" class="row g-3">
+                    <div class="col-md-3">
+                        <label for="q" class="form-label">Buscar</label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="q" 
+                               name="q" 
+                               value="{{ current_filters.q }}"
+                               placeholder="Número, nome ou terminal...">
+                    </div>
+                    
+                    <div class="col-md-2">
+                        <label for="company" class="form-label">Empresa</label>
+                        <select class="form-select" id="company" name="company">
+                            <option value="">Todas</option>
+                            {% for company in companies %}
+                            <option value="{{ company.id }}" 
+                                    {% if current_filters.company == company.id|stringformat:"s" %}selected{% endif %}>
+                                {{ company.short_name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="col-md-2">
+                        <label for="route_type" class="form-label">Tipo</label>
+                        <select class="form-select" id="route_type" name="route_type">
+                            <option value="">Todos</option>
+                            {% for type in route_types %}
+                            <option value="{{ type.id }}"
+                                    {% if current_filters.route_type == type.id|stringformat:"s" %}selected{% endif %}>
+                                {{ type.name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="col-md-2">
+                        <label class="form-label">Filtros Especiais</label>
+                        <div class="form-check">
+                            <input class="form-check-input" 
+                                   type="checkbox" 
+                                   id="sunday" 
+                                   name="sunday" 
+                                   value="true"
+                                   {% if current_filters.sunday == "true" %}checked{% endif %}>
+                            <label class="form-check-label" for="sunday">
+                                Opera domingos
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" 
+                                   type="checkbox" 
+                                   id="wheelchair" 
+                                   name="wheelchair" 
+                                   value="true"
+                                   {% if current_filters.wheelchair == "true" %}checked{% endif %}>
+                            <label class="form-check-label" for="wheelchair">
+                                Acessível
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary me-2">
+                            <i class="fas fa-search"></i> Buscar
+                        </button>
+                        <a href="{% url 'routes:routes_list' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-times"></i> Limpar
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Lista de Rotas -->
+            {% if page_obj %}
+                <div class="row">
+                    {% for route in page_obj %}
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card route-card h-100">
+                            <div class="card-body">
+                                <!-- Cabeçalho da Rota -->
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <div>
+                                        <span class="route-number">{{ route.number }}</span>
+                                        <div class="text-muted small">{{ route.transport_company.short_name }}</div>
+                                    </div>
+                                    <div class="text-end">
+                                        {% if route.route_type %}
+                                        <span class="badge badge-custom" 
+                                              style="background-color: {{ route.route_type.color|default:'#2196F3' }}">
+                                            {{ route.route_type.name }}
+                                        </span>
+                                        {% endif %}
+                                        <div class="small text-muted mt-1">
+                                            {{ route.stops_count }} parada{{ route.stops_count|pluralize }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Nome da Rota -->
+                                <h6 class="card-title text-truncate" title="{{ route.name }}">
+                                    {{ route.name }}
+                                </h6>
+
+                                <!-- Origem e Destino -->
+                                <div class="small text-muted mb-3">
+                                    <i class="fas fa-route me-1"></i>
+                                    {{ route.origin_terminal|default:"Origem" }} 
+                                    <i class="fas fa-arrow-right mx-1"></i> 
+                                    {{ route.destination_terminal|default:"Destino" }}
+                                </div>
+
+                                <!-- Badges de Informação -->
+                                <div class="d-flex flex-wrap gap-1 mb-3">
+                                    {% if route.operates_weekdays %}
+                                    <span class="badge bg-secondary">Seg-Sex</span>
+                                    {% endif %}
+                                    {% if route.operates_saturdays %}
+                                    <span class="badge bg-secondary">Sáb</span>
+                                    {% endif %}
+                                    {% if route.operates_sundays %}
+                                    <span class="badge bg-secondary">Dom</span>
+                                    {% endif %}
+                                    {% if route.wheelchair_accessible %}
+                                    <span class="badge bg-success">
+                                        <i class="fas fa-wheelchair"></i>
+                                    </span>
+                                    {% endif %}
+                                    {% if route.is_circular %}
+                                    <span class="badge bg-info">Circular</span>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Informações Operacionais -->
+                                {% if route.average_frequency %}
+                                <div class="small text-muted mb-2">
+                                    <i class="fas fa-clock me-1"></i>
+                                    Freq: {{ route.average_frequency }}min
+                                    {% if route.estimated_duration %}
+                                    | Duração: {{ route.estimated_duration }}min
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Ações -->
+                            <div class="card-footer bg-transparent">
+                                <div class="d-flex justify-content-between">
+                                    <a href="{% url 'routes:route_detail' route.id %}" 
+                                       class="btn btn-outline-primary btn-sm">
+                                        <i class="fas fa-eye"></i> Ver Detalhes
+                                    </a>
+                                    <button class="btn btn-outline-info btn-sm" 
+                                            type="button"
+                                            data-route-id="{{ route.id }}"
+                                            onclick="showRouteOnMap(this.dataset.routeId)">
+                                        <i class="fas fa-map"></i> Mapa
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Paginação -->
+                {% if page_obj.has_other_pages %}
+                <nav aria-label="Navegação das rotas">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.company %}&company={{ request.GET.company }}{% endif %}{% if request.GET.route_type %}&route_type={{ request.GET.route_type }}{% endif %}{% if request.GET.sunday %}&sunday={{ request.GET.sunday }}{% endif %}{% if request.GET.wheelchair %}&wheelchair={{ request.GET.wheelchair }}{% endif %}">
+                                <i class="fas fa-angle-double-left"></i>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.company %}&company={{ request.GET.company }}{% endif %}{% if request.GET.route_type %}&route_type={{ request.GET.route_type }}{% endif %}{% if request.GET.sunday %}&sunday={{ request.GET.sunday }}{% endif %}{% if request.GET.wheelchair %}&wheelchair={{ request.GET.wheelchair }}{% endif %}">
+                                <i class="fas fa-angle-left"></i>
+                            </a>
+                        </li>
+                        {% endif %}
+
+                        {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.company %}&company={{ request.GET.company }}{% endif %}{% if request.GET.route_type %}&route_type={{ request.GET.route_type }}{% endif %}{% if request.GET.sunday %}&sunday={{ request.GET.sunday }}{% endif %}{% if request.GET.wheelchair %}&wheelchair={{ request.GET.wheelchair }}{% endif %}">{{ num }}</a>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.company %}&company={{ request.GET.company }}{% endif %}{% if request.GET.route_type %}&route_type={{ request.GET.route_type }}{% endif %}{% if request.GET.sunday %}&sunday={{ request.GET.sunday }}{% endif %}{% if request.GET.wheelchair %}&wheelchair={{ request.GET.wheelchair }}{% endif %}">
+                                <i class="fas fa-angle-right"></i>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.company %}&company={{ request.GET.company }}{% endif %}{% if request.GET.route_type %}&route_type={{ request.GET.route_type }}{% endif %}{% if request.GET.sunday %}&sunday={{ request.GET.sunday }}{% endif %}{% if request.GET.wheelchair %}&wheelchair={{ request.GET.wheelchair }}{% endif %}">
+                                <i class="fas fa-angle-double-right"></i>
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                {% endif %}
+
+            {% else %}
+                <!-- Estado Vazio -->
+                <div class="text-center py-5">
+                    <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                    <h4 class="text-muted">Nenhuma rota encontrada</h4>
+                    <p class="text-muted">
+                        {% if request.GET.q or request.GET.company or request.GET.route_type %}
+                            Tente ajustar os filtros de busca.
+                        {% else %}
+                            Execute o comando para importar dados: <code>python manage.py import_gtfs_data --mode=demo</code>
+                        {% endif %}
+                    </p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Modal do Mapa (placeholder) -->
+<div class="modal fade" id="mapModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Rota no Mapa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="route-map" style="height: 400px; background: #f0f0f0; display: flex; align-items: center; justify-content: center;">
+                    <span class="text-muted">Mapa será implementado aqui</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function showRouteOnMap(routeId) {
+    // Placeholder para funcionalidade do mapa
+    const modal = new bootstrap.Modal(document.getElementById('mapModal'));
+    modal.show();
+    
+    // Aqui será implementada a integração com Leaflet.js
+    console.log('Mostrando rota', routeId, 'no mapa');
+}
+
+// Auto-submit do formulário ao mudar filtros
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('.filter-section form');
+    const selects = form.querySelectorAll('select');
+    const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+    
+    [...selects, ...checkboxes].forEach(element => {
+        element.addEventListener('change', function() {
+            form.submit();
+        });
+    });
+});
+</script>
+{% endblock %} 

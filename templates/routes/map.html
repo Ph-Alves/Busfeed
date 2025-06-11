@@ -1,0 +1,769 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Mapa das Rotas - BusFeed{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+    #mapContainer {
+        height: calc(100vh - 160px);
+        border-radius: 15px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+    
+    .map-controls {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 1rem;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        max-width: 300px;
+    }
+    
+    .transport-filter {
+        margin-bottom: 0.75rem;
+    }
+    
+    .transport-type {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.5rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        margin-bottom: 0.25rem;
+    }
+    
+    .transport-type:hover {
+        background: rgba(0,123,255,0.1);
+    }
+    
+    .transport-type.active {
+        background: rgba(0,123,255,0.2);
+        border-left: 4px solid #007bff;
+    }
+    
+    .transport-icon {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 0.75rem;
+        margin-right: 0.5rem;
+    }
+    
+    .route-info-panel {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 1rem;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        transform: translateY(100%);
+        opacity: 0;
+        transition: all 0.3s ease;
+        max-height: 300px;
+        overflow-y: auto;
+    }
+    
+    .route-info-panel.visible {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+    
+    .stat-card {
+        text-align: center;
+        padding: 0.75rem;
+        background: rgba(0,123,255,0.1);
+        border-radius: 10px;
+    }
+    
+    .stat-number {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #007bff;
+    }
+    
+    .stat-label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        color: #6c757d;
+        margin-top: 0.25rem;
+    }
+    
+    .legend {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+        padding: 0.75rem;
+        margin-top: 1rem;
+    }
+    
+    .legend-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5rem;
+    }
+    
+    .legend-line {
+        width: 30px;
+        height: 4px;
+        border-radius: 2px;
+        margin-right: 0.5rem;
+    }
+    
+    .loading-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        border-radius: 15px;
+    }
+    
+    .leaflet-popup-content {
+        max-width: 300px;
+    }
+    
+    .popup-header {
+        background: linear-gradient(45deg, #007bff, #0056b3);
+        color: white;
+        padding: 0.75rem;
+        margin: -10px -10px 10px -10px;
+        border-radius: 5px 5px 0 0;
+    }
+    
+    .popup-section {
+        margin-bottom: 0.75rem;
+    }
+    
+    .popup-badge {
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
+        background: #e7f3ff;
+        border: 1px solid #b3d9ff;
+        border-radius: 15px;
+        font-size: 0.75rem;
+        margin: 0.25rem 0.25rem 0 0;
+    }
+    
+    @media (max-width: 768px) {
+        .map-controls {
+            position: relative;
+            top: auto;
+            right: auto;
+            margin-bottom: 1rem;
+            max-width: none;
+        }
+        
+        #mapContainer {
+            height: 60vh;
+        }
+        
+        .route-info-panel {
+            position: relative;
+            bottom: auto;
+            left: auto;
+            right: auto;
+            transform: none;
+            opacity: 1;
+            margin-top: 1rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="mb-2">
+                        <i class="fas fa-map text-primary me-2"></i>
+                        Mapa Interativo do Transporte
+                    </h1>
+                    <p class="text-muted mb-0">
+                        Visualize todas as rotas de ônibus, metrô e BRT do Distrito Federal
+                    </p>
+                </div>
+                <div class="d-none d-md-block">
+                    <a href="{% url 'routes:routes_list' %}" class="btn btn-outline-primary me-2">
+                        <i class="fas fa-list me-1"></i>
+                        Lista de Rotas
+                    </a>
+                    <a href="{% url 'stops:stops_list' %}" class="btn btn-outline-secondary">
+                        <i class="fas fa-map-marker-alt me-1"></i>
+                        Paradas
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="position-relative">
+                <!-- Controles do Mapa -->
+                <div class="map-controls d-md-block d-none">
+                    <h6 class="mb-3">
+                        <i class="fas fa-filter me-2"></i>
+                        Filtros de Transporte
+                    </h6>
+                    
+                    <div class="transport-filters">
+                        <div class="transport-type active" data-type="all">
+                            <div class="d-flex align-items-center">
+                                <div class="transport-icon" style="background: #6c757d;">
+                                    <i class="fas fa-eye"></i>
+                                </div>
+                                <span>Mostrar Todos</span>
+                            </div>
+                            <span class="badge bg-secondary" id="total-routes">0</span>
+                        </div>
+                        
+                        <div class="transport-type" data-type="Ônibus Convencional">
+                            <div class="d-flex align-items-center">
+                                <div class="transport-icon" style="background: #007bff;">
+                                    <i class="fas fa-bus"></i>
+                                </div>
+                                <span>Ônibus</span>
+                            </div>
+                            <span class="badge bg-primary" id="bus-count">0</span>
+                        </div>
+                        
+                        <div class="transport-type" data-type="Metrô">
+                            <div class="d-flex align-items-center">
+                                <div class="transport-icon" style="background: #6f42c1;">
+                                    <i class="fas fa-subway"></i>
+                                </div>
+                                <span>Metrô</span>
+                            </div>
+                            <span class="badge" style="background: #6f42c1;" id="metro-count">0</span>
+                        </div>
+                        
+                        <div class="transport-type" data-type="BRT">
+                            <div class="d-flex align-items-center">
+                                <div class="transport-icon" style="background: #dc3545;">
+                                    <i class="fas fa-train"></i>
+                                </div>
+                                <span>BRT</span>
+                            </div>
+                            <span class="badge bg-danger" id="brt-count">0</span>
+                        </div>
+                        
+                        <div class="transport-type" data-type="Expresso">
+                            <div class="d-flex align-items-center">
+                                <div class="transport-icon" style="background: #28a745;">
+                                    <i class="fas fa-lightning"></i>
+                                </div>
+                                <span>Expresso</span>
+                            </div>
+                            <span class="badge bg-success" id="express-count">0</span>
+                        </div>
+                        
+                        <div class="transport-type" data-type="Circular">
+                            <div class="d-flex align-items-center">
+                                <div class="transport-icon" style="background: #ffc107;">
+                                    <i class="fas fa-arrow-rotate-right"></i>
+                                </div>
+                                <span>Circular</span>
+                            </div>
+                            <span class="badge bg-warning" id="circular-count">0</span>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-sm btn-outline-primary flex-fill" id="show-stops-btn">
+                            <i class="fas fa-map-marker-alt me-1"></i>
+                            Paradas
+                        </button>
+                        <button class="btn btn-sm btn-outline-secondary flex-fill" id="reset-view-btn">
+                            <i class="fas fa-home me-1"></i>
+                            Reset
+                        </button>
+                    </div>
+                    
+                    <div class="legend">
+                        <h6 class="mb-2">Legenda</h6>
+                        <div class="legend-item">
+                            <div class="legend-line" style="background: #007bff;"></div>
+                            <small>Ônibus Convencional</small>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-line" style="background: #6f42c1;"></div>
+                            <small>Metrô</small>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-line" style="background: #dc3545;"></div>
+                            <small>BRT</small>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-line" style="background: #28a745;"></div>
+                            <small>Expresso</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mapa -->
+                <div id="mapContainer">
+                    <div class="loading-overlay" id="loading">
+                        <div class="text-center">
+                            <div class="spinner-border text-primary mb-3" role="status">
+                                <span class="visually-hidden">Carregando...</span>
+                            </div>
+                            <p class="mb-0">Carregando mapa do transporte...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Painel de Informações -->
+                <div class="route-info-panel" id="route-info-panel">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="mb-0" id="route-title">Informações da Rota</h5>
+                        <button class="btn btn-sm btn-outline-secondary" id="close-panel-btn">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div id="route-details">
+                        <!-- Conteúdo será preenchido via JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Estatísticas (Mobile) -->
+    <div class="row mt-4 d-md-none">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-title">
+                        <i class="fas fa-chart-bar me-2"></i>
+                        Estatísticas do Sistema
+                    </h6>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number" id="mobile-total-routes">0</div>
+                            <div class="stat-label">Rotas</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="mobile-total-stops">0</div>
+                            <div class="stat-label">Paradas</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="mobile-coverage">100%</div>
+                            <div class="stat-label">Cobertura</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+class TransportMap {
+    constructor() {
+        this.map = null;
+        this.routeLayers = {};
+        this.stopLayers = {};
+        this.currentFilter = 'all';
+        this.showStops = false;
+        this.routesData = [];
+        this.stopsData = {};
+        
+        this.init();
+    }
+    
+    init() {
+        this.initMap();
+        this.setupEventListeners();
+        this.loadData();
+    }
+    
+    initMap() {
+        // Inicializar mapa centrado em Brasília
+        this.map = L.map('mapContainer').setView([-15.7942, -47.8822], 11);
+        
+        // Tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(this.map);
+        
+        // Controles personalizados
+        this.map.zoomControl.setPosition('bottomright');
+    }
+    
+    setupEventListeners() {
+        // Filtros de transporte
+        document.querySelectorAll('.transport-type').forEach(element => {
+            element.addEventListener('click', (e) => {
+                const type = e.currentTarget.dataset.type;
+                this.setFilter(type);
+            });
+        });
+        
+        // Botão mostrar/ocultar paradas
+        document.getElementById('show-stops-btn').addEventListener('click', () => {
+            this.toggleStops();
+        });
+        
+        // Botão reset view
+        document.getElementById('reset-view-btn').addEventListener('click', () => {
+            this.resetView();
+        });
+        
+        // Fechar painel
+        document.getElementById('close-panel-btn').addEventListener('click', () => {
+            this.hideRoutePanel();
+        });
+    }
+    
+    async loadData() {
+        try {
+            const response = await fetch('{% url "routes:map_data_api" %}');
+            const data = await response.json();
+            
+            if (data.success) {
+                this.routesData = data.routes;
+                this.stopsData = data.stops_by_type;
+                this.updateStatistics(data.statistics);
+                this.renderRoutes();
+                this.hideLoading();
+            } else {
+                throw new Error(data.error);
+            }
+        } catch (error) {
+            console.error('Erro ao carregar dados:', error);
+            this.showError('Erro ao carregar dados do mapa');
+        }
+    }
+    
+    renderRoutes() {
+        this.routesData.forEach(route => {
+            this.createRouteLayer(route);
+        });
+        this.applyFilter();
+    }
+    
+    createRouteLayer(route) {
+        const routeGroup = L.layerGroup();
+        
+        // Criar linha para ida
+        if (route.stops.ida && route.stops.ida.length > 1) {
+            const idaCoords = route.stops.ida.map(stop => [stop.lat, stop.lng]);
+            const idaLine = L.polyline(idaCoords, {
+                color: route.color,
+                weight: route.weight,
+                opacity: 0.8,
+                className: `route-line route-${route.type.replace(/\s+/g, '-')}`
+            });
+            
+            idaLine.bindPopup(() => this.createRoutePopup(route, 'ida'));
+            idaLine.on('click', () => this.showRouteDetails(route));
+            routeGroup.addLayer(idaLine);
+        }
+        
+        // Criar linha para volta (se não for circular)
+        if (!route.is_circular && route.stops.volta && route.stops.volta.length > 1) {
+            const voltaCoords = route.stops.volta.map(stop => [stop.lat, stop.lng]);
+            const voltaLine = L.polyline(voltaCoords, {
+                color: route.color,
+                weight: route.weight - 1,
+                opacity: 0.6,
+                dashArray: '5, 5',
+                className: `route-line route-${route.type.replace(/\s+/g, '-')}`
+            });
+            
+            voltaLine.bindPopup(() => this.createRoutePopup(route, 'volta'));
+            voltaLine.on('click', () => this.showRouteDetails(route));
+            routeGroup.addLayer(voltaLine);
+        }
+        
+        this.routeLayers[route.id] = {
+            layer: routeGroup,
+            route: route
+        };
+    }
+    
+    createStopLayers() {
+        Object.entries(this.stopsData).forEach(([type, typeData]) => {
+            const stopGroup = L.layerGroup();
+            
+            typeData.stops.forEach(stop => {
+                const icon = L.divIcon({
+                    html: `<i class="fas fa-${typeData.type_info.icon}" style="color: ${typeData.type_info.color};"></i>`,
+                    iconSize: [20, 20],
+                    className: `stop-marker stop-${type.replace(/\s+/g, '-')}`
+                });
+                
+                const marker = L.marker([stop.lat, stop.lng], {icon})
+                    .bindPopup(() => this.createStopPopup(stop, typeData.type_info));
+                
+                stopGroup.addLayer(marker);
+            });
+            
+            this.stopLayers[type] = stopGroup;
+        });
+    }
+    
+    createRoutePopup(route, direction) {
+        const directionText = direction === 'ida' ? 'Ida' : 'Volta';
+        const stops = route.stops[direction];
+        
+        return `
+            <div class="popup-header">
+                <h6 class="mb-1">${route.number} - ${route.name}</h6>
+                <small>${directionText} • ${route.type}</small>
+            </div>
+            <div class="popup-section">
+                <strong>Empresa:</strong> ${route.company}<br>
+                <strong>Tarifa:</strong> R$ ${route.fare.toFixed(2)}<br>
+                <strong>Frequência:</strong> ${route.frequency} min
+            </div>
+            <div class="popup-section">
+                <span class="popup-badge">${stops.length} paradas</span>
+                ${route.wheelchair_accessible ? '<span class="popup-badge">♿ Acessível</span>' : ''}
+            </div>
+            <button class="btn btn-sm btn-primary w-100" onclick="transportMap.showRouteDetails(${JSON.stringify(route).replace(/"/g, '&quot;')})">
+                Ver Detalhes Completos
+            </button>
+        `;
+    }
+    
+    createStopPopup(stop, typeInfo) {
+        return `
+            <div class="popup-header">
+                <h6 class="mb-1">${stop.name}</h6>
+                <small>${stop.code} • ${typeInfo.name}</small>
+            </div>
+            <div class="popup-section">
+                <strong>Bairro:</strong> ${stop.neighborhood}<br>
+                <strong>Rotas:</strong> ${stop.routes_count} linha(s)
+            </div>
+            <div class="popup-section">
+                ${stop.accessibility.wheelchair ? '<span class="popup-badge">♿ Acessível</span>' : ''}
+                ${stop.accessibility.shelter ? '<span class="popup-badge">🏠 Abrigo</span>' : ''}
+                ${stop.accessibility.seating ? '<span class="popup-badge">💺 Assento</span>' : ''}
+            </div>
+        `;
+    }
+    
+    showRouteDetails(route) {
+        const panel = document.getElementById('route-info-panel');
+        const title = document.getElementById('route-title');
+        const details = document.getElementById('route-details');
+        
+        title.textContent = `${route.number} - ${route.name}`;
+        
+        const idaStops = route.stops.ida || [];
+        const voltaStops = route.stops.volta || [];
+        
+        details.innerHTML = `
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <h6><i class="fas fa-info-circle me-2"></i>Informações Gerais</h6>
+                    <p class="mb-2"><strong>Tipo:</strong> ${route.type}</p>
+                    <p class="mb-2"><strong>Empresa:</strong> ${route.company}</p>
+                    <p class="mb-2"><strong>Tarifa:</strong> R$ ${route.fare.toFixed(2)}</p>
+                    <p class="mb-2"><strong>Frequência:</strong> ${route.frequency} minutos</p>
+                    <p class="mb-0"><strong>Duração:</strong> ${route.duration} minutos</p>
+                </div>
+                <div class="col-md-6">
+                    <h6><i class="fas fa-clock me-2"></i>Operação</h6>
+                    <div class="mb-2">
+                        ${route.operates.weekdays ? '<span class="popup-badge">Segunda-Sexta</span>' : ''}
+                        ${route.operates.saturdays ? '<span class="popup-badge">Sábado</span>' : ''}
+                        ${route.operates.sundays ? '<span class="popup-badge">Domingo</span>' : ''}
+                    </div>
+                    <div>
+                        ${route.wheelchair_accessible ? '<span class="popup-badge">♿ Acessível</span>' : ''}
+                        ${route.is_circular ? '<span class="popup-badge">🔄 Circular</span>' : ''}
+                    </div>
+                </div>
+            </div>
+            
+            <hr>
+            
+            <div class="row g-3">
+                ${idaStops.length > 0 ? `
+                <div class="col-md-${voltaStops.length > 0 ? '6' : '12'}">
+                    <h6><i class="fas fa-arrow-right me-2"></i>Ida (${idaStops.length} paradas)</h6>
+                    <div style="max-height: 150px; overflow-y: auto;">
+                        ${idaStops.map((stop, index) => `
+                            <div class="d-flex justify-content-between align-items-center py-1 ${index < idaStops.length - 1 ? 'border-bottom' : ''}">
+                                <div>
+                                    <small class="fw-bold">${stop.sequence}. ${stop.name}</small><br>
+                                    <small class="text-muted">${stop.code}</small>
+                                </div>
+                                <small class="text-end">
+                                    ${stop.time}min<br>
+                                    <span class="text-muted">${stop.distance.toFixed(1)}km</span>
+                                </small>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                ` : ''}
+                
+                ${voltaStops.length > 0 ? `
+                <div class="col-md-6">
+                    <h6><i class="fas fa-arrow-left me-2"></i>Volta (${voltaStops.length} paradas)</h6>
+                    <div style="max-height: 150px; overflow-y: auto;">
+                        ${voltaStops.map((stop, index) => `
+                            <div class="d-flex justify-content-between align-items-center py-1 ${index < voltaStops.length - 1 ? 'border-bottom' : ''}">
+                                <div>
+                                    <small class="fw-bold">${stop.sequence}. ${stop.name}</small><br>
+                                    <small class="text-muted">${stop.code}</small>
+                                </div>
+                                <small class="text-end">
+                                    ${stop.time}min<br>
+                                    <span class="text-muted">${stop.distance.toFixed(1)}km</span>
+                                </small>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                ` : ''}
+            </div>
+            
+            <div class="text-center mt-3">
+                <a href="/rotas/${route.number}/" class="btn btn-primary btn-sm me-2">
+                    <i class="fas fa-eye me-1"></i>Ver Detalhes
+                </a>
+                <a href="/horarios/linha/${route.id}/" class="btn btn-outline-primary btn-sm">
+                    <i class="fas fa-clock me-1"></i>Horários
+                </a>
+            </div>
+        `;
+        
+        panel.classList.add('visible');
+    }
+    
+    hideRoutePanel() {
+        document.getElementById('route-info-panel').classList.remove('visible');
+    }
+    
+    setFilter(type) {
+        this.currentFilter = type;
+        
+        // Atualizar UI
+        document.querySelectorAll('.transport-type').forEach(el => {
+            el.classList.remove('active');
+        });
+        document.querySelector(`[data-type="${type}"]`).classList.add('active');
+        
+        this.applyFilter();
+    }
+    
+    applyFilter() {
+        Object.values(this.routeLayers).forEach(({layer, route}) => {
+            if (this.currentFilter === 'all' || route.type === this.currentFilter) {
+                if (!this.map.hasLayer(layer)) {
+                    this.map.addLayer(layer);
+                }
+            } else {
+                if (this.map.hasLayer(layer)) {
+                    this.map.removeLayer(layer);
+                }
+            }
+        });
+    }
+    
+    toggleStops() {
+        this.showStops = !this.showStops;
+        const btn = document.getElementById('show-stops-btn');
+        
+        if (this.showStops) {
+            if (Object.keys(this.stopLayers).length === 0) {
+                this.createStopLayers();
+            }
+            Object.values(this.stopLayers).forEach(layer => {
+                this.map.addLayer(layer);
+            });
+            btn.classList.replace('btn-outline-primary', 'btn-primary');
+            btn.innerHTML = '<i class="fas fa-eye-slash me-1"></i>Ocultar';
+        } else {
+            Object.values(this.stopLayers).forEach(layer => {
+                this.map.removeLayer(layer);
+            });
+            btn.classList.replace('btn-primary', 'btn-outline-primary');
+            btn.innerHTML = '<i class="fas fa-map-marker-alt me-1"></i>Paradas';
+        }
+    }
+    
+    resetView() {
+        this.map.setView([-15.7942, -47.8822], 11);
+        this.hideRoutePanel();
+    }
+    
+    updateStatistics(stats) {
+        document.getElementById('total-routes').textContent = stats.total_routes;
+        document.getElementById('bus-count').textContent = stats.route_types.bus;
+        document.getElementById('metro-count').textContent = stats.route_types.metro;
+        document.getElementById('brt-count').textContent = stats.route_types.brt;
+        document.getElementById('express-count').textContent = stats.route_types.express;
+        document.getElementById('circular-count').textContent = stats.route_types.circular;
+        
+        // Mobile stats
+        document.getElementById('mobile-total-routes').textContent = stats.total_routes;
+        document.getElementById('mobile-total-stops').textContent = stats.total_stops;
+    }
+    
+    hideLoading() {
+        document.getElementById('loading').style.display = 'none';
+    }
+    
+    showError(message) {
+        const loading = document.getElementById('loading');
+        loading.innerHTML = `
+            <div class="text-center">
+                <i class="fas fa-exclamation-triangle text-warning mb-3" style="font-size: 3rem;"></i>
+                <p class="mb-0">${message}</p>
+                <button class="btn btn-primary mt-2" onclick="location.reload()">
+                    Tentar Novamente
+                </button>
+            </div>
+        `;
+    }
+}
+
+// Inicializar mapa quando a página carregar
+let transportMap;
+document.addEventListener('DOMContentLoaded', () => {
+    transportMap = new TransportMap();
+});
+</script>
+{% endblock %} 

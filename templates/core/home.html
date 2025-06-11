@@ -1,417 +1,552 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}BusFeed - Sistema Inteligente de Transporte Público{% endblock %}
+{% block title %}BusFeed - Transporte Público Inteligente{% endblock %}
 
 {% block extra_css %}
 <style>
-    /* Ocultar navbar e footer na landing page */
-    .navbar, footer {
-        display: none;
+    /* Override específico para garantir navbar visível na home */
+    .navbar {
+        position: fixed !important;
+        top: 0 !important;
+        z-index: 1050 !important;
+        width: 100% !important;
     }
     
-    body {
-        margin: 0;
-        padding: 0;
-        overflow-x: hidden;
+    /* Ajuste da hero-section para trabalhar com navbar fixa */
+    .hero-section {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #2c5f6f 0%, #114B5F 100%);
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        padding-top: 76px;
+        z-index: 1;
+    }
+    
+    /* Fundo de mapa estilizado melhorado */
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: 
+            radial-gradient(circle at 20% 30%, rgba(66, 242, 247, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 80% 70%, rgba(66, 242, 247, 0.08) 0%, transparent 50%),
+            repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 45px,
+                rgba(255, 255, 255, 0.02) 46px,
+                rgba(255, 255, 255, 0.02) 47px
+            ),
+            repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 45px,
+                rgba(255, 255, 255, 0.02) 46px,
+                rgba(255, 255, 255, 0.02) 47px
+            );
+        z-index: -2;
+    }
+    
+    /* Elementos decorativos de mapa melhorados */
+    .hero-section::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: 
+            linear-gradient(45deg, transparent 40%, rgba(42, 242, 247, 0.1) 50%, transparent 60%),
+            linear-gradient(-45deg, transparent 30%, rgba(42, 242, 247, 0.08) 50%, transparent 70%);
+        z-index: -1;
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        max-width: 600px;
+        padding: var(--spacing-3xl) var(--spacing-xl);
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: var(--radius-2xl);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: var(--shadow-xl);
+        margin: var(--spacing-xl);
+    }
+    
+    .hero-title {
+        font-size: 3rem;
+        font-weight: 700;
+        color: white;
+        margin-bottom: var(--spacing-xl);
+        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        line-height: 1.2;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: white;
+        margin-bottom: var(--spacing-3xl);
+        opacity: 0.95;
+        line-height: 1.4;
+    }
+    
+    .search-container {
+        margin-bottom: var(--spacing-3xl);
+        position: relative;
+    }
+    
+    .search-input {
+        width: 100%;
+        max-width: 400px;
+        padding: var(--spacing-xl) var(--spacing-2xl);
+        font-size: 1.1rem;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: var(--radius-2xl);
+        background: rgba(255, 255, 255, 0.95);
+        color: #1e293b;
+        text-align: center;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        font-weight: 500;
+        margin: 0 auto;
+        display: block;
+    }
+    
+    .search-input:focus {
+        outline: none;
+        transform: translateY(-2px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15), 0 0 0 3px rgba(37, 99, 235, 0.5);
+        background: #ffffff;
+        border-color: #2563eb;
+    }
+    
+    .search-input::placeholder {
+        color: #64748b;
+        opacity: 1;
+        font-weight: 400;
+    }
+    
+    .action-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-xl);
+        align-items: center;
+    }
+    
+    .btn-aboard {
+        background: #00cccc;
+        color: #000000;
+        border: 2px solid #00cccc;
+        padding: var(--spacing-xl) var(--spacing-3xl);
+        font-size: 1.2rem;
+        font-weight: 700;
+        border-radius: var(--radius-2xl);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 20px rgba(0, 204, 204, 0.3);
+        min-width: 200px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--spacing-sm);
+    }
+    
+    .btn-aboard:hover {
+        background: #009999;
+        color: #ffffff;
+        border-color: #009999;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 153, 153, 0.4);
+    }
+
+    .btn-aboard:focus {
+        background: #009999;
+        color: #ffffff;
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.5);
+    }
+    
+    .secondary-buttons {
+        display: flex;
+        gap: var(--spacing-lg);
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: var(--spacing-md);
+    }
+    
+    .btn-secondary {
+        background: rgba(255, 255, 255, 0.95);
+        color: #1e293b;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        padding: var(--spacing-lg) var(--spacing-xl);
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: var(--radius-xl);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+        min-width: 120px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--spacing-sm);
+    }
+    
+    .btn-secondary:hover {
+        background: #ffffff;
+        color: #1e293b;
+        border-color: #ffffff;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-secondary:focus {
+        background: #ffffff;
+        color: #1e293b;
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.5);
+    }
+    
+    /* Seção de funcionalidades */
+    .features-section {
+        background: var(--white);
+        padding: var(--spacing-4xl) 0;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .features-section::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, transparent, var(--quaternary-color), transparent);
+    }
+    
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: var(--spacing-2xl);
+        margin-top: var(--spacing-2xl);
+    }
+    
+    .feature-card {
+        background: var(--white);
+        padding: var(--spacing-2xl);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-lg);
+        text-align: center;
+        transition: var(--transition-base);
+        border: 1px solid var(--gray-light);
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-xl);
+        border-color: var(--quaternary-color);
+    }
+    
+    .feature-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, var(--primary-color), var(--quaternary-color));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto var(--spacing-lg);
+        color: var(--white);
+        font-size: 2rem;
+    }
+    
+    .feature-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--primary-color);
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .feature-description {
+        color: var(--gray-medium);
+        line-height: 1.6;
+    }
+    
+    /* Seção de estatísticas */
+    .stats-section {
+        background: linear-gradient(135deg, var(--primary-color), var(--tertiary-color));
+        color: var(--white);
+        padding: var(--spacing-3xl) 0;
+        position: relative;
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: var(--spacing-xl);
+        text-align: center;
+    }
+    
+    .stat-item {
+        padding: var(--spacing-lg);
+    }
+    
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--quaternary-color);
+        display: block;
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    .stat-label {
+        font-size: 1rem;
+        opacity: 0.9;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    /* Responsivo melhorado */
+    @media (max-width: 991.98px) {
+        /* Em mobile, a navbar não é fixa */
+        .navbar {
+            position: relative !important;
+        }
+        
+        .hero-section {
+            padding-top: 0;
+            min-height: calc(100vh - 76px);
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .hero-content {
+            padding: var(--spacing-2xl) var(--spacing-lg);
+            margin: var(--spacing-lg);
+        }
+        
+        .hero-title {
+            font-size: 2.2rem;
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: var(--spacing-2xl);
+        }
+        
+        .search-input {
+            padding: var(--spacing-lg) var(--spacing-xl);
+            font-size: 1rem;
+        }
+        
+        .btn-aboard {
+            padding: var(--spacing-lg) var(--spacing-2xl);
+            font-size: 1.1rem;
+            min-width: 180px;
+        }
+        
+        .btn-secondary {
+            padding: var(--spacing-md) var(--spacing-lg);
+            font-size: 0.9rem;
+            min-width: 100px;
+        }
+        
+        .secondary-buttons {
+            gap: var(--spacing-md);
+        }
+        
+        .features-grid {
+            grid-template-columns: 1fr;
+            gap: var(--spacing-xl);
+        }
+        
+        .feature-card {
+            padding: var(--spacing-xl);
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+        }
+        
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-lg);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .hero-title {
+            font-size: 1.75rem;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .hero-subtitle {
+            font-size: 1.1rem;
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .search-input {
+            padding: var(--spacing-md) var(--spacing-lg);
+            font-size: 1rem;
+        }
+        
+        .btn-aboard {
+            padding: var(--spacing-md) var(--spacing-lg);
+            font-size: 1rem;
+            min-width: 160px;
+        }
+        
+        .action-buttons {
+            gap: var(--spacing-lg);
+        }
+        
+        .secondary-buttons {
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+        
+        .btn-secondary {
+            width: 100%;
+            max-width: 200px;
+        }
+        
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<!-- Landing Page Hero Section -->
-{% if not request.GET.section %}
-<section class="hero-section">
+<!-- Hero Section -->
+<section class="hero-section" role="banner">
     <div class="hero-content">
-        <!-- Título Principal -->
-        <h1 class="hero-title">Bem-vindo(a) ao Busfeed!!</h1>
-        <p class="hero-subtitle">Para onde quer ir?</p>
+        <h1 class="hero-title">Navegue Brasília com Inteligência</h1>
+        <p class="hero-subtitle">
+            Sistema completo de transporte público com informações em tempo real, 
+            rotas otimizadas e acessibilidade total.
+        </p>
         
-        <!-- Container de Busca -->
         <div class="search-container">
-            <form method="GET" action="{% url 'core:home' %}" id="route-search-form">
-                <div class="search-input-group">
-                    <input 
-                        type="text" 
-                        class="search-input" 
-                        name="destino" 
-                        placeholder="Estação Guará"
-                        value="{{ request.GET.destino }}"
-                        aria-label="Digite o destino desejado"
-                        autocomplete="off"
-                    >
-                </div>
-                
-                <!-- Botão Principal -->
-                <div class="d-flex justify-content-center mb-4">
-                    <button type="submit" class="btn-primary">
-                        A bordo!
-                    </button>
-                </div>
-            </form>
+            <input type="text" 
+                   class="search-input" 
+                   placeholder="Para onde você quer ir hoje?"
+                   aria-label="Campo de busca para destino">
         </div>
         
-        <!-- Botões Secundários -->
         <div class="action-buttons">
-            <a href="?section=paradas" class="btn-secondary">
-                Paradas
+            <a href="{% url 'routes:routes_list' %}" class="btn-aboard" role="button">
+                <i class="bi bi-compass" aria-hidden="true"></i>
+                Embarcar Agora
             </a>
-            <a href="?section=linhas" class="btn-secondary">
-                Linhas
-            </a>
+            
+            <div class="secondary-buttons">
+                <a href="{% url 'routes:stops_list' %}" class="btn-secondary" role="button">
+                    <i class="bi bi-geo-alt" aria-hidden="true"></i>
+                    Paradas
+                </a>
+                <a href="{% url 'schedules:list' %}" class="btn-secondary" role="button">
+                    <i class="bi bi-clock" aria-hidden="true"></i>
+                    Horários
+                </a>
+                <a href="{% url 'core:about' %}" class="btn-secondary" role="button">
+                    <i class="bi bi-info-circle" aria-hidden="true"></i>
+                    Sobre
+                </a>
+            </div>
         </div>
     </div>
 </section>
-{% endif %}
 
-<!-- Páginas Internas -->
-{% if request.GET.section or request.GET.destino %}
-<div class="internal-header">
-    <div class="header-content">
-        <div class="logo-section">
-            <a href="{% url 'core:home' %}" class="logo-text">Busfeed</a>
+<!-- Seção de Funcionalidades -->
+<section class="features-section py-section">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="h1 mb-4">Recursos Inteligentes</h2>
+            <p class="lead text-muted mb-5">
+                Tecnologia avançada para tornar sua jornada mais eficiente e confortável
+            </p>
         </div>
         
-        <div class="header-search">
-            <form method="GET" action="{% url 'core:home' %}">
-                <input 
-                    type="text" 
-                    class="search-input" 
-                    name="destino" 
-                    placeholder="Pesquisar Destino..."
-                    value="{{ request.GET.destino }}"
-                    aria-label="Pesquisar destino"
-                >
-                {% if request.GET.section %}
-                    <input type="hidden" name="section" value="{{ request.GET.section }}">
-                {% endif %}
-            </form>
-        </div>
-        
-        <!-- Navegação por abas -->
-        <div class="nav-tabs-custom">
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link{% if not request.GET.section and request.GET.destino %} active{% endif %}" 
-                       href="?{% if request.GET.destino %}destino={{ request.GET.destino }}{% endif %}">
-                        Destino
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link{% if request.GET.section == 'paradas' %} active{% endif %}" 
-                       href="?section=paradas{% if request.GET.destino %}&destino={{ request.GET.destino }}{% endif %}">
-                        Paradas
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link{% if request.GET.section == 'linhas' %} active{% endif %}" 
-                       href="?section=linhas{% if request.GET.destino %}&destino={{ request.GET.destino }}{% endif %}">
-                        Linhas
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
-
-<!-- Conteúdo das Páginas Internas -->
-<div class="container-fluid p-0">
-    <!-- Seção Destino - Resultados de Busca -->
-    {% if request.GET.destino and not request.GET.section %}
-    <div class="row g-0">
-        <div class="col-lg-4 p-3" style="background: var(--white);">
-            <!-- Cards de Rota -->
-            <div class="route-card">
-                <div class="route-header">
-                    <span class="route-name">Metrô sentido central</span>
-                    <span class="route-price">R$ 5,50</span>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-clock-history" aria-hidden="true"></i>
                 </div>
-                <div class="route-info">
-                    <span class="route-time">Parte em: 3 min ✅</span>
-                </div>
-                <div class="text-end">
-                    <a href="#" class="btn-primary btn-sm" onclick="showRouteDetails('metro')">
-                        Iniciar
-                    </a>
-                </div>
+                <h3 class="feature-title">Tempo Real</h3>
+                <p class="feature-description">
+                    Acompanhe a localização dos ônibus e horários atualizados em tempo real.
+                </p>
             </div>
             
-            <div class="route-card">
-                <div class="route-header">
-                    <span class="route-name">Linha 0.039 → 0.089</span>
-                    <span class="route-price">R$ 7,60</span>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-geo-alt-fill" aria-hidden="true"></i>
                 </div>
-                <div class="route-info">
-                    <span class="route-time">Parte em: 5 min ✅</span>
-                </div>
-                <div class="text-end">
-                    <a href="#" class="btn-primary btn-sm" onclick="showRouteDetails('linha039')">
-                        Iniciar
-                    </a>
-                </div>
+                <h3 class="feature-title">Rotas Otimizadas</h3>
+                <p class="feature-description">
+                    Encontre sempre o melhor caminho com sugestões de rotas inteligentes.
+                </p>
             </div>
             
-            <div class="route-card">
-                <div class="route-header">
-                    <span class="route-name">Linha 0.886 → Metrô sentido central</span>
-                    <span class="route-price" style="color: var(--error-red);">R$9,30</span>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-universal-access" aria-hidden="true"></i>
                 </div>
-                <div class="route-info">
-                    <span class="route-time">Parte em: 8 min ✅</span>
-                </div>
-                <div class="text-end">
-                    <a href="#" class="btn-primary btn-sm" onclick="showRouteDetails('linha886')">
-                        Iniciar
-                    </a>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-lg-8">
-            <!-- Mapa -->
-            <div class="map-container" style="height: 100vh;">
-                <div class="d-flex align-items-center justify-content-center h-100">
-                    <div class="text-center">
-                        <i class="bi bi-map fs-1 mb-3" style="color: var(--primary-color);"></i>
-                        <p class="mb-0">Mapa de rotas será exibido aqui</p>
-                        <small>Integração com Leaflet em desenvolvimento</small>
-                    </div>
-                </div>
+                <h3 class="feature-title">Totalmente Acessível</h3>
+                <p class="feature-description">
+                    Interface pensada para todos, com suporte completo a leitores de tela.
+                </p>
             </div>
         </div>
     </div>
-    {% endif %}
+</section>
 
-    <!-- Seção Paradas -->
-    {% if request.GET.section == 'paradas' %}
-    <div class="row g-0">
-        <div class="col-lg-4 p-3" style="background: var(--white);">
-            <div class="stop-info-card">
-                <div class="stop-name">Parada Hélio Prates</div>
-                <div class="stop-lines">
-                    <div class="text-white mb-2">Linhas → Ida</div>
-                    
-                    <div class="line-item">
-                        <span class="line-name">Linha 1</span>
-                        <span class="line-price">R$3,80</span>
-                    </div>
-                    
-                    <div class="line-item">
-                        <span class="line-name">Linha 2</span>
-                        <span class="line-price">R$2,70</span>
-                    </div>
-                    
-                    <div class="line-item">
-                        <span class="line-name">Linha 3</span>
-                        <span class="line-price">R$3,80</span>
-                    </div>
-                    
-                    <div class="line-item">
-                        <span class="line-name">Linha 4</span>
-                        <span class="line-price">R$2,70</span>
-                    </div>
-                    
-                    <div class="line-item">
-                        <span class="line-name">Linha 5</span>
-                        <span class="line-price">R$3,80</span>
-                    </div>
-                    
-                    <div class="line-item">
-                        <span class="line-name">Linha 6</span>
-                        <span class="line-price unavailable">R$5,50</span>
-                    </div>
-                    
-                    <div class="line-item">
-                        <span class="line-name">Linha 7</span>
-                        <span class="line-price unavailable">R$5,50</span>
-                    </div>
-                    
-                    <div class="mt-3 pt-3" style="border-top: 1px solid rgba(255, 255, 255, 0.2);">
-                        <div class="text-center">
-                            <div class="text-white-50 mb-1">Média de Preço</div>
-                            <div class="fs-5 fw-bold">R$X,00</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<!-- Seção de Estatísticas -->
+<section class="stats-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="h1 mb-4">BusFeed em Números</h2>
+            <p class="lead opacity-75">
+                Conectando milhares de pessoas diariamente
+            </p>
         </div>
         
-        <div class="col-lg-8">
-            <!-- Mapa com paradas -->
-            <div class="map-container" style="height: 100vh;">
-                <div class="d-flex align-items-center justify-content-center h-100">
-                    <div class="text-center">
-                        <i class="bi bi-geo-alt fs-1 mb-3" style="color: var(--primary-color);"></i>
-                        <p class="mb-0">Mapa de paradas será exibido aqui</p>
-                        <small>Paradas próximas e detalhes das linhas</small>
-                    </div>
-                </div>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span class="stat-number">150+</span>
+                <span class="stat-label">Linhas Monitoradas</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">2.5k+</span>
+                <span class="stat-label">Paradas Cadastradas</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">24/7</span>
+                <span class="stat-label">Monitoramento</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">100%</span>
+                <span class="stat-label">Gratuito</span>
             </div>
         </div>
     </div>
-    {% endif %}
-
-    <!-- Seção Linhas -->
-    {% if request.GET.section == 'linhas' %}
-    <div class="row g-0">
-        <div class="col-lg-4 p-3" style="background: var(--white); max-height: 100vh; overflow-y: auto;">
-            <!-- Lista de Linhas -->
-            <div class="route-card mb-3">
-                <div class="route-header">
-                    <span class="route-name">Linha 0.092 ⭐</span>
-                    <span class="route-price">R$ 3,80</span>
-                </div>
-            </div>
-            
-            <div class="route-card mb-3">
-                <div class="route-header">
-                    <span class="route-name">Linha 154.2 ⭐</span>
-                    <span class="route-price">R$ 3,80</span>
-                </div>
-            </div>
-            
-            <div class="route-card mb-3">
-                <div class="route-header">
-                    <span class="route-name">Linha 162.1</span>
-                    <span class="route-price">R$3,80</span>
-                </div>
-            </div>
-            
-            <div class="route-card mb-3">
-                <div class="route-header">
-                    <span class="route-name">Linha 86.1</span>
-                    <span class="route-price">R$ 3,80</span>
-                </div>
-            </div>
-            
-            <div class="route-card mb-3">
-                <div class="route-header">
-                    <span class="route-name">Linha 153.2</span>
-                    <span class="route-price">R$ 3,80</span>
-                </div>
-            </div>
-            
-            <div class="route-card mb-3">
-                <div class="route-header">
-                    <span class="route-name">Linha 156.2</span>
-                    <span class="route-price">R$3,80</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-lg-8">
-            <!-- Detalhes da Linha Selecionada -->
-            <div class="p-4" style="background: var(--white); height: 100vh; overflow-y: auto;">
-                <div class="stop-info-card">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <div class="stop-name">Linha 0.092</div>
-                        <div class="d-flex align-items-center">
-                            <i class="bi bi-bus-front fs-2 me-3"></i>
-                        </div>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <div class="text-white mb-2">Guará I - II / Núcleo Bandeirante / Candangolândia - Pistão Sul-Norte / Tag. Centro (ParkShopping)</div>
-                        <div class="text-white mb-3">Marechal e São José</div>
-                        
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="text-white-50 mb-1">Cores:</div>
-                                <div class="d-flex gap-2">
-                                    <span class="badge" style="background-color: #22c55e; width: 20px; height: 20px; border-radius: 4px;"></span>
-                                    <span class="badge" style="background-color: #f97316; width: 20px; height: 20px; border-radius: 4px;"></span>
-                                </div>
-                            </div>
-                            <div class="col-6 text-end">
-                                <div class="text-white-50 mb-1">Frequência (min)</div>
-                                <div class="text-white fw-bold">15-30</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="text-center">
-                        <a href="#" class="btn-primary" onclick="showStops('092')">
-                            Ver Paradas
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% endif %}
-</div>
-{% endif %}
-{% endblock %}
-
-{% block extra_js %}
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Auto-focus no campo de busca apenas na landing page
-    const searchInput = document.querySelector('.search-input');
-    if (searchInput && !searchInput.value && window.location.search === '') {
-        setTimeout(() => searchInput.focus(), 500);
-    }
-    
-    // Prevent empty searches na landing page
-    const form = document.getElementById('route-search-form');
-    if (form) {
-        form.addEventListener('submit', function(e) {
-            const input = this.querySelector('input[name="destino"]');
-            if (!input.value.trim()) {
-                e.preventDefault();
-                input.focus();
-                showToast('Por favor, digite um destino', 'warning');
-            }
-        });
-    }
-    
-    // Enhance search with suggestions (mock)
-    if (searchInput) {
-        searchInput.addEventListener('input', function() {
-            const query = this.value.toLowerCase();
-            if (query.length >= 2) {
-                // Mock suggestions based on Brasília locations
-                const suggestions = [
-                    'Estação Guará',
-                    'Ceilândia Centro',
-                    'Plano Piloto',
-                    'Taguatinga Centro',
-                    'Samambaia',
-                    'Águas Claras',
-                    'Asa Norte',
-                    'Asa Sul'
-                ].filter(item => item.toLowerCase().includes(query));
-                
-                // TODO: Show dropdown with suggestions
-            }
-        });
-    }
-});
-
-function showRouteDetails(routeId) {
-    showToast(`Detalhes da rota ${routeId} em desenvolvimento!`, 'info');
-}
-
-function showStops(lineNumber) {
-    showToast(`Paradas da linha ${lineNumber} em desenvolvimento!`, 'info');
-}
-
-function showToast(message, type = 'info') {
-    // Create toast element
-    const toast = document.createElement('div');
-    toast.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
-    toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
-    toast.innerHTML = `
-        ${message}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    `;
-    
-    document.body.appendChild(toast);
-    
-    // Auto remove after 3 seconds
-    setTimeout(() => {
-        toast.remove();
-    }, 3000);
-}
-</script>
+</section>
 {% endblock %} 

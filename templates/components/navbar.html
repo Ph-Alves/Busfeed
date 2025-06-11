@@ -1,0 +1,74 @@
+<!-- 
+BusFeed - Componente de Navegação Padronizado
+Este componente garante que o menu superior seja consistente em toda a aplicação
+-->
+<nav class="navbar navbar-expand-lg navbar-dark" role="navigation" aria-label="Menu principal">
+    <div class="container">
+        <!-- Logo/Brand -->
+        <a class="navbar-brand d-flex align-items-center" href="{% url 'core:home' %}" aria-label="BusFeed - Página inicial">
+            <i class="bi bi-bus-front me-2" aria-hidden="true"></i>
+            <span class="fw-bold">BusFeed</span>
+        </a>
+        
+        <!-- Toggle button para mobile -->
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Alternar navegação">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <!-- Menu de navegação -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <!-- Navegação principal -->
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link{% if request.resolver_match.url_name == 'home' %} active{% endif %}"
+                       href="{% url 'core:home' %}" 
+                       aria-current="{% if request.resolver_match.url_name == 'home' %}page{% else %}false{% endif %}">
+                        <i class="bi bi-house me-1" aria-hidden="true"></i>
+                        <span>Início</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link{% if 'routes' in request.resolver_match.namespace or 'routes' in request.resolver_match.url_name %} active{% endif %}" 
+                       href="{% url 'routes:routes_list' %}"
+                       aria-current="{% if 'routes' in request.resolver_match.namespace %}page{% else %}false{% endif %}">
+                        <i class="bi bi-diagram-3 me-1" aria-hidden="true"></i>
+                        <span>Rotas</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link{% if 'stops' in request.resolver_match.namespace or 'stops' in request.resolver_match.url_name %} active{% endif %}" 
+                       href="{% url 'routes:stops_list' %}"
+                       aria-current="{% if 'stops' in request.resolver_match.namespace %}page{% else %}false{% endif %}">
+                        <i class="bi bi-geo-alt me-1" aria-hidden="true"></i>
+                        <span>Paradas</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link{% if 'schedules' in request.resolver_match.namespace %} active{% endif %}" 
+                       href="{% url 'schedules:list' %}"
+                       aria-current="{% if 'schedules' in request.resolver_match.namespace %}page{% else %}false{% endif %}">
+                        <i class="bi bi-clock me-1" aria-hidden="true"></i>
+                        <span>Horários</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link{% if request.resolver_match.url_name == 'about' %} active{% endif %}" 
+                       href="{% url 'core:about' %}"
+                       aria-current="{% if request.resolver_match.url_name == 'about' %}page{% else %}false{% endif %}">
+                        <i class="bi bi-info-circle me-1" aria-hidden="true"></i>
+                        <span>Sobre</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link{% if request.resolver_match.url_name == 'api' %} active{% endif %}" 
+                       href="{% url 'core:api' %}"
+                       aria-current="{% if request.resolver_match.url_name == 'api' %}page{% else %}false{% endif %}">
+                        <i class="bi bi-code-slash me-1" aria-hidden="true"></i>
+                        <span>API</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav> 

@@ -5,7 +5,6 @@ Contém classes abstratas e utilitárias.
 from django.db import models  # Usando models regular ao invés do GIS
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
-from django.contrib.auth.models import User
 import uuid
 
 
@@ -122,47 +121,6 @@ class BaseModel(TimestampedModel, SoftDeleteModel):
     
     class Meta:
         abstract = True
-
-
-class UserActivity(BaseModel):
-    """
-    Modelo para rastrear atividades dos usuários no sistema.
-    Importante para analytics e melhorias na experiência do usuário.
-    """
-    user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='activities',
-        verbose_name='Usuário'
-    )
-    action = models.CharField(
-        'Ação',
-        max_length=100,
-        help_text='Tipo de ação realizada pelo usuário'
-    )
-    description = models.TextField(
-        'Descrição',
-        blank=True,
-        help_text='Descrição detalhada da ação'
-    )
-    ip_address = models.GenericIPAddressField(
-        'Endereço IP',
-        null=True,
-        blank=True
-    )
-    user_agent = models.TextField(
-        'User Agent',
-        blank=True,
-        help_text='Informações do navegador/dispositivo do usuário'
-    )
-    
-    class Meta:
-        verbose_name = 'Atividade do Usuário'
-        verbose_name_plural = 'Atividades dos Usuários'
-        ordering = ['-created_at']
-        
-    def __str__(self):
-        return f'{self.user.username} - {self.action}'
 
 
 class SystemSettings(BaseModel):

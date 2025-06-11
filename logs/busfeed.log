@@ -366,3 +366,799 @@ INFO 2025-06-10 06:38:35,956 basehttp 11209 6129266688 "GET /?section=linhas HTT
 WARNING 2025-06-10 06:38:35,997 basehttp 11209 6146093056 "GET /static/images/icon-144x144.png HTTP/1.1" 404 1929
 WARNING 2025-06-10 06:38:36,001 log 11209 6129266688 Not Found: /sw.js
 WARNING 2025-06-10 06:38:36,002 basehttp 11209 6129266688 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 09:12:58,313 basehttp 11209 6146093056 "GET /static/manifest.json HTTP/1.1" 304 0
+WARNING 2025-06-10 09:12:58,319 basehttp 11209 6162919424 "GET /static/images/icon-144x144.png HTTP/1.1" 404 1929
+WARNING 2025-06-10 09:12:58,324 log 11209 6129266688 Not Found: /sw.js
+WARNING 2025-06-10 09:12:58,324 basehttp 11209 6129266688 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 09:13:00,112 basehttp 11209 6129266688 "GET / HTTP/1.1" 200 25643
+INFO 2025-06-10 09:13:00,152 basehttp 11209 6129266688 "GET /static/css/busfeed.css HTTP/1.1" 304 0
+INFO 2025-06-10 09:13:00,155 basehttp 11209 6179745792 "GET /static/js/busfeed.js HTTP/1.1" 304 0
+INFO 2025-06-10 09:13:00,156 basehttp 11209 6162919424 "GET /static/debug_toolbar/css/toolbar.css HTTP/1.1" 304 0
+INFO 2025-06-10 09:13:00,157 basehttp 11209 6196572160 "GET /static/debug_toolbar/js/toolbar.js HTTP/1.1" 304 0
+INFO 2025-06-10 09:13:00,168 basehttp 11209 6196572160 "GET /static/debug_toolbar/css/print.css HTTP/1.1" 304 0
+INFO 2025-06-10 09:13:00,171 basehttp 11209 6196572160 "GET /static/debug_toolbar/js/utils.js HTTP/1.1" 304 0
+WARNING 2025-06-10 09:13:00,189 basehttp 11209 6179745792 "GET /static/images/icon-144x144.png HTTP/1.1" 404 1929
+WARNING 2025-06-10 09:13:00,194 log 11209 6196572160 Not Found: /sw.js
+WARNING 2025-06-10 09:13:00,195 basehttp 11209 6196572160 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 09:15:21,311 basehttp 11209 6129266688 "GET /?destino=guara HTTP/1.1" 200 29990
+WARNING 2025-06-10 09:15:21,388 basehttp 11209 6146093056 "GET /static/images/icon-144x144.png HTTP/1.1" 404 1929
+WARNING 2025-06-10 09:15:21,396 log 11209 6129266688 Not Found: /sw.js
+WARNING 2025-06-10 09:15:21,396 basehttp 11209 6129266688 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 09:15:24,756 basehttp 11209 6129266688 "GET /?section=paradas HTTP/1.1" 200 28859
+WARNING 2025-06-10 09:15:24,807 basehttp 11209 6146093056 "GET /static/images/icon-144x144.png HTTP/1.1" 404 1929
+WARNING 2025-06-10 09:15:24,811 log 11209 6129266688 Not Found: /sw.js
+WARNING 2025-06-10 09:15:24,811 basehttp 11209 6129266688 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 09:15:29,965 basehttp 11209 6129266688 "GET /?section=linhas HTTP/1.1" 200 29824
+WARNING 2025-06-10 09:15:30,020 basehttp 11209 6146093056 "GET /static/images/icon-144x144.png HTTP/1.1" 404 1929
+WARNING 2025-06-10 09:15:30,026 log 11209 6129266688 Not Found: /sw.js
+WARNING 2025-06-10 09:15:30,026 basehttp 11209 6129266688 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 09:15:35,727 basehttp 11209 6129266688 "GET /? HTTP/1.1" 200 25643
+WARNING 2025-06-10 09:15:35,782 basehttp 11209 6146093056 "GET /static/images/icon-144x144.png HTTP/1.1" 404 1929
+WARNING 2025-06-10 09:15:35,786 log 11209 6129266688 Not Found: /sw.js
+WARNING 2025-06-10 09:15:35,787 basehttp 11209 6129266688 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 09:17:07,008 basehttp 11209 6129266688 "GET /?section=paradas HTTP/1.1" 200 28859
+WARNING 2025-06-10 09:17:07,055 log 11209 6129266688 Not Found: /sw.js
+WARNING 2025-06-10 09:17:07,055 basehttp 11209 6129266688 "GET /sw.js HTTP/1.1" 404 13671
+WARNING 2025-06-10 09:17:07,064 basehttp 11209 6129266688 "GET /static/images/icon-144x144.png HTTP/1.1" 404 1929
+INFO 2025-06-10 09:17:11,560 basehttp 11209 6129266688 "GET /?section=linhas HTTP/1.1" 200 29824
+WARNING 2025-06-10 09:17:11,615 basehttp 11209 6146093056 "GET /static/images/icon-144x144.png HTTP/1.1" 404 1929
+WARNING 2025-06-10 09:17:11,621 log 11209 6129266688 Not Found: /sw.js
+WARNING 2025-06-10 09:17:11,621 basehttp 11209 6129266688 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 09:19:53,246 basehttp 11209 6129266688 "GET / HTTP/1.1" 200 25643
+WARNING 2025-06-10 09:19:53,296 log 11209 6129266688 Not Found: /sw.js
+WARNING 2025-06-10 09:19:53,297 basehttp 11209 6129266688 "GET /sw.js HTTP/1.1" 404 13671
+WARNING 2025-06-10 09:19:53,311 basehttp 11209 6146093056 "GET /static/images/icon-144x144.png HTTP/1.1" 404 1929
+WARNING 2025-06-10 09:19:53,316 log 11209 6129266688 Not Found: /sw.js
+WARNING 2025-06-10 09:19:53,317 basehttp 11209 6129266688 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 09:19:55,153 basehttp 11209 6129266688 "GET /?section=linhas HTTP/1.1" 200 29824
+WARNING 2025-06-10 09:19:55,209 log 11209 6129266688 Not Found: /sw.js
+WARNING 2025-06-10 09:19:55,210 basehttp 11209 6129266688 "GET /sw.js HTTP/1.1" 404 13671
+WARNING 2025-06-10 09:19:55,218 basehttp 11209 6129266688 "GET /static/images/icon-144x144.png HTTP/1.1" 404 1929
+INFO 2025-06-10 09:19:56,716 basehttp 11209 6129266688 "GET /?section=paradas HTTP/1.1" 200 28859
+WARNING 2025-06-10 09:19:56,762 basehttp 11209 6146093056 "GET /static/images/icon-144x144.png HTTP/1.1" 404 1929
+WARNING 2025-06-10 09:19:56,767 log 11209 6129266688 Not Found: /sw.js
+WARNING 2025-06-10 09:19:56,768 basehttp 11209 6129266688 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 09:19:57,841 basehttp 11209 6129266688 "GET /? HTTP/1.1" 200 25643
+WARNING 2025-06-10 09:19:57,888 log 11209 6129266688 Not Found: /sw.js
+WARNING 2025-06-10 09:19:57,889 basehttp 11209 6129266688 "GET /sw.js HTTP/1.1" 404 13671
+WARNING 2025-06-10 09:19:57,892 basehttp 11209 6146093056 "GET /static/images/icon-144x144.png HTTP/1.1" 404 1929
+INFO 2025-06-10 09:42:55,441 autoreload 11209 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/routes/views.py changed, reloading.
+INFO 2025-06-10 09:42:55,766 autoreload 16559 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 09:47:46,494 autoreload 16559 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/schedules/models.py changed, reloading.
+INFO 2025-06-10 09:47:46,685 autoreload 16949 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 09:48:46,297 autoreload 17036 8313151232 Watching for file changes with StatReloader
+ERROR 2025-06-10 09:52:29,212 log 17036 6201143296 Internal Server Error: /
+Traceback (most recent call last):
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/core/handlers/base.py", line 220, in _get_response
+    response = response.render()
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/response.py", line 114, in render
+    self.content = self.rendered_content
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 175, in render
+    return self._render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/test/utils.py", line 112, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 1005, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 966, in render_annotated
+    return self.render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/loader_tags.py", line 157, in render
+    return compiled_parent._render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/test/utils.py", line 112, in instrumented_test_render
+    return self.nodelist.render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 1005, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/base.py", line 966, in render_annotated
+    return self.render(context)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/template/defaulttags.py", line 471, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/urls/base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed_env/lib/python3.9/site-packages/django/urls/resolvers.py", line 828, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'list' not found. 'list' is not a valid view function or pattern name.
+ERROR 2025-06-10 09:52:29,224 basehttp 17036 6201143296 "GET / HTTP/1.1" 500 158017
+INFO 2025-06-10 09:52:29,299 basehttp 17036 6201143296 "GET /static/debug_toolbar/css/toolbar.css HTTP/1.1" 200 12621
+INFO 2025-06-10 09:52:29,300 basehttp 17036 6234796032 "GET /static/debug_toolbar/css/print.css HTTP/1.1" 200 43
+INFO 2025-06-10 09:52:29,300 basehttp 17036 6217969664 "GET /static/debug_toolbar/js/toolbar.js HTTP/1.1" 200 13404
+INFO 2025-06-10 09:52:29,320 basehttp 17036 6217969664 "GET /static/debug_toolbar/js/utils.js HTTP/1.1" 200 4527
+WARNING 2025-06-10 09:52:29,357 log 17036 6217969664 Not Found: /favicon.ico
+WARNING 2025-06-10 09:52:29,357 basehttp 17036 6217969664 "GET /favicon.ico HTTP/1.1" 404 13694
+INFO 2025-06-10 09:56:25,533 autoreload 17364 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 10:12:00,922 autoreload 17922 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 10:24:00,164 autoreload 18389 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 10:24:36,124 autoreload 18479 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 10:24:58,341 basehttp 18479 6160822272 "GET / HTTP/1.1" 200 25654
+INFO 2025-06-10 10:24:58,416 basehttp 18479 6160822272 "GET /static/css/busfeed.css HTTP/1.1" 200 15821
+INFO 2025-06-10 10:24:58,417 basehttp 18479 6177648640 "GET /static/debug_toolbar/css/toolbar.css HTTP/1.1" 200 12621
+INFO 2025-06-10 10:24:58,417 basehttp 18479 6194475008 "GET /static/js/busfeed.js HTTP/1.1" 200 12780
+INFO 2025-06-10 10:24:58,417 basehttp 18479 6211301376 "GET /static/debug_toolbar/js/toolbar.js HTTP/1.1" 200 13404
+INFO 2025-06-10 10:24:58,427 basehttp 18479 6211301376 "GET /static/debug_toolbar/css/print.css HTTP/1.1" 200 43
+INFO 2025-06-10 10:24:58,428 basehttp 18479 6194475008 "GET /static/debug_toolbar/js/utils.js HTTP/1.1" 200 4527
+WARNING 2025-06-10 10:24:58,462 log 18479 6194475008 Not Found: /sw.js
+WARNING 2025-06-10 10:24:58,462 basehttp 18479 6194475008 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 10:24:58,470 basehttp 18479 6228127744 "GET /static/manifest.json HTTP/1.1" 200 3069
+WARNING 2025-06-10 10:24:58,472 basehttp 18479 6194475008 "GET /static/images/favicon.ico HTTP/1.1" 404 1914
+WARNING 2025-06-10 10:24:58,489 basehttp 18479 6211301376 "GET /static/images/icon-144x144.png HTTP/1.1" 404 1929
+INFO 2025-06-10 10:25:04,030 basehttp 18479 6160822272 "GET /?section=paradas HTTP/1.1" 200 28870
+WARNING 2025-06-10 10:25:04,089 log 18479 6160822272 Not Found: /sw.js
+WARNING 2025-06-10 10:25:04,089 basehttp 18479 6160822272 "GET /sw.js HTTP/1.1" 404 13671
+WARNING 2025-06-10 10:25:04,105 basehttp 18479 6160822272 "GET /static/images/icon-144x144.png HTTP/1.1" 404 1929
+INFO 2025-06-10 10:25:08,026 basehttp 18479 6160822272 "GET /?section=linhas HTTP/1.1" 200 29835
+WARNING 2025-06-10 10:25:08,074 log 18479 6160822272 Not Found: /sw.js
+WARNING 2025-06-10 10:25:08,074 basehttp 18479 6160822272 "GET /sw.js HTTP/1.1" 404 13671
+WARNING 2025-06-10 10:25:08,116 basehttp 18479 6160822272 "GET /static/images/icon-144x144.png HTTP/1.1" 404 1929
+INFO 2025-06-10 10:25:11,327 basehttp 18479 6160822272 "GET /? HTTP/1.1" 200 25654
+WARNING 2025-06-10 10:25:11,382 log 18479 6160822272 Not Found: /sw.js
+WARNING 2025-06-10 10:25:11,382 basehttp 18479 6160822272 "GET /sw.js HTTP/1.1" 404 13671
+WARNING 2025-06-10 10:25:11,385 basehttp 18479 6177648640 "GET /static/images/icon-144x144.png HTTP/1.1" 404 1929
+INFO 2025-06-10 10:25:17,310 basehttp 18479 6160822272 "GET /?section=paradas HTTP/1.1" 200 28870
+WARNING 2025-06-10 10:25:17,347 log 18479 6160822272 Not Found: /sw.js
+WARNING 2025-06-10 10:25:17,347 basehttp 18479 6160822272 "GET /sw.js HTTP/1.1" 404 13671
+WARNING 2025-06-10 10:25:17,357 basehttp 18479 6160822272 "GET /static/images/icon-144x144.png HTTP/1.1" 404 1929
+INFO 2025-06-10 10:25:18,829 basehttp 18479 6160822272 "GET /?section=linhas HTTP/1.1" 200 29835
+WARNING 2025-06-10 10:25:18,875 log 18479 6160822272 Not Found: /sw.js
+WARNING 2025-06-10 10:25:18,875 basehttp 18479 6160822272 "GET /sw.js HTTP/1.1" 404 13671
+WARNING 2025-06-10 10:25:18,878 basehttp 18479 6325039104 "GET /static/images/icon-144x144.png HTTP/1.1" 404 1929
+INFO 2025-06-10 10:25:21,270 basehttp 18479 6160822272 "GET /?section=paradas HTTP/1.1" 200 28870
+WARNING 2025-06-10 10:25:21,327 basehttp 18479 12901707776 "GET /static/images/icon-144x144.png HTTP/1.1" 404 1929
+WARNING 2025-06-10 10:25:21,333 log 18479 6160822272 Not Found: /sw.js
+WARNING 2025-06-10 10:25:21,333 basehttp 18479 6160822272 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 10:25:21,807 basehttp 18479 6160822272 "GET /? HTTP/1.1" 200 25654
+WARNING 2025-06-10 10:25:21,856 log 18479 6160822272 Not Found: /sw.js
+WARNING 2025-06-10 10:25:21,857 basehttp 18479 6160822272 "GET /sw.js HTTP/1.1" 404 13671
+WARNING 2025-06-10 10:25:21,862 basehttp 18479 6160822272 "GET /static/images/icon-144x144.png HTTP/1.1" 404 1929
+INFO 2025-06-10 10:25:27,384 basehttp 18479 6160822272 "GET /?destino=guara HTTP/1.1" 200 30001
+WARNING 2025-06-10 10:25:27,435 basehttp 18479 12901707776 "GET /static/images/icon-144x144.png HTTP/1.1" 404 1929
+WARNING 2025-06-10 10:25:27,441 log 18479 6160822272 Not Found: /sw.js
+WARNING 2025-06-10 10:25:27,442 basehttp 18479 6160822272 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 10:25:28,591 basehttp 18479 6160822272 "GET /?destino=guara HTTP/1.1" 200 30001
+WARNING 2025-06-10 10:25:28,623 basehttp 18479 13035925504 "GET /static/images/icon-144x144.png HTTP/1.1" 404 1929
+WARNING 2025-06-10 10:25:28,625 log 18479 6160822272 Not Found: /sw.js
+WARNING 2025-06-10 10:25:28,625 basehttp 18479 6160822272 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 10:25:30,314 basehttp 18479 6160822272 "GET /?section=paradas HTTP/1.1" 200 28870
+WARNING 2025-06-10 10:25:30,369 log 18479 6160822272 Not Found: /sw.js
+WARNING 2025-06-10 10:25:30,370 basehttp 18479 6160822272 "GET /sw.js HTTP/1.1" 404 13671
+WARNING 2025-06-10 10:25:30,370 basehttp 18479 13035925504 "GET /static/images/icon-144x144.png HTTP/1.1" 404 1929
+INFO 2025-06-10 10:25:34,083 basehttp 18479 6160822272 "GET /?section=linhas HTTP/1.1" 200 29835
+WARNING 2025-06-10 10:25:34,138 basehttp 18479 13035925504 "GET /static/images/icon-144x144.png HTTP/1.1" 404 1929
+WARNING 2025-06-10 10:25:34,144 log 18479 6160822272 Not Found: /sw.js
+WARNING 2025-06-10 10:25:34,145 basehttp 18479 6160822272 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 12:02:55,905 autoreload 18479 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/routes/views.py changed, reloading.
+INFO 2025-06-10 12:02:56,190 autoreload 19037 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 12:03:24,009 autoreload 19037 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/routes/urls.py changed, reloading.
+INFO 2025-06-10 12:03:24,259 autoreload 19062 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 12:12:30,460 autoreload 19491 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 12:19:37,986 basehttp 19062 6160297984 "GET / HTTP/1.1" 200 41692
+INFO 2025-06-10 12:19:38,063 basehttp 19062 6160297984 "GET /static/css/busfeed.css HTTP/1.1" 304 0
+INFO 2025-06-10 12:19:38,064 basehttp 19062 6177124352 "GET /static/js/busfeed.js HTTP/1.1" 304 0
+INFO 2025-06-10 12:19:38,065 basehttp 19062 6193950720 "GET /static/debug_toolbar/css/toolbar.css HTTP/1.1" 304 0
+INFO 2025-06-10 12:19:38,065 basehttp 19062 6210777088 "GET /static/debug_toolbar/js/toolbar.js HTTP/1.1" 304 0
+INFO 2025-06-10 12:19:38,072 basehttp 19062 6210777088 "GET /static/debug_toolbar/css/print.css HTTP/1.1" 304 0
+WARNING 2025-06-10 12:19:38,088 log 19062 6193950720 Not Found: /sw.js
+WARNING 2025-06-10 12:19:38,089 basehttp 19062 6193950720 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 12:19:38,093 basehttp 19062 6193950720 "GET /static/debug_toolbar/js/utils.js HTTP/1.1" 304 0
+INFO 2025-06-10 12:19:38,117 basehttp 19062 6227603456 "GET /static/manifest.json HTTP/1.1" 304 0
+INFO 2025-06-10 12:19:38,124 basehttp 19062 6210777088 "GET /static/images/icon-144x144.png HTTP/1.1" 200 1
+WARNING 2025-06-10 12:19:38,129 log 19062 6193950720 Not Found: /sw.js
+WARNING 2025-06-10 12:19:38,129 basehttp 19062 6193950720 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 12:19:47,203 basehttp 19062 6160297984 "GET /?destino=Guara HTTP/1.1" 200 42861
+WARNING 2025-06-10 12:19:47,259 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 12:19:47,260 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+WARNING 2025-06-10 12:19:47,431 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 12:19:47,431 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 12:19:51,976 basehttp 19062 6160297984 "GET /?destino=Guar%C3%A1 HTTP/1.1" 200 42880
+WARNING 2025-06-10 12:19:52,017 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 12:19:52,017 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 12:19:53,330 basehttp 19062 6160297984 "GET /?destino=Guar%C3%A1 HTTP/1.1" 200 42880
+WARNING 2025-06-10 12:19:53,381 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 12:19:53,382 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 12:19:53,889 basehttp 19062 6160297984 "GET /?destino=Guar%C3%A1 HTTP/1.1" 200 42880
+WARNING 2025-06-10 12:19:53,929 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 12:19:53,929 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 12:19:59,856 basehttp 19062 6160297984 "GET /?destino=UnB HTTP/1.1" 200 42845
+WARNING 2025-06-10 12:19:59,914 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 12:19:59,914 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 12:20:00,972 basehttp 19062 6160297984 "GET /?destino=UnB HTTP/1.1" 200 42847
+WARNING 2025-06-10 12:20:01,010 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 12:20:01,010 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 12:20:01,127 basehttp 19062 6160297984 "GET /?destino=UnB HTTP/1.1" 200 42847
+WARNING 2025-06-10 12:20:01,163 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 12:20:01,163 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 12:20:01,269 basehttp 19062 6160297984 "GET /?destino=UnB HTTP/1.1" 200 42847
+WARNING 2025-06-10 12:20:01,303 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 12:20:01,304 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 12:20:01,914 basehttp 19062 6160297984 "GET /?section=paradas&destino=UnB HTTP/1.1" 200 43769
+WARNING 2025-06-10 12:20:01,967 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 12:20:01,967 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 12:20:02,045 basehttp 19062 6177124352 "GET /rotas/api/stops/map-data/ HTTP/1.1" 200 7510
+INFO 2025-06-10 12:20:05,147 basehttp 19062 6160297984 "GET /rotas/paradas/ HTTP/1.1" 200 28474
+WARNING 2025-06-10 12:20:05,190 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 12:20:05,190 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+WARNING 2025-06-10 12:20:10,899 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 12:20:10,899 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 12:46:58,779 autoreload 20640 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 12:47:03,439 basehttp 19062 6160297984 "GET /rotas/api/stops/map-data/ HTTP/1.1" 200 26227
+INFO 2025-06-10 12:48:53,806 basehttp 19062 6160297984 "GET /rotas/api/stops/map-data/ HTTP/1.1" 200 48917
+INFO 2025-06-10 12:51:08,202 basehttp 19062 6160297984 "GET /rotas/api/route/001/map-data/ HTTP/1.1" 200 5282
+INFO 2025-06-10 12:51:35,927 basehttp 19062 6160297984 "GET /?section=paradas&destino=UnB HTTP/1.1" 200 43769
+WARNING 2025-06-10 12:51:36,036 log 19062 6177124352 Not Found: /sw.js
+WARNING 2025-06-10 12:51:36,038 basehttp 19062 6177124352 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 12:51:36,053 basehttp 19062 6177124352 "GET /static/images/icon-144x144.png HTTP/1.1" 304 0
+INFO 2025-06-10 12:51:36,188 basehttp 19062 6160297984 "GET /rotas/api/stops/map-data/ HTTP/1.1" 200 48919
+INFO 2025-06-10 12:51:40,919 basehttp 19062 6160297984 "GET /?destino=UnB&section=paradas HTTP/1.1" 200 43769
+WARNING 2025-06-10 12:51:41,012 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 12:51:41,014 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 12:51:41,167 basehttp 19062 6177124352 "GET /rotas/api/stops/map-data/ HTTP/1.1" 200 48919
+INFO 2025-06-10 12:51:42,956 basehttp 19062 6160297984 "GET /?destino=UnB HTTP/1.1" 200 42847
+WARNING 2025-06-10 12:51:43,013 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 12:51:43,014 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 12:51:43,158 basehttp 19062 6160297984 "GET /?destino=UnB HTTP/1.1" 200 42847
+WARNING 2025-06-10 12:51:43,193 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 12:51:43,194 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 12:51:46,411 basehttp 19062 6160297984 "GET / HTTP/1.1" 200 41692
+WARNING 2025-06-10 12:51:46,465 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 12:51:46,465 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 12:51:47,023 basehttp 19062 6160297984 "GET /rotas/ HTTP/1.1" 200 61192
+WARNING 2025-06-10 12:51:47,082 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 12:51:47,085 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 12:51:47,085 basehttp 19062 6160297984 - Broken pipe from ('127.0.0.1', 61318)
+INFO 2025-06-10 12:51:47,236 basehttp 19062 6177124352 "GET /rotas/api/stops/map-data/ HTTP/1.1" 200 48919
+INFO 2025-06-10 12:51:53,320 basehttp 19062 6160297984 "GET /rotas/api/route/301/map-data/ HTTP/1.1" 200 2207
+INFO 2025-06-10 12:51:53,529 basehttp 19062 6160297984 "GET /__debug__/history_sidebar/?store_id=10f6b160ea8c4915a5b40f4db254ee4f HTTP/1.1" 200 9815
+INFO 2025-06-10 12:52:07,126 basehttp 19062 6160297984 "GET /rotas/paradas/ HTTP/1.1" 200 30930
+WARNING 2025-06-10 12:52:07,170 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 12:52:07,171 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 12:52:09,330 basehttp 19062 6160297984 "GET /rotas/paradas/ HTTP/1.1" 200 30930
+WARNING 2025-06-10 12:52:09,369 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 12:52:09,369 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 12:52:12,789 basehttp 19062 6160297984 "GET /sobre/ HTTP/1.1" 200 31189
+WARNING 2025-06-10 12:52:12,837 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 12:52:12,837 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13670
+INFO 2025-06-10 12:52:19,422 basehttp 19062 6160297984 "GET /api/ HTTP/1.1" 200 35880
+WARNING 2025-06-10 12:52:19,475 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 12:52:19,475 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 12:52:29,685 basehttp 19062 6160297984 "GET / HTTP/1.1" 200 41692
+WARNING 2025-06-10 12:52:29,740 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 12:52:29,740 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 12:52:34,141 basehttp 19062 6160297984 "GET /?destino=Guar%C3%A1 HTTP/1.1" 200 42880
+WARNING 2025-06-10 12:52:34,198 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 12:52:34,199 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+WARNING 2025-06-10 12:52:34,384 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 12:52:34,384 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 12:52:36,138 basehttp 19062 6160297984 "GET /?destino=Guar%C3%A1 HTTP/1.1" 200 42880
+WARNING 2025-06-10 12:52:36,185 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 12:52:36,186 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 13:07:55,606 basehttp 19062 6160297984 "GET / HTTP/1.1" 200 27657
+INFO 2025-06-10 13:07:55,636 basehttp 19062 6160297984 "GET /static/css/busfeed.css HTTP/1.1" 200 15866
+WARNING 2025-06-10 13:07:55,663 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 13:07:55,663 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13669
+INFO 2025-06-10 13:07:55,670 basehttp 19062 6177124352 "GET /static/images/icon-144x144.png HTTP/1.1" 304 0
+WARNING 2025-06-10 13:07:55,680 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 13:07:55,680 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 13:07:57,283 basehttp 19062 6160297984 "GET /rotas/ HTTP/1.1" 200 42851
+WARNING 2025-06-10 13:07:57,334 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 13:07:57,334 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 13:10:40,711 autoreload 21663 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 13:11:48,318 basehttp 19062 6160297984 "GET / HTTP/1.1" 200 27657
+INFO 2025-06-10 13:11:48,400 basehttp 19062 6193950720 "GET /static/debug_toolbar/css/toolbar.css HTTP/1.1" 304 0
+INFO 2025-06-10 13:11:48,400 basehttp 19062 6210777088 "GET /static/debug_toolbar/js/toolbar.js HTTP/1.1" 304 0
+INFO 2025-06-10 13:11:48,400 basehttp 19062 6177124352 "GET /static/js/busfeed.js HTTP/1.1" 200 12780
+INFO 2025-06-10 13:11:48,401 basehttp 19062 6160297984 "GET /static/css/busfeed.css HTTP/1.1" 200 15866
+INFO 2025-06-10 13:11:48,728 basehttp 19062 6160297984 "GET /static/debug_toolbar/css/print.css HTTP/1.1" 304 0
+INFO 2025-06-10 13:11:48,747 basehttp 19062 6160297984 "GET /static/debug_toolbar/js/utils.js HTTP/1.1" 304 0
+WARNING 2025-06-10 13:11:48,790 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 13:11:48,791 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 13:11:48,972 basehttp 19062 6210777088 "GET /static/images/favicon.ico HTTP/1.1" 200 1
+INFO 2025-06-10 13:11:48,975 basehttp 19062 6227603456 "GET /static/manifest.json HTTP/1.1" 200 3069
+INFO 2025-06-10 13:11:48,989 basehttp 19062 6210777088 "GET /static/images/icon-144x144.png HTTP/1.1" 200 1
+WARNING 2025-06-10 13:11:48,991 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 13:11:48,992 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 13:11:53,045 basehttp 19062 6160297984 "GET /rotas/ HTTP/1.1" 200 42851
+WARNING 2025-06-10 13:11:53,131 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 13:11:53,131 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+WARNING 2025-06-10 13:11:53,289 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 13:11:53,290 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 13:12:07,215 basehttp 19062 6160297984 "GET / HTTP/1.1" 200 27657
+WARNING 2025-06-10 13:12:07,272 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 13:12:07,272 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 13:12:08,370 basehttp 19062 6160297984 "GET /rotas/ HTTP/1.1" 200 42851
+WARNING 2025-06-10 13:12:08,418 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 13:12:08,418 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 13:12:09,849 basehttp 19062 6160297984 "GET / HTTP/1.1" 200 27657
+WARNING 2025-06-10 13:12:09,894 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 13:12:09,894 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 13:12:11,567 basehttp 19062 6160297984 "GET /rotas/paradas/ HTTP/1.1" 200 36362
+WARNING 2025-06-10 13:12:11,618 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 13:12:11,618 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 13:12:15,472 basehttp 19062 6160297984 "GET / HTTP/1.1" 200 27657
+WARNING 2025-06-10 13:12:15,527 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 13:12:15,527 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 13:12:18,698 basehttp 19062 6160297984 "GET /rotas/paradas/ HTTP/1.1" 200 36362
+WARNING 2025-06-10 13:12:18,756 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 13:12:18,756 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 13:12:19,595 basehttp 19062 6160297984 "GET / HTTP/1.1" 200 27657
+WARNING 2025-06-10 13:12:19,638 log 19062 6160297984 Not Found: /sw.js
+WARNING 2025-06-10 13:12:19,638 basehttp 19062 6160297984 "GET /sw.js HTTP/1.1" 404 13671
+INFO 2025-06-10 13:14:07,633 autoreload 21986 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 13:14:10,150 basehttp 21986 6197030912 "HEAD / HTTP/1.1" 200 0
+INFO 2025-06-10 13:18:09,837 autoreload 21986 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed/urls.py changed, reloading.
+INFO 2025-06-10 13:18:10,086 autoreload 22219 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 13:18:25,295 autoreload 16949 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed/settings.py changed, reloading.
+INFO 2025-06-10 13:18:25,487 autoreload 22238 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 13:18:25,663 autoreload 22219 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed/settings.py changed, reloading.
+INFO 2025-06-10 13:18:25,830 autoreload 22239 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 13:18:35,270 autoreload 22239 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed/settings.py changed, reloading.
+INFO 2025-06-10 13:18:35,447 autoreload 22255 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 13:18:35,863 autoreload 22238 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed/settings.py changed, reloading.
+INFO 2025-06-10 13:18:36,052 autoreload 22259 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 13:18:48,246 basehttp 22255 6194753536 "GET / HTTP/1.1" 200 27657
+WARNING 2025-06-10 13:18:52,471 log 22255 6194753536 Method Not Allowed (HEAD): /rotas/
+WARNING 2025-06-10 13:18:52,479 basehttp 22255 6194753536 "HEAD /rotas/ HTTP/1.1" 405 0
+INFO 2025-06-10 13:18:56,122 basehttp 22255 6194753536 "GET /rotas/ HTTP/1.1" 200 42851
+INFO 2025-06-10 13:19:00,838 basehttp 22255 6194753536 "HEAD /paradas/ HTTP/1.1" 200 0
+WARNING 2025-06-10 13:19:00,855 log 22255 6194753536 Not Found: /horarios/
+WARNING 2025-06-10 13:19:00,855 basehttp 22255 6194753536 "HEAD /horarios/ HTTP/1.1" 404 0
+WARNING 2025-06-10 13:19:00,873 log 22255 6194753536 Not Found: /usuario/
+WARNING 2025-06-10 13:19:00,873 basehttp 22255 6194753536 "HEAD /usuario/ HTTP/1.1" 404 0
+WARNING 2025-06-10 13:19:00,889 log 22255 6194753536 Not Found: /notificacoes/
+WARNING 2025-06-10 13:19:00,889 basehttp 22255 6194753536 "HEAD /notificacoes/ HTTP/1.1" 404 0
+INFO 2025-06-10 13:19:17,395 autoreload 22259 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/schedules/views.py changed, reloading.
+INFO 2025-06-10 13:19:17,593 autoreload 22348 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 13:19:17,857 autoreload 22255 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/schedules/views.py changed, reloading.
+INFO 2025-06-10 13:19:18,044 autoreload 22350 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 13:19:28,473 autoreload 22350 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/users/views.py changed, reloading.
+INFO 2025-06-10 13:19:28,660 autoreload 22371 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 13:19:29,009 autoreload 22348 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/users/views.py changed, reloading.
+INFO 2025-06-10 13:19:29,186 autoreload 22372 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 13:19:39,134 autoreload 22371 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/notifications/views.py changed, reloading.
+INFO 2025-06-10 13:19:39,334 autoreload 22397 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 13:19:39,568 autoreload 22372 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/notifications/views.py changed, reloading.
+INFO 2025-06-10 13:19:39,738 autoreload 22399 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 13:19:48,686 autoreload 22397 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/schedules/urls.py changed, reloading.
+INFO 2025-06-10 13:19:48,885 autoreload 22419 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 13:19:49,103 autoreload 22399 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/schedules/urls.py changed, reloading.
+INFO 2025-06-10 13:19:49,279 autoreload 22420 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 13:20:04,465 autoreload 22419 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/users/urls.py changed, reloading.
+INFO 2025-06-10 13:20:04,664 autoreload 22433 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 13:20:04,851 autoreload 22420 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/users/urls.py changed, reloading.
+INFO 2025-06-10 13:20:05,017 autoreload 22434 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 13:20:13,329 autoreload 22434 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/notifications/urls.py changed, reloading.
+INFO 2025-06-10 13:20:13,537 autoreload 22451 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 13:20:14,032 autoreload 22433 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/notifications/urls.py changed, reloading.
+INFO 2025-06-10 13:20:14,217 autoreload 22452 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 13:22:00,539 basehttp 22452 6126432256 "HEAD /horarios/ HTTP/1.1" 200 0
+INFO 2025-06-10 13:22:00,556 basehttp 22452 6126432256 "HEAD /usuario/perfil/ HTTP/1.1" 200 0
+INFO 2025-06-10 13:22:00,573 basehttp 22452 6126432256 "HEAD /notificacoes/ HTTP/1.1" 200 0
+INFO 2025-06-10 13:36:04,037 basehttp 22452 6126432256 "GET /rotas/paradas/ HTTP/1.1" 200 36362
+INFO 2025-06-10 13:36:04,069 basehttp 22452 6126432256 "GET /static/css/busfeed.css HTTP/1.1" 304 0
+WARNING 2025-06-10 13:36:04,127 log 22452 6126432256 Not Found: /sw.js
+WARNING 2025-06-10 13:36:04,128 basehttp 22452 6126432256 "GET /sw.js HTTP/1.1" 404 14000
+INFO 2025-06-10 13:36:04,131 basehttp 22452 6126432256 "GET /static/images/favicon.ico HTTP/1.1" 304 0
+INFO 2025-06-10 13:36:04,132 basehttp 22452 6126432256 "GET /static/images/icon-144x144.png HTTP/1.1" 304 0
+INFO 2025-06-10 13:36:05,925 basehttp 22452 6126432256 "GET /rotas/ HTTP/1.1" 200 42851
+WARNING 2025-06-10 13:36:05,976 log 22452 6126432256 Not Found: /sw.js
+WARNING 2025-06-10 13:36:05,976 basehttp 22452 6126432256 "GET /sw.js HTTP/1.1" 404 14001
+INFO 2025-06-10 13:36:09,965 basehttp 22452 6126432256 "GET / HTTP/1.1" 200 27657
+WARNING 2025-06-10 13:36:10,024 log 22452 6126432256 Not Found: /sw.js
+WARNING 2025-06-10 13:36:10,024 basehttp 22452 6126432256 "GET /sw.js HTTP/1.1" 404 14001
+INFO 2025-06-10 13:36:11,524 basehttp 22452 6126432256 "GET /rotas/ HTTP/1.1" 200 42851
+WARNING 2025-06-10 13:36:11,580 log 22452 6126432256 Not Found: /sw.js
+WARNING 2025-06-10 13:36:11,580 basehttp 22452 6126432256 "GET /sw.js HTTP/1.1" 404 14001
+INFO 2025-06-10 13:36:15,910 basehttp 22452 6126432256 "GET / HTTP/1.1" 200 27657
+WARNING 2025-06-10 13:36:15,963 log 22452 6126432256 Not Found: /sw.js
+WARNING 2025-06-10 13:36:15,963 basehttp 22452 6126432256 "GET /sw.js HTTP/1.1" 404 14001
+INFO 2025-06-10 13:36:21,750 basehttp 22452 6126432256 "GET /rotas/ HTTP/1.1" 200 42851
+WARNING 2025-06-10 13:36:21,806 log 22452 6126432256 Not Found: /sw.js
+WARNING 2025-06-10 13:36:21,807 basehttp 22452 6126432256 "GET /sw.js HTTP/1.1" 404 14001
+INFO 2025-06-10 13:36:22,836 basehttp 22452 6126432256 "GET / HTTP/1.1" 200 27657
+WARNING 2025-06-10 13:36:22,878 log 22452 6126432256 Not Found: /sw.js
+WARNING 2025-06-10 13:36:22,879 basehttp 22452 6126432256 "GET /sw.js HTTP/1.1" 404 14001
+INFO 2025-06-10 13:36:23,637 basehttp 22452 6126432256 "GET /rotas/paradas/ HTTP/1.1" 200 36362
+WARNING 2025-06-10 13:36:23,686 log 22452 6126432256 Not Found: /sw.js
+WARNING 2025-06-10 13:36:23,687 basehttp 22452 6126432256 "GET /sw.js HTTP/1.1" 404 14001
+INFO 2025-06-10 13:36:24,335 basehttp 22452 6126432256 "GET / HTTP/1.1" 200 27657
+WARNING 2025-06-10 13:36:24,381 log 22452 6126432256 Not Found: /sw.js
+WARNING 2025-06-10 13:36:24,381 basehttp 22452 6126432256 "GET /sw.js HTTP/1.1" 404 14001
+INFO 2025-06-10 13:36:32,725 basehttp 22452 6126432256 "GET /rotas/paradas/ HTTP/1.1" 200 36362
+WARNING 2025-06-10 13:36:32,787 log 22452 6126432256 Not Found: /sw.js
+WARNING 2025-06-10 13:36:32,787 basehttp 22452 6126432256 "GET /sw.js HTTP/1.1" 404 14001
+INFO 2025-06-10 13:37:19,477 basehttp 22452 6126432256 "GET / HTTP/1.1" 200 27657
+WARNING 2025-06-10 13:37:19,532 log 22452 6126432256 Not Found: /sw.js
+WARNING 2025-06-10 13:37:19,532 basehttp 22452 6126432256 "GET /sw.js HTTP/1.1" 404 14001
+INFO 2025-06-10 13:37:58,776 autoreload 22452 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/core/views.py changed, reloading.
+INFO 2025-06-10 13:37:59,097 autoreload 22843 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 13:37:59,786 autoreload 22451 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/core/views.py changed, reloading.
+INFO 2025-06-10 13:37:59,991 autoreload 22846 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 13:38:21,587 autoreload 22846 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/core/views.py changed, reloading.
+INFO 2025-06-10 13:38:21,677 autoreload 22843 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/core/views.py changed, reloading.
+INFO 2025-06-10 13:38:21,842 autoreload 22865 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 13:38:21,864 autoreload 22866 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 13:38:33,204 autoreload 22865 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/core/urls.py changed, reloading.
+INFO 2025-06-10 13:38:33,206 autoreload 22866 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/core/urls.py changed, reloading.
+INFO 2025-06-10 13:38:33,421 autoreload 22886 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 13:38:33,421 autoreload 22887 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 13:38:38,999 basehttp 22886 6169587712 "HEAD /sw.js HTTP/1.1" 200 0
+INFO 2025-06-10 13:38:46,889 basehttp 22886 6169587712 "GET / HTTP/1.1" 200 27656
+INFO 2025-06-10 13:38:46,951 basehttp 22886 6169587712 "GET /rotas/ HTTP/1.1" 200 42851
+INFO 2025-06-10 13:38:46,999 basehttp 22886 6169587712 "GET /paradas/ HTTP/1.1" 200 79754
+INFO 2025-06-10 13:38:47,013 basehttp 22886 6169587712 "GET /horarios/ HTTP/1.1" 200 22837
+INFO 2025-06-10 13:38:47,027 basehttp 22886 6169587712 "GET /usuario/perfil/ HTTP/1.1" 200 23005
+INFO 2025-06-10 13:38:47,043 basehttp 22886 6169587712 "GET /notificacoes/ HTTP/1.1" 200 23044
+INFO 2025-06-10 13:38:47,055 basehttp 22886 6169587712 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 13:48:25,970 basehttp 22886 6169587712 "GET /rotas/ HTTP/1.1" 200 42851
+INFO 2025-06-10 13:48:26,003 basehttp 22886 6169587712 "GET /static/css/busfeed.css HTTP/1.1" 304 0
+INFO 2025-06-10 13:48:26,043 basehttp 22886 6169587712 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 13:48:26,051 basehttp 22886 6203240448 "GET /static/images/icon-144x144.png HTTP/1.1" 304 0
+INFO 2025-06-10 13:48:26,052 basehttp 22886 6186414080 "GET /static/images/favicon.ico HTTP/1.1" 304 0
+INFO 2025-06-10 13:48:26,060 basehttp 22886 6169587712 "GET / HTTP/1.1" 200 27655
+INFO 2025-06-10 13:48:30,702 basehttp 22886 6169587712 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 13:48:32,260 basehttp 22886 6169587712 "GET /rotas/ HTTP/1.1" 200 42851
+INFO 2025-06-10 13:48:33,883 basehttp 22886 6169587712 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 13:48:43,588 basehttp 22886 6169587712 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 13:50:05,065 basehttp 22886 6169587712 "GET /rotas/paradas/ HTTP/1.1" 200 36362
+INFO 2025-06-10 13:50:06,666 basehttp 22886 6169587712 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 13:50:08,213 basehttp 22886 6169587712 "GET /rotas/ HTTP/1.1" 200 42851
+INFO 2025-06-10 13:50:08,797 basehttp 22886 6169587712 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 13:50:09,822 basehttp 22886 6169587712 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 13:50:12,763 basehttp 22886 6169587712 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 14:29:32,991 autoreload 24816 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 14:34:47,591 basehttp 22886 6169587712 "GET / HTTP/1.1" 200 27657
+INFO 2025-06-10 14:34:47,667 basehttp 22886 6169587712 "GET /static/css/busfeed.css HTTP/1.1" 304 0
+INFO 2025-06-10 14:34:47,669 basehttp 22886 6186414080 "GET /static/debug_toolbar/css/toolbar.css HTTP/1.1" 304 0
+INFO 2025-06-10 14:34:47,669 basehttp 22886 6203240448 "GET /static/js/busfeed.js HTTP/1.1" 304 0
+INFO 2025-06-10 14:34:47,669 basehttp 22886 6220066816 "GET /static/debug_toolbar/js/toolbar.js HTTP/1.1" 304 0
+INFO 2025-06-10 14:34:47,680 basehttp 22886 6220066816 "GET /static/debug_toolbar/css/print.css HTTP/1.1" 304 0
+INFO 2025-06-10 14:34:47,692 basehttp 22886 6203240448 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 14:34:47,696 basehttp 22886 6203240448 "GET /static/debug_toolbar/js/utils.js HTTP/1.1" 304 0
+INFO 2025-06-10 14:34:47,713 basehttp 22886 6220066816 "GET /static/manifest.json HTTP/1.1" 304 0
+INFO 2025-06-10 14:34:47,717 basehttp 22886 6220066816 "GET /static/images/icon-144x144.png HTTP/1.1" 304 0
+INFO 2025-06-10 14:34:47,725 basehttp 22886 6203240448 "GET / HTTP/1.1" 200 27657
+INFO 2025-06-10 14:35:07,560 basehttp 22886 6169587712 "GET /rotas/paradas/ HTTP/1.1" 200 36362
+INFO 2025-06-10 14:35:09,419 basehttp 22886 6169587712 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 14:35:10,644 basehttp 22886 6169587712 "GET /rotas/ HTTP/1.1" 200 42851
+INFO 2025-06-10 14:35:11,539 basehttp 22886 6169587712 "GET /rotas/paradas/ HTTP/1.1" 200 36362
+INFO 2025-06-10 14:35:12,326 basehttp 22886 6169587712 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 14:35:14,460 basehttp 22886 6169587712 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 14:35:18,071 basehttp 22886 6169587712 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 14:35:20,486 basehttp 22886 6169587712 "GET /rotas/ HTTP/1.1" 200 42851
+INFO 2025-06-10 14:35:23,111 basehttp 22886 6169587712 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 14:35:23,803 basehttp 22886 6169587712 "GET /rotas/paradas/ HTTP/1.1" 200 36362
+INFO 2025-06-10 14:35:26,068 basehttp 22886 6169587712 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 14:56:31,401 autoreload 25956 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 14:59:43,161 basehttp 25956 6160855040 "GET / HTTP/1.1" 200 28204
+INFO 2025-06-10 14:59:43,248 basehttp 25956 6194507776 "GET /static/js/busfeed.js HTTP/1.1" 200 12780
+INFO 2025-06-10 14:59:43,248 basehttp 25956 6177681408 "GET /static/debug_toolbar/css/toolbar.css HTTP/1.1" 200 12621
+INFO 2025-06-10 14:59:43,249 basehttp 25956 6160855040 "GET /static/css/busfeed.css HTTP/1.1" 200 18064
+INFO 2025-06-10 14:59:43,249 basehttp 25956 6211334144 "GET /static/debug_toolbar/js/toolbar.js HTTP/1.1" 200 13404
+INFO 2025-06-10 14:59:43,469 basehttp 25956 6160855040 "GET /static/debug_toolbar/css/print.css HTTP/1.1" 200 43
+INFO 2025-06-10 14:59:43,474 basehttp 25956 6160855040 "GET /static/debug_toolbar/js/utils.js HTTP/1.1" 200 4527
+INFO 2025-06-10 14:59:43,507 basehttp 25956 6160855040 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 14:59:43,509 basehttp 25956 6177681408 "GET /static/manifest.json HTTP/1.1" 200 3069
+INFO 2025-06-10 14:59:43,509 basehttp 25956 6194507776 "GET /static/images/favicon.ico HTTP/1.1" 200 1
+INFO 2025-06-10 14:59:43,511 basehttp 25956 6194507776 "GET /static/images/icon-144x144.png HTTP/1.1" 200 1
+INFO 2025-06-10 14:59:43,521 basehttp 25956 6160855040 "GET / HTTP/1.1" 200 28202
+INFO 2025-06-10 14:59:56,274 basehttp 25956 6160855040 "GET /rotas/paradas/ HTTP/1.1" 200 36900
+INFO 2025-06-10 14:59:58,476 basehttp 25956 6160855040 "GET /rotas/ HTTP/1.1" 200 43382
+INFO 2025-06-10 15:00:00,633 basehttp 25956 6160855040 "GET /rotas/paradas/ HTTP/1.1" 200 36900
+INFO 2025-06-10 15:00:00,747 basehttp 25956 6160855040 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 15:00:02,428 basehttp 25956 6160855040 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 15:00:05,438 basehttp 25956 6160855040 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 15:02:11,248 basehttp 25956 6160855040 "GET / HTTP/1.1" 200 28434
+INFO 2025-06-10 15:03:59,208 basehttp 25956 6160855040 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 15:04:01,542 basehttp 25956 6160855040 "GET /rotas/ HTTP/1.1" 200 43372
+INFO 2025-06-10 15:04:03,365 basehttp 25956 6160855040 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 15:04:05,858 basehttp 25956 6160855040 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 15:13:00,086 basehttp 25956 6160855040 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 15:13:01,374 basehttp 25956 6160855040 "GET /rotas/ HTTP/1.1" 200 43373
+INFO 2025-06-10 15:13:03,442 basehttp 25956 6160855040 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 15:13:22,685 basehttp 25956 6160855040 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 15:14:22,916 basehttp 25956 6160855040 "GET /rotas/paradas/ HTTP/1.1" 200 36890
+INFO 2025-06-10 15:14:24,518 basehttp 25956 6160855040 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 15:22:41,457 autoreload 26962 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 15:22:44,679 basehttp 25956 6160855040 "GET / HTTP/1.1" 200 28882
+INFO 2025-06-10 15:26:33,349 autoreload 27160 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 15:26:37,743 basehttp 27160 6165245952 "GET / HTTP/1.1" 200 28882
+INFO 2025-06-10 15:26:44,847 basehttp 27160 6165245952 "GET / HTTP/1.1" 200 28880
+WARNING 2025-06-10 15:26:44,866 log 27160 6165245952 Not Found: /routes/
+WARNING 2025-06-10 15:26:44,866 basehttp 27160 6165245952 "GET /routes/ HTTP/1.1" 404 14182
+WARNING 2025-06-10 15:26:44,886 log 27160 6165245952 Not Found: /stops/
+WARNING 2025-06-10 15:26:44,886 basehttp 27160 6165245952 "GET /stops/ HTTP/1.1" 404 14178
+WARNING 2025-06-10 15:26:44,904 log 27160 6165245952 Not Found: /about/
+WARNING 2025-06-10 15:26:44,904 basehttp 27160 6165245952 "GET /about/ HTTP/1.1" 404 14178
+INFO 2025-06-10 15:26:55,629 basehttp 27160 6165245952 "GET / HTTP/1.1" 200 28882
+INFO 2025-06-10 15:26:55,707 basehttp 27160 6165245952 "GET /rotas/ HTTP/1.1" 200 39281
+INFO 2025-06-10 15:26:55,760 basehttp 27160 6165245952 "GET /paradas/ HTTP/1.1" 200 80275
+INFO 2025-06-10 15:26:55,774 basehttp 27160 6165245952 "GET /horarios/ HTTP/1.1" 200 23365
+INFO 2025-06-10 15:27:00,593 basehttp 27160 6165245952 "GET /sobre/ HTTP/1.1" 200 31715
+INFO 2025-06-10 15:27:05,298 basehttp 27160 6165245952 "GET / HTTP/1.1" 200 28880
+INFO 2025-06-10 15:27:09,448 basehttp 27160 6165245952 "GET /rotas/ HTTP/1.1" 200 39281
+INFO 2025-06-10 15:27:13,995 basehttp 27160 6165245952 "GET /paradas/ HTTP/1.1" 200 80275
+INFO 2025-06-10 15:27:18,714 basehttp 27160 6165245952 "GET /rotas/ HTTP/1.1" 200 39281
+INFO 2025-06-10 15:29:56,843 basehttp 27160 6165245952 "GET / HTTP/1.1" 200 28882
+INFO 2025-06-10 15:29:56,934 basehttp 27160 6165245952 "GET /static/css/busfeed.css HTTP/1.1" 200 18225
+INFO 2025-06-10 15:29:56,935 basehttp 27160 6198898688 "GET /static/js/busfeed.js HTTP/1.1" 200 12780
+INFO 2025-06-10 15:29:56,935 basehttp 27160 6182072320 "GET /static/debug_toolbar/css/toolbar.css HTTP/1.1" 200 12621
+INFO 2025-06-10 15:29:56,935 basehttp 27160 6215725056 "GET /static/debug_toolbar/js/toolbar.js HTTP/1.1" 200 13404
+INFO 2025-06-10 15:29:57,102 basehttp 27160 6215725056 "GET /static/debug_toolbar/css/print.css HTTP/1.1" 200 43
+INFO 2025-06-10 15:29:57,110 basehttp 27160 6215725056 "GET /static/debug_toolbar/js/utils.js HTTP/1.1" 200 4527
+INFO 2025-06-10 15:29:57,143 basehttp 27160 6232551424 "GET /static/manifest.json HTTP/1.1" 200 3069
+INFO 2025-06-10 15:29:57,143 basehttp 27160 6182072320 "GET /static/images/favicon.ico HTTP/1.1" 200 1
+INFO 2025-06-10 15:29:57,146 basehttp 27160 6182072320 "GET /static/images/icon-144x144.png HTTP/1.1" 200 1
+INFO 2025-06-10 15:29:57,155 basehttp 27160 6215725056 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 15:29:57,173 basehttp 27160 6215725056 "GET / HTTP/1.1" 200 28880
+INFO 2025-06-10 15:30:01,048 basehttp 27160 6165245952 "GET /rotas/ HTTP/1.1" 200 39281
+INFO 2025-06-10 15:30:02,730 basehttp 27160 6165245952 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 15:30:04,353 basehttp 27160 6165245952 "GET /rotas/paradas/ HTTP/1.1" 200 39257
+INFO 2025-06-10 15:30:05,020 basehttp 27160 6165245952 "GET /horarios/ HTTP/1.1" 200 23367
+INFO 2025-06-10 15:30:06,274 basehttp 27160 6165245952 "GET /sobre/ HTTP/1.1" 200 31717
+INFO 2025-06-10 15:30:06,589 basehttp 27160 6165245952 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 15:30:07,192 basehttp 27160 6165245952 "GET /api/ HTTP/1.1" 200 36408
+INFO 2025-06-10 15:30:08,809 basehttp 27160 6165245952 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 15:30:10,179 basehttp 27160 6165245952 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 15:30:12,377 basehttp 27160 6165245952 "GET /rotas/ HTTP/1.1" 200 39281
+INFO 2025-06-10 15:30:13,652 basehttp 27160 6165245952 "GET /rotas/paradas/ HTTP/1.1" 200 39257
+INFO 2025-06-10 15:30:13,977 basehttp 27160 6165245952 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 15:30:14,927 basehttp 27160 6165245952 "GET /horarios/ HTTP/1.1" 200 23367
+INFO 2025-06-10 15:30:15,375 basehttp 27160 6165245952 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 15:30:15,680 basehttp 27160 6165245952 "GET /sobre/ HTTP/1.1" 200 31717
+INFO 2025-06-10 15:30:17,039 basehttp 27160 6165245952 "GET /rotas/ HTTP/1.1" 200 39281
+INFO 2025-06-10 15:30:17,298 basehttp 27160 6165245952 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 15:30:18,637 basehttp 27160 6165245952 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 15:30:26,860 basehttp 27160 6165245952 "GET /rotas/paradas/ HTTP/1.1" 200 39257
+INFO 2025-06-10 15:30:28,494 basehttp 27160 6165245952 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 15:30:31,863 basehttp 27160 6165245952 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 15:41:47,417 autoreload 27973 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 15:41:54,122 basehttp 27160 6165245952 "GET / HTTP/1.1" 200 37157
+INFO 2025-06-10 15:42:06,684 autoreload 28027 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 15:42:18,474 autoreload 28117 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 15:42:25,630 basehttp 28117 6163804160 "GET / HTTP/1.1" 200 37157
+INFO 2025-06-10 15:58:49,999 basehttp 28117 6163804160 "GET / HTTP/1.1" 200 37157
+INFO 2025-06-10 15:58:50,090 basehttp 28117 6180630528 "GET /static/js/busfeed.js HTTP/1.1" 200 12780
+INFO 2025-06-10 15:58:50,091 basehttp 28117 6197456896 "GET /static/debug_toolbar/css/toolbar.css HTTP/1.1" 200 12621
+INFO 2025-06-10 15:58:50,091 basehttp 28117 6163804160 "GET /static/css/busfeed.css HTTP/1.1" 200 29849
+INFO 2025-06-10 15:58:50,092 basehttp 28117 6214283264 "GET /static/debug_toolbar/js/toolbar.js HTTP/1.1" 200 13404
+INFO 2025-06-10 15:58:50,437 basehttp 28117 6214283264 "GET /static/debug_toolbar/css/print.css HTTP/1.1" 200 43
+INFO 2025-06-10 15:58:50,453 basehttp 28117 6214283264 "GET /static/debug_toolbar/js/utils.js HTTP/1.1" 200 4527
+INFO 2025-06-10 15:58:50,476 basehttp 28117 6214283264 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 15:58:50,485 basehttp 28117 6231109632 "GET /static/manifest.json HTTP/1.1" 200 3069
+INFO 2025-06-10 15:58:50,489 basehttp 28117 6214283264 "GET /static/images/icon-144x144.png HTTP/1.1" 200 1
+INFO 2025-06-10 15:58:50,499 basehttp 28117 6214283264 "GET / HTTP/1.1" 200 37155
+INFO 2025-06-10 15:58:54,088 basehttp 28117 6163804160 "GET /rotas/ HTTP/1.1" 200 43084
+INFO 2025-06-10 15:58:55,425 basehttp 28117 6163804160 "GET /rotas/paradas/ HTTP/1.1" 200 45191
+INFO 2025-06-10 15:58:55,827 basehttp 28117 6163804160 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 15:58:56,291 basehttp 28117 6163804160 "GET /horarios/ HTTP/1.1" 200 23367
+INFO 2025-06-10 15:58:57,990 basehttp 28117 6163804160 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 15:59:00,117 basehttp 28117 6163804160 "GET /rotas/ HTTP/1.1" 200 43084
+INFO 2025-06-10 15:59:00,957 basehttp 28117 6163804160 "GET /rotas/paradas/ HTTP/1.1" 200 45191
+INFO 2025-06-10 15:59:01,770 basehttp 28117 6163804160 "GET /horarios/ HTTP/1.1" 200 23367
+INFO 2025-06-10 15:59:04,305 basehttp 28117 6163804160 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 16:35:58,817 basehttp 28117 6163804160 "GET /static/images/icon-144x144.png HTTP/1.1" 304 0
+INFO 2025-06-10 16:36:00,339 basehttp 28117 6163804160 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 16:36:06,732 basehttp 28117 6163804160 "GET /rotas/ HTTP/1.1" 200 43084
+INFO 2025-06-10 16:36:08,341 basehttp 28117 6163804160 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 16:36:13,281 basehttp 28117 6163804160 "GET /rotas/paradas/ HTTP/1.1" 200 45191
+INFO 2025-06-10 16:36:15,333 basehttp 28117 6163804160 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 16:36:15,842 basehttp 28117 6163804160 "GET /horarios/ HTTP/1.1" 200 23367
+INFO 2025-06-10 16:36:17,481 basehttp 28117 6163804160 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 16:42:57,141 basehttp 28117 6163804160 "GET /horarios/ HTTP/1.1" 200 23366
+INFO 2025-06-10 16:42:59,184 basehttp 28117 6163804160 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 16:42:59,890 basehttp 28117 6163804160 "GET /horarios/ HTTP/1.1" 200 23367
+INFO 2025-06-10 16:43:01,444 basehttp 28117 6163804160 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 16:43:02,910 basehttp 28117 6163804160 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 16:43:18,144 autoreload 30324 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 16:44:16,735 basehttp 28117 6163804160 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 16:44:17,297 basehttp 28117 6163804160 "GET /rotas/ HTTP/1.1" 200 43084
+INFO 2025-06-10 16:44:19,124 basehttp 28117 6163804160 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 16:44:22,802 basehttp 28117 6163804160 "GET /rotas/paradas/ HTTP/1.1" 200 45191
+INFO 2025-06-10 16:44:24,421 basehttp 28117 6163804160 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 16:44:29,962 basehttp 28117 6163804160 "GET /horarios/ HTTP/1.1" 200 23367
+INFO 2025-06-10 16:44:31,562 basehttp 28117 6163804160 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 16:44:33,736 basehttp 28117 6163804160 "GET /sobre/ HTTP/1.1" 200 31717
+INFO 2025-06-10 16:44:35,330 basehttp 28117 6163804160 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 16:44:38,103 basehttp 28117 6163804160 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 16:44:40,388 basehttp 28117 6163804160 "GET /admin/login/ HTTP/1.1" 200 13702
+INFO 2025-06-10 16:44:40,409 basehttp 28117 12901707776 "GET /static/admin/css/dark_mode.css HTTP/1.1" 200 2929
+INFO 2025-06-10 16:44:40,410 basehttp 28117 12918534144 "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 200 2694
+INFO 2025-06-10 16:44:40,410 basehttp 28117 12969013248 "GET /static/admin/js/theme.js HTTP/1.1" 200 1943
+INFO 2025-06-10 16:44:40,411 basehttp 28117 6163804160 "GET /static/admin/css/base.css HTTP/1.1" 200 21207
+INFO 2025-06-10 16:44:40,411 basehttp 28117 12935360512 "GET /static/admin/css/login.css HTTP/1.1" 200 958
+INFO 2025-06-10 16:44:40,411 basehttp 28117 12901707776 "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 200 3063
+INFO 2025-06-10 16:44:40,412 basehttp 28117 12952186880 "GET /static/admin/css/responsive.css HTTP/1.1" 200 18533
+INFO 2025-06-10 16:44:41,954 basehttp 28117 12952186880 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 16:44:53,030 basehttp 28117 6163804160 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 16:46:34,196 autoreload 22886 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed/settings.py changed, reloading.
+INFO 2025-06-10 16:46:34,198 autoreload 28117 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed/settings.py changed, reloading.
+INFO 2025-06-10 16:46:34,197 autoreload 22887 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed/settings.py changed, reloading.
+INFO 2025-06-10 16:46:34,205 autoreload 25956 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed/settings.py changed, reloading.
+INFO 2025-06-10 16:46:34,504 autoreload 30523 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 16:46:34,504 autoreload 30524 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 16:46:34,504 autoreload 30522 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 16:46:34,504 autoreload 30521 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 16:46:41,714 autoreload 30523 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed/settings.py changed, reloading.
+INFO 2025-06-10 16:46:41,717 autoreload 30522 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed/settings.py changed, reloading.
+INFO 2025-06-10 16:46:41,723 autoreload 30524 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed/settings.py changed, reloading.
+INFO 2025-06-10 16:46:41,724 autoreload 30521 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed/settings.py changed, reloading.
+INFO 2025-06-10 16:46:41,923 autoreload 30550 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 16:46:41,923 autoreload 30552 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 16:46:41,924 autoreload 30551 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 16:46:41,932 autoreload 30553 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 16:51:12,691 autoreload 30551 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed/settings.py changed, reloading.
+INFO 2025-06-10 16:51:12,696 autoreload 30550 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed/settings.py changed, reloading.
+INFO 2025-06-10 16:51:12,702 autoreload 30552 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed/settings.py changed, reloading.
+INFO 2025-06-10 16:51:12,754 autoreload 30553 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed/settings.py changed, reloading.
+INFO 2025-06-10 16:51:12,907 autoreload 30806 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 16:51:12,907 autoreload 30805 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 16:51:12,907 autoreload 30804 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 16:51:12,940 autoreload 30807 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 16:51:26,280 autoreload 30806 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed/settings.py changed, reloading.
+INFO 2025-06-10 16:51:26,285 autoreload 30805 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed/settings.py changed, reloading.
+INFO 2025-06-10 16:51:26,286 autoreload 30807 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed/settings.py changed, reloading.
+INFO 2025-06-10 16:51:26,290 autoreload 30804 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed/settings.py changed, reloading.
+INFO 2025-06-10 16:51:26,614 autoreload 30832 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 16:51:26,615 autoreload 30831 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 16:51:26,623 autoreload 30830 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 16:51:26,624 autoreload 30829 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 16:51:39,986 autoreload 30831 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed/settings.py changed, reloading.
+INFO 2025-06-10 16:51:39,986 autoreload 30829 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed/settings.py changed, reloading.
+INFO 2025-06-10 16:51:39,991 autoreload 30832 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed/settings.py changed, reloading.
+INFO 2025-06-10 16:51:39,992 autoreload 30830 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed/settings.py changed, reloading.
+INFO 2025-06-10 16:51:40,266 autoreload 30856 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 16:51:40,266 autoreload 30857 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 16:51:40,268 autoreload 30855 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 16:51:40,275 autoreload 30854 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 16:52:42,438 autoreload 30855 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/stops/models.py changed, reloading.
+INFO 2025-06-10 16:52:42,463 autoreload 30857 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/stops/models.py changed, reloading.
+INFO 2025-06-10 16:52:42,463 autoreload 30856 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/stops/models.py changed, reloading.
+INFO 2025-06-10 16:52:42,471 autoreload 30854 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/stops/models.py changed, reloading.
+INFO 2025-06-10 16:52:42,801 autoreload 30952 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 16:52:42,801 autoreload 30953 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 16:52:42,801 autoreload 30955 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 16:52:42,801 autoreload 30954 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 16:58:56,381 autoreload 31349 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 21:21:56,186 autoreload 39817 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 21:32:09,573 autoreload 40474 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 21:32:21,375 basehttp 40474 6166491136 "GET /rotas/ HTTP/1.1" 200 42284
+INFO 2025-06-10 21:32:27,064 basehttp 40474 6166491136 "GET /rotas/api/routes/map-data/ HTTP/1.1" 200 4379
+INFO 2025-06-10 21:32:52,823 basehttp 40474 6166491136 "GET /rotas/mapa/ HTTP/1.1" 200 36616
+INFO 2025-06-10 21:33:13,199 autoreload 40474 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/routes/views.py changed, reloading.
+INFO 2025-06-10 21:33:13,549 autoreload 40571 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-10 21:33:22,383 basehttp 40571 6131560448 "GET /rotas/api/routes/map-data/ HTTP/1.1" 200 68541
+INFO 2025-06-10 21:34:12,359 basehttp 40571 6131560448 "GET /rotas/mapa/ HTTP/1.1" 200 39511
+INFO 2025-06-10 21:34:18,167 basehttp 40571 6131560448 "GET /rotas/api/routes/map-data/?wheelchair=true HTTP/1.1" 200 57040
+INFO 2025-06-10 21:35:33,792 basehttp 40571 6131560448 "GET / HTTP/1.1" 200 36271
+INFO 2025-06-10 21:36:22,943 basehttp 40571 6148386816 "GET /static/debug_toolbar/js/toolbar.js HTTP/1.1" 304 0
+INFO 2025-06-10 21:36:22,943 basehttp 40571 6131560448 "GET /static/debug_toolbar/css/toolbar.css HTTP/1.1" 304 0
+INFO 2025-06-10 21:36:23,048 basehttp 40571 6148386816 "GET /static/debug_toolbar/css/print.css HTTP/1.1" 304 0
+INFO 2025-06-10 21:36:23,049 basehttp 40571 6131560448 "GET /static/debug_toolbar/js/utils.js HTTP/1.1" 304 0
+INFO 2025-06-10 21:36:23,086 basehttp 40571 6148386816 "GET /static/images/favicon.ico HTTP/1.1" 200 108
+INFO 2025-06-10 21:36:23,088 basehttp 40571 6131560448 "GET /static/images/icon-144x144.png HTTP/1.1" 200 125
+INFO 2025-06-10 21:36:24,642 basehttp 40571 6131560448 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 21:36:25,461 basehttp 40571 6131560448 "GET /rotas/ HTTP/1.1" 200 42284
+INFO 2025-06-10 21:36:27,096 basehttp 40571 6131560448 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 21:36:27,995 basehttp 40571 6131560448 "GET /rotas/api/route/0.101/map-data/ HTTP/1.1" 200 5445
+INFO 2025-06-10 21:36:28,205 basehttp 40571 6131560448 "GET /__debug__/history_sidebar/?store_id=0b4539acd6054e3784fe77be239549c1 HTTP/1.1" 200 9817
+INFO 2025-06-10 21:36:39,689 basehttp 40571 6131560448 "GET /rotas/api/route/0.102/map-data/ HTTP/1.1" 200 5405
+INFO 2025-06-10 21:36:39,897 basehttp 40571 6131560448 "GET /__debug__/history_sidebar/?store_id=6227b04ab3d54d9480202391cbbba2c0 HTTP/1.1" 200 9817
+INFO 2025-06-10 21:36:43,207 basehttp 40571 6131560448 "GET /rotas/paradas/ HTTP/1.1" 200 41933
+INFO 2025-06-10 21:36:43,603 basehttp 40571 6131560448 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 21:36:44,795 basehttp 40571 6131560448 "GET /rotas/ HTTP/1.1" 200 42284
+INFO 2025-06-10 21:36:44,971 basehttp 40571 6131560448 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 21:36:46,508 basehttp 40571 6131560448 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 21:36:47,395 basehttp 40571 6131560448 "GET /rotas/api/route/0.101/map-data/ HTTP/1.1" 200 5445
+INFO 2025-06-10 21:36:47,606 basehttp 40571 6131560448 "GET /__debug__/history_sidebar/?store_id=c811de1d74d348b69a83b79c21b88921 HTTP/1.1" 200 9817
+INFO 2025-06-10 21:36:49,812 basehttp 40571 6131560448 "GET /rotas/api/route/0.102/map-data/ HTTP/1.1" 200 5405
+INFO 2025-06-10 21:36:50,021 basehttp 40571 6131560448 "GET /__debug__/history_sidebar/?store_id=f396e403c93547839950f0b4ea1a8e93 HTTP/1.1" 200 9817
+INFO 2025-06-10 21:36:51,503 basehttp 40571 6131560448 "GET /rotas/api/route/0.103/map-data/ HTTP/1.1" 200 5420
+INFO 2025-06-10 21:36:51,710 basehttp 40571 6131560448 "GET /__debug__/history_sidebar/?store_id=4b57f1ef30fc4124bef98d173a5bebd8 HTTP/1.1" 200 9817
+INFO 2025-06-10 21:36:53,273 basehttp 40571 6131560448 "GET /rotas/api/route/0.104/map-data/ HTTP/1.1" 200 5427
+INFO 2025-06-10 21:36:53,481 basehttp 40571 6131560448 "GET /__debug__/history_sidebar/?store_id=19cbd799e29c4234935c645dc4110153 HTTP/1.1" 200 9817
+INFO 2025-06-10 21:36:58,251 basehttp 40571 6131560448 "GET /rotas/api/route/0.105/map-data/ HTTP/1.1" 200 5490
+INFO 2025-06-10 21:36:58,461 basehttp 40571 6131560448 "GET /__debug__/history_sidebar/?store_id=8e1a884067504bd2a9bbd3e8dd47c1bf HTTP/1.1" 200 9817
+INFO 2025-06-10 21:37:00,414 basehttp 40571 6131560448 "GET /rotas/api/route/0.106/map-data/ HTTP/1.1" 200 5493
+INFO 2025-06-10 21:37:00,623 basehttp 40571 6131560448 "GET /__debug__/history_sidebar/?store_id=224168c8ecbe42a88506cbe136842958 HTTP/1.1" 200 9817
+INFO 2025-06-10 21:37:14,331 basehttp 40571 6131560448 "GET /rotas/paradas/ HTTP/1.1" 200 41933
+INFO 2025-06-10 21:37:16,149 basehttp 40571 6131560448 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 21:37:18,532 basehttp 40571 6131560448 "GET /rotas/ HTTP/1.1" 200 42284
+INFO 2025-06-10 21:37:20,183 basehttp 40571 6131560448 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 21:37:21,531 basehttp 40571 6131560448 "GET /rotas/api/route/0.104/map-data/ HTTP/1.1" 200 5427
+INFO 2025-06-10 21:37:21,742 basehttp 40571 6131560448 "GET /__debug__/history_sidebar/?store_id=9bebca956085418a97c2cc243026946d HTTP/1.1" 200 9817
+INFO 2025-06-10 21:37:26,788 basehttp 40571 6131560448 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 21:37:27,087 basehttp 40571 6131560448 "GET /rotas/paradas/ HTTP/1.1" 200 41933
+INFO 2025-06-10 21:37:28,680 basehttp 40571 6131560448 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 21:37:35,443 basehttp 40571 6131560448 "GET /horarios/ HTTP/1.1" 200 22482
+INFO 2025-06-10 21:37:37,305 basehttp 40571 6131560448 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 21:37:46,310 basehttp 40571 6131560448 "GET /rotas/ HTTP/1.1" 200 42284
+INFO 2025-06-10 21:37:47,897 basehttp 40571 6131560448 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 21:45:28,167 basehttp 40571 6131560448 "GET /rotas/ HTTP/1.1" 200 42284
+INFO 2025-06-10 21:45:29,227 basehttp 40571 6131560448 "GET /rotas/ HTTP/1.1" 200 42284
+INFO 2025-06-10 21:45:29,821 basehttp 40571 6131560448 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 21:45:30,829 basehttp 40571 6131560448 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 21:48:10,000 basehttp 40571 6131560448 "GET /rotas/ HTTP/1.1" 200 42284
+INFO 2025-06-10 21:48:10,236 basehttp 40571 6131560448 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 21:48:11,610 basehttp 40571 6131560448 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 21:48:13,208 basehttp 40571 6131560448 "GET /rotas/paradas/ HTTP/1.1" 200 41933
+INFO 2025-06-10 21:48:15,128 basehttp 40571 6131560448 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-10 21:48:16,883 basehttp 40571 6131560448 "GET /rotas/ HTTP/1.1" 200 42284
+INFO 2025-06-10 21:48:18,068 basehttp 40571 6131560448 "GET /rotas/api/route/0.101/map-data/ HTTP/1.1" 200 5445
+INFO 2025-06-10 21:48:18,278 basehttp 40571 6131560448 "GET /__debug__/history_sidebar/?store_id=f8dda44c8e9948a3915ed7760fd07db8 HTTP/1.1" 200 9817
+INFO 2025-06-10 21:48:18,464 basehttp 40571 6131560448 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-11 06:48:17,883 autoreload 72773 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-11 06:48:24,493 basehttp 72773 6161969152 "GET / HTTP/1.1" 200 36272
+INFO 2025-06-11 06:48:41,253 basehttp 72773 6161969152 "GET /static/debug_toolbar/css/toolbar.css HTTP/1.1" 304 0
+INFO 2025-06-11 06:48:41,254 basehttp 72773 6178795520 "GET /static/debug_toolbar/js/toolbar.js HTTP/1.1" 304 0
+INFO 2025-06-11 06:48:41,263 basehttp 72773 6178795520 "GET /static/debug_toolbar/css/print.css HTTP/1.1" 304 0
+INFO 2025-06-11 06:48:41,285 basehttp 72773 6178795520 "GET /static/debug_toolbar/js/utils.js HTTP/1.1" 304 0
+INFO 2025-06-11 06:48:41,305 basehttp 72773 6178795520 "GET /static/images/favicon.ico HTTP/1.1" 304 0
+INFO 2025-06-11 06:48:41,311 basehttp 72773 6178795520 "GET /static/images/icon-144x144.png HTTP/1.1" 304 0
+INFO 2025-06-11 06:48:42,862 basehttp 72773 6161969152 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-11 06:48:42,895 basehttp 72773 6178795520 "GET /rotas/ HTTP/1.1" 200 42282
+INFO 2025-06-11 06:48:44,255 basehttp 72773 6178795520 "GET /rotas/paradas/ HTTP/1.1" 200 41933
+INFO 2025-06-11 06:48:44,489 basehttp 72773 6178795520 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-11 06:48:45,019 basehttp 72773 6178795520 "GET /horarios/ HTTP/1.1" 200 22482
+INFO 2025-06-11 06:48:45,922 basehttp 72773 6178795520 "GET /rotas/paradas/ HTTP/1.1" 200 41933
+INFO 2025-06-11 06:48:47,542 basehttp 72773 6178795520 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-11 06:49:18,899 basehttp 72773 6178795520 "GET /rotas/ HTTP/1.1" 200 42284
+INFO 2025-06-11 06:49:20,485 basehttp 72773 6178795520 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-11 06:49:20,757 basehttp 72773 6178795520 "GET /rotas/mapa/ HTTP/1.1" 200 39511
+INFO 2025-06-11 06:49:20,836 basehttp 72773 6178795520 "GET /rotas/api/routes/map-data/ HTTP/1.1" 200 68541
+INFO 2025-06-11 06:49:22,571 basehttp 72773 6178795520 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-11 06:50:33,457 basehttp 72773 6178795520 "GET /rotas/paradas/ HTTP/1.1" 200 41933
+INFO 2025-06-11 06:50:35,042 basehttp 72773 6178795520 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-11 06:53:33,193 basehttp 72773 6161969152 "GET /rotas/paradas/ HTTP/1.1" 200 41894
+INFO 2025-06-11 06:53:39,755 basehttp 72773 6161969152 "GET /rotas/ HTTP/1.1" 200 42045
+INFO 2025-06-11 06:53:44,872 basehttp 72773 6161969152 "GET /rotas/ HTTP/1.1" 200 42045
+INFO 2025-06-11 06:53:49,831 basehttp 72773 6161969152 "GET /rotas/paradas/ HTTP/1.1" 200 41894
+INFO 2025-06-11 06:58:46,813 basehttp 72773 6161969152 "GET /rotas/paradas/ HTTP/1.1" 200 41894
+INFO 2025-06-11 06:58:48,427 basehttp 72773 6161969152 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-11 06:58:53,807 basehttp 72773 6161969152 "GET /rotas/ HTTP/1.1" 200 42045
+INFO 2025-06-11 06:58:55,507 basehttp 72773 6161969152 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-11 06:59:04,815 basehttp 72773 6161969152 "GET /rotas/api/route/0.101/map-data/ HTTP/1.1" 200 5445
+INFO 2025-06-11 06:59:05,025 basehttp 72773 6161969152 "GET /__debug__/history_sidebar/?store_id=d99a85cb44c5484a9456bd5c5d8460f7 HTTP/1.1" 200 9817
+INFO 2025-06-11 07:02:07,919 autoreload 72773 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/schedules/models.py changed, reloading.
+INFO 2025-06-11 07:02:08,120 autoreload 74068 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-11 07:02:48,332 autoreload 74068 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/schedules/views.py changed, reloading.
+INFO 2025-06-11 07:02:48,552 autoreload 74114 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-11 07:02:59,136 autoreload 74114 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/schedules/urls.py changed, reloading.
+INFO 2025-06-11 07:02:59,317 autoreload 74146 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-11 07:07:10,482 autoreload 74582 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-11 07:17:29,540 autoreload 74146 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/routes/views.py changed, reloading.
+INFO 2025-06-11 07:17:29,814 autoreload 75449 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-11 07:19:38,303 autoreload 75697 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-11 07:23:21,522 basehttp 75449 6126071808 "GET /rotas/ HTTP/1.1" 200 58229
+INFO 2025-06-11 07:23:23,177 basehttp 75449 6126071808 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-11 07:23:23,883 basehttp 75449 6126071808 "GET /rotas/paradas/ HTTP/1.1" 200 44197
+INFO 2025-06-11 07:23:24,765 basehttp 75449 6126071808 "GET /rotas/ HTTP/1.1" 200 58227
+INFO 2025-06-11 07:23:25,677 basehttp 75449 6126071808 "GET /rotas/api/route/0.101/map-data/ HTTP/1.1" 200 8015
+INFO 2025-06-11 07:23:25,886 basehttp 75449 6126071808 "GET /__debug__/history_sidebar/?store_id=e25896376f4f4e558714db4626ec5a23 HTTP/1.1" 200 9817
+INFO 2025-06-11 07:23:26,378 basehttp 75449 6126071808 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-11 07:23:32,365 basehttp 75449 6126071808 "GET /rotas/api/route/0.102/map-data/ HTTP/1.1" 200 6805
+INFO 2025-06-11 07:23:32,576 basehttp 75449 6126071808 "GET /__debug__/history_sidebar/?store_id=e732a567ddab4450887b79ab77c7a147 HTTP/1.1" 200 9817
+INFO 2025-06-11 07:23:34,381 basehttp 75449 6126071808 "GET /rotas/mapa/ HTTP/1.1" 200 40253
+INFO 2025-06-11 07:23:34,473 basehttp 75449 6126071808 "GET /rotas/api/routes/map-data/ HTTP/1.1" 200 213349
+INFO 2025-06-11 07:23:36,030 basehttp 75449 6126071808 "GET /sw.js HTTP/1.1" 200 628
+INFO 2025-06-11 07:28:27,122 autoreload 76672 8313151232 Watching for file changes with StatReloader
+INFO 2025-06-11 07:35:28,526 autoreload 76672 8313151232 /Users/ph/Desktop/Docs principais/Projetos/Busfeed/Projeto/busfeed/settings.py changed, reloading.
+INFO 2025-06-11 07:42:44,510 autoreload 77922 8313151232 Watching for file changes with StatReloader
+DEBUG 2025-06-11 07:42:44,614 utils 77922 6140227584 (0.001) 
+            SELECT name, type FROM sqlite_master
+            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'
+            ORDER BY name; args=None; alias=default
+DEBUG 2025-06-11 07:42:44,615 utils 77922 6140227584 (0.000) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
+DEBUG 2025-06-11 07:42:50,575 utils 77935 8313151232 (0.000) SELECT 1; args=None; alias=default
+DEBUG 2025-06-11 07:43:49,695 utils 77922 6157053952 (0.000) SELECT 1; args=None; alias=default
+INFO 2025-06-11 07:43:49,735 views 77922 6157053952 Health check passed - Response time: 40.81ms
+INFO 2025-06-11 07:43:49,761 basehttp 77922 6157053952 "GET /health/ HTTP/1.1" 200 204
+DEBUG 2025-06-11 07:43:59,490 utils 77922 6157053952 (0.000) SELECT COUNT(*) AS "__count" FROM "routes_busroute" WHERE "routes_busroute"."is_active"; args=(); alias=default
+DEBUG 2025-06-11 07:43:59,491 utils 77922 6157053952 (0.000) SELECT COUNT(*) AS "__count" FROM "stops_busstop" WHERE "stops_busstop"."is_active"; args=(); alias=default
+DEBUG 2025-06-11 07:43:59,492 utils 77922 6157053952 (0.000) SELECT "routes_busroute"."id", "routes_busroute"."number", "routes_busroute"."name", "routes_busroute"."route_type_id", "routes_busroute"."transport_company_id", "routes_routetype"."id", "routes_routetype"."name", "routes_transportcompany"."id", "routes_transportcompany"."name" FROM "routes_busroute" INNER JOIN "routes_routetype" ON ("routes_busroute"."route_type_id" = "routes_routetype"."id") INNER JOIN "routes_transportcompany" ON ("routes_busroute"."transport_company_id" = "routes_transportcompany"."id") WHERE "routes_busroute"."is_active" ORDER BY "routes_busroute"."number" ASC, "routes_busroute"."name" ASC LIMIT 3; args=(); alias=default
+INFO 2025-06-11 07:43:59,514 basehttp 77922 6157053952 "GET / HTTP/1.1" 200 36878

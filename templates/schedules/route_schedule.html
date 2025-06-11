@@ -1,0 +1,335 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ title }} - BusFeed{% endblock %}
+
+{% block extra_head %}
+<style>
+    .route-header {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        color: white;
+        border-radius: 15px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+    }
+    .schedule-tabs .nav-link {
+        border-radius: 25px !important;
+        font-weight: 600;
+        margin: 0 0.25rem;
+        transition: all 0.3s ease;
+    }
+    .schedule-tabs .nav-link.active {
+        background: linear-gradient(45deg, #007bff, #0056b3);
+        border-color: transparent;
+        color: white;
+    }
+    .direction-card {
+        border: 2px solid #e9ecef;
+        border-radius: 15px;
+        transition: all 0.3s ease;
+        margin-bottom: 1.5rem;
+    }
+    .direction-card:hover {
+        border-color: #007bff;
+        box-shadow: 0 8px 25px rgba(0, 123, 255, 0.1);
+    }
+    .schedule-info {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+    .next-departure-badge {
+        background: linear-gradient(45deg, #28a745, #20c997);
+        color: white;
+        border-radius: 20px;
+        padding: 0.5rem 1rem;
+        font-weight: 600;
+        display: inline-block;
+        margin: 0.25rem;
+    }
+    .departure-time {
+        background: #e7f3ff;
+        border: 1px solid #b3d9ff;
+        border-radius: 8px;
+        padding: 0.5rem 0.75rem;
+        margin: 0.25rem;
+        display: inline-block;
+        font-weight: 600;
+        color: #0056b3;
+    }
+    .frequency-indicator {
+        background: linear-gradient(45deg, #ffc107, #fd7e14);
+        color: white;
+        border-radius: 15px;
+        padding: 0.5rem 1rem;
+        font-weight: 600;
+        text-align: center;
+    }
+    .special-schedule-alert {
+        border-left: 4px solid #dc3545;
+        background: #f8d7da;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+    .operational-indicator {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 0.5rem;
+    }
+    .operational-active {
+        background-color: #28a745;
+        box-shadow: 0 0 10px rgba(40, 167, 69, 0.5);
+    }
+    .operational-inactive {
+        background-color: #dc3545;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <!-- Cabeçalho da Rota -->
+    <div class="route-header">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <div class="d-flex align-items-center mb-3">
+                    <span class="badge bg-light text-dark fs-5 me-3">{{ route.number }}</span>
+                    <div>
+                        <h1 class="mb-1">{{ route.name }}</h1>
+                        <p class="mb-0 opacity-75">{{ route.origin_terminal }} ↔ {{ route.destination_terminal }}</p>
+                    </div>
+                </div>
+                <div class="row g-3">
+                    <div class="col-auto">
+                        <small class="d-block opacity-75">Empresa</small>
+                        <strong>{{ route.transport_company.name }}</strong>
+                    </div>
+                    <div class="col-auto">
+                        <small class="d-block opacity-75">Tipo</small>
+                        <strong>{{ route.route_type.name }}</strong>
+                    </div>
+                    {% if route.base_fare %}
+                    <div class="col-auto">
+                        <small class="d-block opacity-75">Tarifa</small>
+                        <strong>R$ {{ route.base_fare }}</strong>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <div class="d-flex flex-column align-items-md-end">
+                    <span class="badge bg-light text-dark mb-2">
+                        <i class="fas fa-clock me-1"></i>
+                        {{ current_time|date:"d/m/Y H:i" }}
+                    </span>
+                    {% if route.wheelchair_accessible %}
+                    <span class="badge bg-success">
+                        <i class="fas fa-wheelchair me-1"></i>
+                        Acessível
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Horários Especiais (se houver) -->
+    {% if special_schedules %}
+        <div class="special-schedule-alert">
+            <h6 class="mb-2">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                Horários Especiais Próximos
+            </h6>
+            {% for special in special_schedules %}
+                <div class="mb-2">
+                    <strong>{{ special.date|date:"d/m/Y" }}</strong> - {{ special.description }}
+                    {% if special.is_suspended %}
+                        <span class="badge bg-danger ms-2">Serviço Suspenso</span>
+                    {% else %}
+                        <span class="badge bg-warning text-dark ms-2">Horário Modificado</span>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Navegação por Tipo de Dia -->
+    {% if organized_schedules %}
+        <ul class="nav nav-pills schedule-tabs justify-content-center mb-4" id="scheduleTab" role="tablist">
+            {% for day_type, directions in organized_schedules.items %}
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link {% if forloop.first %}active{% endif %}" 
+                            id="{{ day_type|slugify }}-tab" 
+                            data-bs-toggle="tab" 
+                            data-bs-target="#{{ day_type|slugify }}" 
+                            type="button" 
+                            role="tab" 
+                            aria-controls="{{ day_type|slugify }}" 
+                            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">
+                        <i class="fas fa-calendar-day me-2"></i>
+                        {{ day_type }}
+                    </button>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <!-- Conteúdo das Abas -->
+        <div class="tab-content" id="scheduleTabContent">
+            {% for day_type, directions in organized_schedules.items %}
+                <div class="tab-pane fade {% if forloop.first %}show active{% endif %}" 
+                     id="{{ day_type|slugify }}" 
+                     role="tabpanel" 
+                     aria-labelledby="{{ day_type|slugify }}-tab">
+                    
+                    <div class="row">
+                        {% for direction, schedules in directions.items %}
+                            <div class="col-lg-6">
+                                <div class="direction-card">
+                                    <div class="card-header bg-light">
+                                        <h5 class="mb-0">
+                                            <i class="fas fa-arrow-right me-2 text-primary"></i>
+                                            {{ direction }}
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        {% for schedule in schedules %}
+                                            <div class="schedule-info">
+                                                <div class="row align-items-center mb-3">
+                                                    <div class="col-md-8">
+                                                        <div class="d-flex align-items-center mb-2">
+                                                            <span class="operational-indicator {% if schedule.is_operational %}operational-active{% else %}operational-inactive{% endif %}"></span>
+                                                            <strong>{{ schedule.start_time|time:"H:i" }} - {{ schedule.end_time|time:"H:i" }}</strong>
+                                                            {% if schedule.is_operational %}
+                                                                <span class="badge bg-success ms-2">Operando</span>
+                                                            {% else %}
+                                                                <span class="badge bg-secondary ms-2">Inativo</span>
+                                                            {% endif %}
+                                                        </div>
+                                                        
+                                                        {% if schedule.peak_frequency_minutes %}
+                                                            <div class="small text-muted mb-2">
+                                                                <i class="fas fa-info-circle me-1"></i>
+                                                                Frequência normal: {{ schedule.frequency_minutes }}min | 
+                                                                Pico: {{ schedule.peak_frequency_minutes }}min 
+                                                                ({{ schedule.peak_start_time|time:"H:i" }}-{{ schedule.peak_end_time|time:"H:i" }})
+                                                            </div>
+                                                        {% endif %}
+                                                        
+                                                        {% if schedule.notes %}
+                                                            <div class="small text-muted">
+                                                                <i class="fas fa-sticky-note me-1"></i>
+                                                                {{ schedule.notes }}
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="col-md-4 text-md-end">
+                                                        <div class="frequency-indicator">
+                                                            {{ schedule.get_current_frequency }}min
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {% if schedule.next_departures %}
+                                                    <div>
+                                                        <h6 class="mb-2">
+                                                            <i class="fas fa-clock me-2"></i>
+                                                            Próximas Partidas
+                                                        </h6>
+                                                        <div class="d-flex flex-wrap">
+                                                            {% for departure in schedule.next_departures %}
+                                                                <span class="departure-time">{{ departure|time:"H:i" }}</span>
+                                                            {% endfor %}
+                                                        </div>
+                                                    </div>
+                                                {% else %}
+                                                    <div class="text-center py-3">
+                                                        <i class="fas fa-moon text-muted"></i>
+                                                        <p class="text-muted mb-0 small">Serviço não está operando no momento</p>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="text-center py-5">
+            <div class="mb-4">
+                <i class="fas fa-clock fa-3x text-muted"></i>
+            </div>
+            <h4 class="text-muted">Nenhum horário cadastrado</h4>
+            <p class="text-muted">
+                Esta linha ainda não possui horários cadastrados no sistema.
+            </p>
+        </div>
+    {% endif %}
+
+    <!-- Ações -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="d-flex gap-2 justify-content-center">
+                <a href="{% url 'schedules:list' %}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>
+                    Voltar aos Horários
+                </a>
+                <a href="{% url 'routes:route_detail' route.number %}" class="btn btn-primary">
+                    <i class="fas fa-map me-2"></i>
+                    Ver no Mapa
+                </a>
+                <a href="{% url 'routes:routes_list' %}" class="btn btn-outline-primary">
+                    <i class="fas fa-list me-2"></i>
+                    Todas as Rotas
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Auto-refresh próximas partidas a cada minuto
+    setInterval(function() {
+        // Aqui pode ser implementada uma função AJAX para atualizar as próximas partidas
+        // sem recarregar a página inteira
+        console.log('Auto-refresh de horários...');
+    }, 60000); // 60 segundos
+
+    // Destacar a aba do tipo de dia atual
+    document.addEventListener('DOMContentLoaded', function() {
+        const now = new Date();
+        const dayOfWeek = now.getDay(); // 0 = Sunday, 1 = Monday, etc.
+        
+        let currentDayType;
+        if (dayOfWeek >= 1 && dayOfWeek <= 5) {
+            currentDayType = 'dias-úteis';
+        } else if (dayOfWeek === 6) {
+            currentDayType = 'sábado';
+        } else {
+            currentDayType = 'domingo';
+        }
+        
+        // Ativar a aba correspondente ao dia atual
+        const tabElement = document.getElementById(currentDayType + '-tab');
+        if (tabElement) {
+            const tab = new bootstrap.Tab(tabElement);
+            tab.show();
+        }
+    });
+
+    // Tooltip para indicadores operacionais
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+</script>
+{% endblock %} 

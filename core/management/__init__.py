@@ -1,0 +1,1 @@
+# Módulo de comandos de gerenciamento do Django 

@@ -29,4 +29,7 @@ urlpatterns = [
     # Monitoramento
     path('status/', views.StatusView.as_view(), name='status'),
     path('health/', views.health_check, name='health_check'),
+    
+    # Service Worker
+    path('sw.js', views.service_worker, name='service_worker'),
 ] 

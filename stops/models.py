@@ -206,7 +206,7 @@ class BusStop(BaseModel, GeoModel):
             self.tactile_paving,
             self.braille_info,
         ]
-        return (sum(accessibility_features) / len(accessibility_features)) * 100
+        return int((sum(accessibility_features) / len(accessibility_features)) * 100)
         
     def get_comfort_score(self):
         """
@@ -223,27 +223,23 @@ class BusStop(BaseModel, GeoModel):
             self.has_wifi,
             self.has_charging_station,
         ]
-        return (sum(comfort_features) / len(comfort_features)) * 100
-    
+        return int((sum(comfort_features) / len(comfort_features)) * 100)
+        
     def is_operational(self):
         """
-        Verifica se a parada está em funcionamento no momento atual.
+        Verifica se a parada está em funcionamento no horário atual.
         
         Returns:
-            bool: True se a parada está operacional
+            bool: True se a parada está operacional, False caso contrário
         """
         if not self.operating_hours_start or not self.operating_hours_end:
-            return True  # Se não tem horário definido, assume que opera 24h
+            return True  # Assume operacional se não há horários definidos
             
+        from datetime import time
         from django.utils import timezone
-        current_time = timezone.localtime().time()
         
-        if self.operating_hours_start <= self.operating_hours_end:
-            # Horário normal (ex: 06:00 às 22:00)
-            return self.operating_hours_start <= current_time <= self.operating_hours_end
-        else:
-            # Horário que cruza a meia-noite (ex: 22:00 às 06:00)
-            return current_time >= self.operating_hours_start or current_time <= self.operating_hours_end
+        now = timezone.now().time()
+        return self.operating_hours_start <= now <= self.operating_hours_end
 
 
 class StopAmenity(BaseModel):
@@ -273,7 +269,7 @@ class StopAmenity(BaseModel):
         choices=[
             ('accessibility', 'Acessibilidade'),
             ('comfort', 'Conforto'),
-            ('security', 'Segurança'),
+            ('safety', 'Segurança'),
             ('technology', 'Tecnologia'),
             ('commercial', 'Comercial'),
             ('other', 'Outros'),
@@ -288,7 +284,7 @@ class StopAmenity(BaseModel):
         ordering = ['category', 'name']
         
     def __str__(self):
-        return self.name
+        return f'{self.name} ({self.get_category_display()})'
 
 
 class StopAmenityMapping(BaseModel):
@@ -332,77 +328,5 @@ class StopAmenityMapping(BaseModel):
         ordering = ['stop__name', 'amenity__name']
         
     def __str__(self):
-        status = '✓' if self.is_working else '✗'
-        return f'{self.stop.name} - {self.amenity.name} {status}'
-
-
-class UserStopReport(BaseModel):
-    """
-    Relatórios de usuários sobre problemas ou atualizações das paradas.
-    Permite crowdsourcing para manter informações atualizadas.
-    """
-    stop = models.ForeignKey(
-        BusStop,
-        on_delete=models.CASCADE,
-        related_name='user_reports',
-        verbose_name='Parada'
-    )
-    user = models.ForeignKey(
-        'auth.User',
-        on_delete=models.CASCADE,
-        related_name='stop_reports',
-        verbose_name='Usuário'
-    )
-    report_type = models.CharField(
-        'Tipo de Relatório',
-        max_length=50,
-        choices=[
-            ('incorrect_info', 'Informação Incorreta'),
-            ('facility_broken', 'Facilidade Quebrada'),
-            ('missing_facility', 'Facilidade Ausente'),
-            ('new_facility', 'Nova Facilidade'),
-            ('accessibility_issue', 'Problema de Acessibilidade'),
-            ('safety_concern', 'Problema de Segurança'),
-            ('other', 'Outros'),
-        ],
-        help_text='Tipo do problema ou atualização reportada'
-    )
-    title = models.CharField(
-        'Título',
-        max_length=200,
-        help_text='Título resumido do relatório'
-    )
-    description = models.TextField(
-        'Descrição',
-        help_text='Descrição detalhada do problema ou sugestão'
-    )
-    status = models.CharField(
-        'Status',
-        max_length=20,
-        choices=[
-            ('pending', 'Pendente'),
-            ('investigating', 'Investigando'),
-            ('confirmed', 'Confirmado'),
-            ('resolved', 'Resolvido'),
-            ('rejected', 'Rejeitado'),
-        ],
-        default='pending',
-        help_text='Status atual do relatório'
-    )
-    admin_notes = models.TextField(
-        'Observações do Admin',
-        blank=True,
-        help_text='Observações da equipe administrativa'
-    )
-    
-    class Meta:
-        verbose_name = 'Relatório de Usuário'
-        verbose_name_plural = 'Relatórios de Usuários'
-        ordering = ['-created_at']
-        indexes = [
-            models.Index(fields=['status']),
-            models.Index(fields=['report_type']),
-        ]
-        
-    def __str__(self):
-        return f'{self.stop.name} - {self.title}'
+        status = "✓" if self.is_working else "✗"
+        return f'{self.stop.name} - {self.amenity.name} ({status})'
