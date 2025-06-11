@@ -16,7 +16,7 @@
     /* Ajuste da hero-section para trabalhar com navbar fixa */
     .hero-section {
         min-height: 100vh;
-        background: linear-gradient(135deg, #2c5f6f 0%, #114B5F 100%);
+        background: var(--primary-color);
         position: relative;
         display: flex;
         align-items: center;
@@ -34,23 +34,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background-image: 
-            radial-gradient(circle at 20% 30%, rgba(66, 242, 247, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 80% 70%, rgba(66, 242, 247, 0.08) 0%, transparent 50%),
-            repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 45px,
-                rgba(255, 255, 255, 0.02) 46px,
-                rgba(255, 255, 255, 0.02) 47px
-            ),
-            repeating-linear-gradient(
-                90deg,
-                transparent,
-                transparent 45px,
-                rgba(255, 255, 255, 0.02) 46px,
-                rgba(255, 255, 255, 0.02) 47px
-            );
+        background: rgba(0, 0, 0, 0.2);
         z-index: -2;
     }
     
@@ -60,9 +44,7 @@
         position: absolute;
         width: 100%;
         height: 100%;
-        background: 
-            linear-gradient(45deg, transparent 40%, rgba(42, 242, 247, 0.1) 50%, transparent 60%),
-            linear-gradient(-45deg, transparent 30%, rgba(42, 242, 247, 0.08) 50%, transparent 70%);
+        background: rgba(42, 242, 247, 0.05);
         z-index: -1;
     }
     
@@ -83,7 +65,7 @@
     .hero-title {
         font-size: 3rem;
         font-weight: 700;
-        color: white;
+        color: var(--text-primary);
         margin-bottom: var(--spacing-xl);
         text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         line-height: 1.2;
@@ -92,7 +74,7 @@
     .hero-subtitle {
         font-size: 1.5rem;
         font-weight: 500;
-        color: white;
+        color: var(--text-primary);
         margin-bottom: var(--spacing-3xl);
         opacity: 0.95;
         line-height: 1.4;
@@ -110,8 +92,8 @@
         font-size: 1.1rem;
         border: 2px solid rgba(255, 255, 255, 0.3);
         border-radius: var(--radius-2xl);
-        background: rgba(255, 255, 255, 0.95);
-        color: #1e293b;
+        background: var(--tertiary-color);
+        color: var(--text-primary);
         text-align: center;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         transition: all 0.3s ease;
@@ -124,12 +106,12 @@
         outline: none;
         transform: translateY(-2px);
         box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15), 0 0 0 3px rgba(37, 99, 235, 0.5);
-        background: #ffffff;
-        border-color: #2563eb;
+        background: var(--tertiary-color);
+        border-color: var(--quaternary-color);
     }
     
     .search-input::placeholder {
-        color: #64748b;
+        color: var(--text-muted);
         opacity: 1;
         font-weight: 400;
     }
@@ -142,9 +124,9 @@
     }
     
     .btn-aboard {
-        background: #00cccc;
-        color: #000000;
-        border: 2px solid #00cccc;
+        background: var(--quaternary-color);
+        color: var(--primary-color);
+        border: 2px solid var(--quaternary-color);
         padding: var(--spacing-xl) var(--spacing-3xl);
         font-size: 1.2rem;
         font-weight: 700;
@@ -161,7 +143,7 @@
     
     .btn-aboard:hover {
         background: #009999;
-        color: #ffffff;
+        color: var(--text-primary);
         border-color: #009999;
         transform: translateY(-2px);
         box-shadow: 0 8px 25px rgba(0, 153, 153, 0.4);
@@ -169,8 +151,8 @@
 
     .btn-aboard:focus {
         background: #009999;
-        color: #ffffff;
-        border-color: #2563eb;
+        color: var(--text-primary);
+        border-color: var(--quaternary-color);
         box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.5);
     }
     
@@ -183,8 +165,8 @@
     }
     
     .btn-secondary {
-        background: rgba(255, 255, 255, 0.95);
-        color: #1e293b;
+        background: var(--tertiary-color);
+        color: var(--text-primary);
         border: 2px solid rgba(255, 255, 255, 0.3);
         padding: var(--spacing-lg) var(--spacing-xl);
         font-size: 1rem;
@@ -201,23 +183,23 @@
     }
     
     .btn-secondary:hover {
-        background: #ffffff;
-        color: #1e293b;
-        border-color: #ffffff;
+        background: #2a2a2a;
+        color: var(--text-primary);
+        border-color: var(--quaternary-color);
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
+        box-shadow: 0 6px 20px rgba(0, 204, 204, 0.3);
     }
 
     .btn-secondary:focus {
-        background: #ffffff;
-        color: #1e293b;
-        border-color: #2563eb;
+        background: #2a2a2a;
+        color: var(--text-primary);
+        border-color: var(--quaternary-color);
         box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.5);
     }
     
     /* Seção de funcionalidades */
     .features-section {
-        background: var(--white);
+        background: var(--primary-color);
         padding: var(--spacing-4xl) 0;
         position: relative;
         z-index: 2;
@@ -230,7 +212,8 @@
         left: 0;
         right: 0;
         height: 4px;
-        background: linear-gradient(90deg, transparent, var(--quaternary-color), transparent);
+        background: var(--quaternary-color);
+        border-radius: var(--radius-sm);
     }
     
     .features-grid {
@@ -241,13 +224,13 @@
     }
     
     .feature-card {
-        background: var(--white);
+        background: var(--tertiary-color);
         padding: var(--spacing-2xl);
         border-radius: var(--radius-xl);
         box-shadow: var(--shadow-lg);
         text-align: center;
         transition: var(--transition-base);
-        border: 1px solid var(--gray-light);
+        border: 1px solid #333333;
     }
     
     .feature-card:hover {
@@ -259,60 +242,26 @@
     .feature-icon {
         width: 80px;
         height: 80px;
-        background: linear-gradient(135deg, var(--primary-color), var(--quaternary-color));
+        background: var(--quaternary-color);
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         margin: 0 auto var(--spacing-lg);
-        color: var(--white);
+        color: var(--primary-color);
         font-size: 2rem;
     }
     
     .feature-title {
         font-size: 1.25rem;
         font-weight: 600;
-        color: var(--primary-color);
+        color: var(--text-primary);
         margin-bottom: var(--spacing-md);
     }
     
     .feature-description {
-        color: var(--gray-medium);
+        color: var(--text-muted);
         line-height: 1.6;
-    }
-    
-    /* Seção de estatísticas */
-    .stats-section {
-        background: linear-gradient(135deg, var(--primary-color), var(--tertiary-color));
-        color: var(--white);
-        padding: var(--spacing-3xl) 0;
-        position: relative;
-    }
-    
-    .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: var(--spacing-xl);
-        text-align: center;
-    }
-    
-    .stat-item {
-        padding: var(--spacing-lg);
-    }
-    
-    .stat-number {
-        font-size: 2.5rem;
-        font-weight: 700;
-        color: var(--quaternary-color);
-        display: block;
-        margin-bottom: var(--spacing-sm);
-    }
-    
-    .stat-label {
-        font-size: 1rem;
-        opacity: 0.9;
-        text-transform: uppercase;
-        letter-spacing: 1px;
     }
     
     /* Responsivo melhorado */
@@ -379,15 +328,6 @@
             height: 60px;
             font-size: 1.5rem;
         }
-        
-        .stats-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: var(--spacing-lg);
-        }
-        
-        .stat-number {
-            font-size: 2rem;
-        }
     }
     
     @media (max-width: 480px) {
@@ -425,10 +365,6 @@
         .btn-secondary {
             width: 100%;
             max-width: 200px;
-        }
-        
-        .stats-grid {
-            grid-template-columns: 1fr;
         }
     }
 </style>
@@ -479,8 +415,8 @@
 <section class="features-section py-section">
     <div class="container">
         <div class="text-center">
-            <h2 class="h1 mb-4">Recursos Inteligentes</h2>
-            <p class="lead text-muted mb-5">
+            <h2 class="h1 mb-4" style="color: var(--text-primary);">Recursos Inteligentes</h2>
+            <p class="lead mb-5" style="color: var(--text-muted);">
                 Tecnologia avançada para tornar sua jornada mais eficiente e confortável
             </p>
         </div>
@@ -518,35 +454,4 @@
         </div>
     </div>
 </section>
-
-<!-- Seção de Estatísticas -->
-<section class="stats-section">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="h1 mb-4">BusFeed em Números</h2>
-            <p class="lead opacity-75">
-                Conectando milhares de pessoas diariamente
-            </p>
-        </div>
-        
-        <div class="stats-grid">
-            <div class="stat-item">
-                <span class="stat-number">150+</span>
-                <span class="stat-label">Linhas Monitoradas</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">2.5k+</span>
-                <span class="stat-label">Paradas Cadastradas</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">24/7</span>
-                <span class="stat-label">Monitoramento</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">100%</span>
-                <span class="stat-label">Gratuito</span>
-            </div>
-        </div>
-    </div>
-</section>
-{% endblock %} 
+{% endblock %}

@@ -28,10 +28,10 @@ Sistema de Design para Transporte Público de Brasília
     --gray-dark: #1e293b;             /* Cinza escuro melhorado */
     
     /* === Cores de Texto com contraste melhorado === */
-    --text-primary: #ffffff;          /* Texto principal branco */
+    --text-primary: #1e293b;          /* Texto principal mais legível */
     --text-secondary: #ffffff;        /* Texto secundário branco */
-    --text-accent: #00cccc;           /* Texto de destaque ciano */
-    --text-muted: #f1f5f9;            /* Texto secundário em branco mais claro */
+    --text-accent: #0891b2;           /* Texto de destaque com melhor contraste */
+    --text-muted: #64748b;            /* Texto secundário mais legível */
     
     /* === Cores de foco para acessibilidade === */
     --focus-ring: #2563eb;            /* Cor de foco azul padrão */
@@ -88,7 +88,7 @@ body {
     font-family: var(--font-family-primary);
     line-height: 1.6;
     color: var(--text-primary);
-    background-color: var(--primary-color);
+    background-color: var(--secondary-color);
     margin: 0;
     padding: 0;
     -webkit-font-smoothing: antialiased;
@@ -150,8 +150,6 @@ main > .container-fluid:first-child {
     margin-bottom: var(--element-gap);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-md);
-    background-color: var(--tertiary-color);
-    border: 1px solid #333333;
 }
 
 /* === Hero Section - Tela Principal === */
@@ -160,7 +158,7 @@ main > .container-fluid:first-child {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--tertiary-color) 100%);
     position: relative;
     overflow: hidden;
     padding: var(--spacing-3xl) var(--content-padding);
@@ -174,7 +172,14 @@ main > .container-fluid:first-child {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.3);
+    background-image: 
+        radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(0, 255, 255, 0.08) 0%, transparent 50%),
+        linear-gradient(135deg, 
+            rgba(0, 0, 0, 0.9) 0%, 
+            rgba(26, 26, 26, 0.8) 50%, 
+            rgba(0, 0, 0, 0.9) 100%
+        );
     z-index: 1;
 }
 
@@ -186,7 +191,21 @@ main > .container-fluid:first-child {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 255, 255, 0.02);
+    background-image: 
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 35px,
+            rgba(0, 255, 255, 0.03) 36px,
+            rgba(0, 255, 255, 0.03) 37px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 35px,
+            rgba(0, 255, 255, 0.03) 36px,
+            rgba(0, 255, 255, 0.03) 37px
+        );
     z-index: 1;
 }
 
@@ -235,7 +254,7 @@ main > .container-fluid:first-child {
     font-size: 1.1rem;
     border: 2px solid var(--gray-medium);
     border-radius: var(--radius-xl);
-    background: var(--tertiary-color);
+    background: var(--white);
     color: var(--text-primary);
     box-shadow: var(--shadow-md);
     transition: var(--transition-base);
@@ -247,7 +266,7 @@ main > .container-fluid:first-child {
 .search-input:focus {
     border-color: var(--focus-ring);
     box-shadow: 0 0 0 3px var(--focus-shadow);
-    background: var(--tertiary-color);
+    background: var(--white);
     transform: translateY(-1px);
 }
 
@@ -288,7 +307,7 @@ main > .container-fluid:first-child {
 }
 
 .btn-secondary {
-    background: var(--tertiary-color);
+    background: var(--white);
     color: var(--text-primary);
     border: 2px solid var(--gray-medium);
     padding: var(--spacing-lg) var(--spacing-xl);
@@ -302,8 +321,8 @@ main > .container-fluid:first-child {
 }
 
 .btn-secondary:hover {
-    background: #2a2a2a;
-    border-color: var(--quaternary-color);
+    background: var(--gray-light);
+    border-color: var(--text-primary);
     color: var(--text-primary);
     transform: translateY(-1px);
     box-shadow: var(--shadow-md);
@@ -371,14 +390,14 @@ main > .container-fluid:first-child {
 }
 
 .header-search .search-input {
-    background: var(--tertiary-color);
+    background: var(--secondary-color);
     color: var(--text-primary);
     padding: var(--spacing-md) var(--spacing-lg);
     margin-bottom: 0;
 }
 
 .header-search .search-input::placeholder {
-    color: var(--text-muted);
+    color: var(--gray-medium);
 }
 
 .header-search .search-input:focus {
@@ -388,7 +407,7 @@ main > .container-fluid:first-child {
 
 /* === Navegação com Abas Melhorada === */
 .nav-tabs-custom {
-    background: var(--tertiary-color);
+    background: var(--white);
     border-radius: var(--radius-lg) var(--radius-lg) 0 0;
     padding: var(--spacing-md) var(--content-padding) 0;
     margin-bottom: var(--spacing-lg);
@@ -424,8 +443,8 @@ main > .container-fluid:first-child {
 
 /* === Cards de Rota com Melhor Espaçamento === */
 .route-card {
-    background: var(--tertiary-color);
-    border: 1px solid #333333;
+    background: var(--white);
+    border: 1px solid var(--gray-light);
     border-radius: var(--radius-lg);
     padding: var(--spacing-xl);
     margin-bottom: var(--spacing-lg);
@@ -451,7 +470,7 @@ main > .container-fluid:first-child {
 .route-name {
     font-size: 1.25rem;
     font-weight: 600;
-    color: var(--text-primary);
+    color: var(--primary-color);
 }
 
 .route-price {
@@ -464,7 +483,7 @@ main > .container-fluid:first-child {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-sm);
-    color: var(--text-muted);
+    color: var(--gray-medium);
     font-size: 0.95rem;
 }
 
@@ -490,8 +509,8 @@ main > .container-fluid:first-child {
 
 /* === Cards de Informação de Parada === */
 .stop-info-card {
-    background: var(--tertiary-color);
-    border: 1px solid #333333;
+    background: var(--white);
+    border: 1px solid var(--gray-light);
     border-radius: var(--radius-lg);
     padding: var(--spacing-xl);
     margin-bottom: var(--spacing-lg);
@@ -507,14 +526,14 @@ main > .container-fluid:first-child {
 .stop-name {
     font-size: 1.25rem;
     font-weight: 600;
-    color: var(--text-primary);
+    color: var(--primary-color);
     margin-bottom: var(--spacing-md);
 }
 
 .stop-lines {
     margin-top: var(--spacing-lg);
     padding-top: var(--spacing-lg);
-    border-top: 1px solid #333333;
+    border-top: 1px solid var(--gray-light);
 }
 
 .line-item {
@@ -522,7 +541,7 @@ main > .container-fluid:first-child {
     justify-content: space-between;
     align-items: center;
     padding: var(--spacing-md) 0;
-    border-bottom: 1px solid #333333;
+    border-bottom: 1px solid var(--gray-light);
 }
 
 .line-item:last-child {
@@ -531,7 +550,7 @@ main > .container-fluid:first-child {
 
 .line-name {
     font-weight: 500;
-    color: var(--text-primary);
+    color: var(--gray-dark);
 }
 
 .line-price {
@@ -553,13 +572,13 @@ main > .container-fluid:first-child {
     border-radius: var(--radius-lg);
     overflow: hidden;
     box-shadow: var(--shadow-lg);
-    background: var(--tertiary-color);
+    background: var(--white);
 }
 
 .col-lg-4 {
     padding: 0;
-    border-right: 2px solid #333333;
-    background: var(--tertiary-color);
+    border-right: 2px solid var(--gray-light);
+    background: var(--gray-light);
 }
 
 .col-lg-4[style*="overflow-y: auto"]::-webkit-scrollbar {
@@ -567,7 +586,7 @@ main > .container-fluid:first-child {
 }
 
 .col-lg-4[style*="overflow-y: auto"]::-webkit-scrollbar-track {
-    background: #333333;
+    background: var(--gray-light);
 }
 
 .col-lg-4[style*="overflow-y: auto"]::-webkit-scrollbar-thumb {
@@ -602,7 +621,7 @@ main > .container-fluid:first-child {
 .breadcrumb-item + .breadcrumb-item::before {
     content: ">";
     margin: 0 var(--spacing-sm);
-    color: var(--text-muted);
+    color: var(--gray-medium);
 }
 
 /* === Alertas/Mensagens com Melhor Espaçamento === */
@@ -693,7 +712,7 @@ main > .container-fluid:first-child {
     .col-lg-4,
     .col-lg-8 {
         border: none;
-        border-bottom: 2px solid #333333;
+        border-bottom: 2px solid var(--gray-light);
     }
     
     .col-lg-4[style*="max-height"] {
@@ -814,17 +833,15 @@ main > .container-fluid:first-child {
 .navbar-nav .nav-link {
     color: rgba(255, 255, 255, 0.9) !important;
     font-weight: 500;
-    padding: var(--spacing-sm) var(--spacing-md) !important;
+    padding: var(--spacing-sm) var(--spacing-lg) !important;
     border-radius: var(--radius-md);
-    transition: all 0.3s ease;
+    transition: var(--transition-fast);
     text-decoration: none;
 }
 
 .navbar-nav .nav-link:hover {
-    color: var(--primary-color) !important;
-    background: var(--quaternary-color);
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(0, 204, 204, 0.3);
+    color: var(--white) !important;
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .navbar-nav .nav-link.active {
@@ -858,7 +875,7 @@ main > .container-fluid:first-child {
 
 .dropdown-item {
     padding: var(--spacing-sm) var(--spacing-lg);
-    color: var(--text-primary);
+    color: var(--gray-dark);
     transition: var(--transition-fast);
 }
 
@@ -888,7 +905,7 @@ body.no-padding-top {
     }
     
     .navbar-nav .nav-link {
-        padding: var(--spacing-md) var(--spacing-md) !important;
+        padding: var(--spacing-md) var(--spacing-lg) !important;
     }
     
     .navbar-collapse {
@@ -931,32 +948,17 @@ footer a:hover {
     text-decoration: underline;
 }
 
-/* === Seção de Contato do Footer === */
-footer .contact-info {
-    color: rgba(255, 255, 255, 0.8);
-}
-
-footer .contact-info small {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 0.875rem;
-}
-
-footer .contact-info i {
-    color: var(--quaternary-color);
-}
-
 /* === Divisores Visuais === */
 .section-divider {
     height: 2px;
-    background: var(--quaternary-color);
+    background: linear-gradient(90deg, transparent, var(--quaternary-color), transparent);
     margin: var(--spacing-2xl) 0;
     border: none;
-    border-radius: var(--radius-sm);
 }
 
 .content-separator {
     height: 1px;
-    background: #333333;
+    background: var(--gray-light);
     margin: var(--spacing-lg) 0;
     border: none;
 }
@@ -969,9 +971,7 @@ footer .contact-info i {
 .form-control {
     padding: var(--spacing-md) var(--spacing-lg);
     border-radius: var(--radius-md);
-    border: 2px solid #333333;
-    background-color: var(--tertiary-color);
-    color: var(--text-primary);
+    border: 2px solid var(--gray-light);
     transition: var(--transition-base);
 }
 
@@ -1006,14 +1006,12 @@ footer .contact-info i {
 
 .table td {
     padding: var(--spacing-lg);
-    border-bottom: 1px solid #333333;
+    border-bottom: 1px solid var(--gray-light);
     vertical-align: middle;
-    background-color: var(--tertiary-color);
-    color: var(--text-primary);
 }
 
 .table tbody tr:hover {
-    background: #2a2a2a;
+    background: var(--gray-light);
 }
 
 /* === Melhorias para Modal/Dialog === */
@@ -1021,14 +1019,12 @@ footer .contact-info i {
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-xl);
     border: none;
-    background-color: var(--tertiary-color);
-    color: var(--text-primary);
 }
 
 .modal-header {
     padding: var(--spacing-xl);
-    border-bottom: 2px solid #333333;
-    background: var(--primary-color);
+    border-bottom: 2px solid var(--gray-light);
+    background: var(--gray-light);
 }
 
 .modal-body {
@@ -1037,7 +1033,7 @@ footer .contact-info i {
 
 .modal-footer {
     padding: var(--spacing-xl);
-    border-top: 1px solid #333333;
+    border-top: 1px solid var(--gray-light);
     gap: var(--spacing-md);
 }
 
@@ -1051,14 +1047,12 @@ footer .contact-info i {
 .list-group-item {
     padding: var(--spacing-lg);
     border: none;
-    border-bottom: 1px solid #333333;
-    background-color: var(--tertiary-color);
-    color: var(--text-primary);
+    border-bottom: 1px solid var(--gray-light);
     transition: var(--transition-base);
 }
 
 .list-group-item:hover {
-    background: #2a2a2a;
+    background: var(--gray-light);
     transform: translateX(4px);
 }
 
@@ -1134,28 +1128,28 @@ footer .contact-info i {
 }
 
 .alert-info {
-    background-color: #1e3a5f;
-    border-color: #3b82f6;
-    color: #ffffff;
+    background-color: #dbeafe;
+    border-color: #93c5fd;
+    color: #1e40af;
 }
 
 .alert-success {
-    background-color: #166534;
-    border-color: #22c55e;
-    color: #ffffff;
+    background-color: #dcfce7;
+    border-color: #86efac;
+    color: #15803d;
 }
 
 .alert-warning {
-    background-color: #92400e;
-    border-color: #f59e0b;
-    color: #ffffff;
+    background-color: #fef3c7;
+    border-color: #fcd34d;
+    color: #92400e;
 }
 
 .alert-error,
 .alert-danger {
-    background-color: #991b1b;
-    border-color: #ef4444;
-    color: #ffffff;
+    background-color: #fee2e2;
+    border-color: #fca5a5;
+    color: #991b1b;
 }
 
 .alert .btn-close {
@@ -1177,7 +1171,7 @@ a {
 }
 
 a:hover {
-    color: var(--quaternary-color);
+    color: #0e7490;
     text-decoration-color: currentColor;
 }
 
@@ -1202,7 +1196,38 @@ a:focus {
     }
 }
 
-/* === Dark Mode já aplicado globalmente - removendo override === */
+/* === Dark Mode Desabilitado - Mantendo esquema preto/branco/ciano === */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --secondary-color: #0f172a;
+        --white: #1e293b;
+        --text-primary: #f1f5f9;
+        --gray-light: #334155;
+        --gray-medium: #94a3b8;
+    }
+    
+    body {
+        background-color: var(--secondary-color);
+        color: var(--text-primary);
+    }
+    
+    .card {
+        background: var(--white);
+        border-color: var(--gray-light);
+    }
+    
+    .search-input {
+        background: var(--white);
+        border-color: var(--gray-medium);
+        color: var(--text-primary);
+    }
+    
+    .btn-secondary {
+        background: var(--white);
+        color: var(--text-primary);
+        border-color: var(--gray-medium);
+    }
+}
 
 /* === Status Indicators com melhor visibilidade === */
 .status-indicator {
@@ -1281,7 +1306,7 @@ textarea:disabled {
 }
 
 .btn-link:hover {
-    color: var(--quaternary-color) !important;
+    color: #0e7490 !important;
     text-decoration: underline;
 }
 
@@ -1400,12 +1425,6 @@ hr,
     color: var(--text-primary);
 }
 
-/* Garantir que bg-transparent funcione corretamente no card-footer */
-.card-footer.bg-transparent {
-    background-color: transparent !important;
-    border-top: 1px solid rgba(0, 0, 0, 0.125);
-}
-
 .card-title {
     color: var(--text-primary);
     font-weight: 600;
@@ -1432,14 +1451,15 @@ hr,
 }
 
 .skeleton {
-    background: var(--gray-light);
-    animation: skeleton-pulse 1.5s infinite;
+    background: linear-gradient(90deg, var(--gray-light) 25%, rgba(255,255,255,0.8) 50%, var(--gray-light) 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
     border-radius: var(--radius-sm);
 }
 
-@keyframes skeleton-pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
 }
 
 /* Melhorar contraste de tooltips */
@@ -1562,123 +1582,4 @@ hr,
 
 .inline-space-lg > * + * {
     margin-left: var(--spacing-lg);
-}
-
-/* === Sobrescrevendo classes Bootstrap para tema escuro === */
-.text-muted {
-    color: var(--text-muted) !important;
-}
-
-.lead {
-    color: var(--text-primary) !important;
-}
-
-h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-    color: var(--text-primary) !important;
-}
-
-p {
-    color: var(--text-primary);
-}
-
-/* Bootstrap components override */
-.container, .container-fluid {
-    color: var(--text-primary);
-}
-
-/* Garantir que todos os elementos tenham cor branca por padrão */
-*, *::before, *::after {
-    color: inherit;
-}
-
-/* Específico para elementos que possam estar herdando cores erradas */
-.text-primary {
-    color: var(--text-primary) !important;
-}
-
-.text-secondary {
-    color: var(--text-secondary) !important;
-}
-
-.text-dark {
-    color: var(--text-primary) !important;
-}
-
-.text-body {
-    color: var(--text-primary) !important;
-}
-
-/* === Correções específicas para elementos comuns === */
-span, div, label, small {
-    color: inherit;
-}
-
-/* Navegação */
-.navbar-nav .nav-link {
-    color: var(--text-primary) !important;
-}
-
-.navbar-brand {
-    color: var(--text-primary) !important;
-}
-
-/* Cards específicos */
-.card-title, .card-text, .card-subtitle {
-    color: var(--text-primary) !important;
-}
-
-/* Input groups */
-.input-group-text {
-    background-color: var(--tertiary-color);
-    color: var(--text-primary);
-    border-color: #333333;
-}
-
-/* Dropdowns */
-.dropdown-menu {
-    background-color: var(--tertiary-color);
-    border-color: #333333;
-}
-
-.dropdown-item {
-    color: var(--text-primary);
-}
-
-.dropdown-item:hover,
-.dropdown-item:focus {
-    background-color: #2a2a2a;
-    color: var(--text-primary);
-}
-
-/* Breadcrumbs */
-.breadcrumb-item {
-    color: var(--text-primary);
-}
-
-.breadcrumb-item.active {
-    color: var(--text-muted);
-}
-
-/* Labels e textos auxiliares */
-.form-text {
-    color: var(--text-muted) !important;
-}
-
-/* Paginação */
-.page-link {
-    background-color: var(--tertiary-color);
-    border-color: #333333;
-    color: var(--text-primary);
-}
-
-.page-link:hover {
-    background-color: #2a2a2a;
-    border-color: var(--quaternary-color);
-    color: var(--text-primary);
-}
-
-.page-item.active .page-link {
-    background-color: var(--quaternary-color);
-    border-color: var(--quaternary-color);
-    color: var(--primary-color);
-}
+} 

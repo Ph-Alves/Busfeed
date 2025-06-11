@@ -16,7 +16,7 @@ app_name = 'schedules'
 urlpatterns = [
     # Páginas principais
     path('', views.ScheduleListView.as_view(), name='list'),
-    path('linha/<int:route_id>/', views.RouteScheduleView.as_view(), name='route_schedule'),
+    path('linha/<uuid:route_id>/', views.RouteScheduleView.as_view(), name='route_schedule'),
     
     # APIs para horários
     path('api/route/<str:route_number>/', views.route_schedule_api, name='route_schedule_api'),

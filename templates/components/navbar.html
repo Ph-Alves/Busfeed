@@ -29,17 +29,17 @@ Este componente garante que o menu superior seja consistente em toda a aplica√ß√
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link{% if 'routes' in request.resolver_match.namespace or 'routes' in request.resolver_match.url_name %} active{% endif %}" 
+                    <a class="nav-link{% if request.resolver_match.namespace == 'routes' and 'stops' not in request.resolver_match.url_name %} active{% endif %}" 
                        href="{% url 'routes:routes_list' %}"
-                       aria-current="{% if 'routes' in request.resolver_match.namespace %}page{% else %}false{% endif %}">
+                       aria-current="{% if request.resolver_match.namespace == 'routes' and 'stops' not in request.resolver_match.url_name %}page{% else %}false{% endif %}">
                         <i class="bi bi-diagram-3 me-1" aria-hidden="true"></i>
                         <span>Rotas</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link{% if 'stops' in request.resolver_match.namespace or 'stops' in request.resolver_match.url_name %} active{% endif %}" 
+                    <a class="nav-link{% if 'stops' in request.resolver_match.url_name or request.resolver_match.namespace == 'stops' %} active{% endif %}" 
                        href="{% url 'routes:stops_list' %}"
-                       aria-current="{% if 'stops' in request.resolver_match.namespace %}page{% else %}false{% endif %}">
+                       aria-current="{% if 'stops' in request.resolver_match.url_name or request.resolver_match.namespace == 'stops' %}page{% else %}false{% endif %}">
                         <i class="bi bi-geo-alt me-1" aria-hidden="true"></i>
                         <span>Paradas</span>
                     </a>
