@@ -305,7 +305,7 @@ def stops_list(request):
     """
     View legada para lista de paradas (redirecionamento).
     """
-    return redirect('stops:stop_list')
+    return redirect('stops:list')
 
 
 def home(request):
@@ -426,7 +426,7 @@ def stop_map_data(request, stop_code):
             },
             'wheelchair_accessible': stop.wheelchair_accessible,
             'has_shelter': stop.has_shelter,
-            'has_bench': stop.has_bench,
+            'has_seating': stop.has_seating,
             'address': stop.get_full_address(),
         }
         

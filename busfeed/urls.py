@@ -9,14 +9,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    # App principal - Core
+    # App principal - Core (Home)
     path('', include('core.urls')),
     
-    # Apps funcionais
+    # Apps funcionais essenciais
     path('rotas/', include('routes.urls')),
     path('paradas/', include('stops.urls')),
     path('horarios/', include('schedules.urls')),
-    path('notificacoes/', include('notifications.urls')),
 ]
 
 # Configuração para servir arquivos de mídia em desenvolvimento

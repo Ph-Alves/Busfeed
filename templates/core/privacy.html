@@ -4,12 +4,7 @@
 {% block meta_description %}{{ meta_description }}{% endblock %}
 
 {% block breadcrumb %}
-<nav aria-label="Localização atual" class="container">
-    <ol class="breadcrumb bg-light p-3 mt-3 rounded">
-        <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Início</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Privacidade</li>
-    </ol>
-</nav>
+{% comment %} Breadcrumb removido para interface mais limpa {% endcomment %}
 {% endblock %}
 
 {% block content %}

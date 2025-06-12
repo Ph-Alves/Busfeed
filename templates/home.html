@@ -1,0 +1,543 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}BusFeed - Transporte Público Inteligente em Brasília{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Estilos específicos da home */
+    .hero-section {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-darker) 100%);
+        min-height: 80vh;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='3'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        animation: float 20s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+    }
+
+    .feature-card {
+        background: var(--surface-bg);
+        border: 1px solid var(--primary-lighter);
+        border-radius: var(--radius-3xl);
+        padding: var(--spacing-8);
+        text-align: center;
+        transition: all var(--transition-base);
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+    }
+
+    .feature-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(0, 212, 212, 0.1), transparent);
+        transition: left 0.6s ease;
+    }
+
+    .feature-card:hover::before {
+        left: 100%;
+    }
+
+    .feature-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+        border-radius: var(--radius-full);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto var(--spacing-6);
+        font-size: 2rem;
+        color: white;
+        box-shadow: var(--shadow-lg);
+        transform: scale(1);
+        transition: transform var(--transition-base);
+    }
+
+    .feature-card:hover .feature-icon {
+        transform: scale(1.1) rotate(5deg);
+    }
+
+    .stats-section {
+        background: var(--elevated-bg);
+    }
+
+    .stat-card {
+        text-align: center;
+        padding: var(--spacing-6);
+        border-radius: var(--radius-2xl);
+        background: var(--surface-bg);
+        box-shadow: var(--shadow-md);
+        transition: all var(--transition-base);
+    }
+
+    .stat-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-xl);
+    }
+
+    .stat-number {
+        font-size: 3rem;
+        font-weight: var(--font-weight-bold);
+        color: var(--accent-color);
+        display: block;
+        line-height: 1;
+    }
+
+    .cta-section {
+        background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
+        position: relative;
+        overflow: hidden;
+    }
+
+    .cta-section::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 300px;
+        height: 300px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        transform: translate(100px, -100px);
+    }
+
+    .search-hero {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .hero-search-input {
+        background: rgba(255, 255, 255, 0.95);
+        border: 2px solid transparent;
+        border-radius: var(--radius-3xl);
+        padding: var(--spacing-5) var(--spacing-6);
+        font-size: var(--text-lg);
+        backdrop-filter: blur(10px);
+        transition: all var(--transition-base);
+    }
+
+    .hero-search-input:focus {
+        background: white;
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 4px rgba(0, 212, 212, 0.1);
+        transform: scale(1.02);
+    }
+
+    .hero-search-btn {
+        background: var(--accent-color);
+        border: none;
+        border-radius: var(--radius-3xl);
+        padding: var(--spacing-5) var(--spacing-8);
+        font-weight: var(--font-weight-semibold);
+        transition: all var(--transition-base);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-search-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transition: left 0.6s ease;
+    }
+
+    .hero-search-btn:hover::before {
+        left: 100%;
+    }
+
+    .quick-actions {
+        margin-top: var(--spacing-8);
+    }
+
+    .quick-action-btn {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: var(--spacing-3) var(--spacing-5);
+        border-radius: var(--radius-full);
+        text-decoration: none;
+        transition: all var(--transition-base);
+        backdrop-filter: blur(10px);
+        display: inline-flex;
+        align-items: center;
+        gap: var(--spacing-2);
+        margin: var(--spacing-2);
+    }
+
+    .quick-action-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .testimonial-card {
+        background: var(--surface-bg);
+        border-radius: var(--radius-2xl);
+        padding: var(--spacing-6);
+        box-shadow: var(--shadow-md);
+        text-align: center;
+        transition: all var(--transition-base);
+        position: relative;
+    }
+
+    .testimonial-card::before {
+        content: '"';
+        position: absolute;
+        top: -20px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 4rem;
+        color: var(--accent-color);
+        font-family: serif;
+    }
+
+    .news-card {
+        background: var(--surface-bg);
+        border: 1px solid var(--primary-lighter);
+        border-radius: var(--radius-2xl);
+        overflow: hidden;
+        transition: all var(--transition-base);
+        height: 100%;
+    }
+
+    .news-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-xl);
+    }
+
+    .news-image {
+        height: 200px;
+        background: var(--primary-lighter);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-muted);
+        font-size: var(--text-lg);
+    }
+
+    .typing-text {
+        overflow: hidden;
+        border-right: 2px solid var(--accent-color);
+        white-space: nowrap;
+        margin: 0 auto;
+        animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
+    }
+
+    @keyframes typing {
+        from { width: 0; }
+        to { width: 100%; }
+    }
+
+    @keyframes blink-caret {
+        from, to { border-color: transparent; }
+        50% { border-color: var(--accent-color); }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section d-flex align-items-center">
+    <div class="container position-relative z-index-2">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-xl-8 text-center text-white">
+                <h1 class="display-3 fw-bold mb-4 animate-slide-in-top">
+                    Transporte Público
+                    <span class="text-accent d-block typing-text">Inteligente</span>
+                </h1>
+                
+                <p class="lead mb-5 animate-slide-in-left" style="animation-delay: 0.2s;">
+                    Descubra a melhor forma de se locomover em Brasília. 
+                    Consulte rotas, horários e planeje sua viagem com eficiência.
+                </p>
+
+                <!-- Hero Search -->
+                <div class="search-hero animate-fade-in-scale" style="animation-delay: 0.4s;">
+                    <form class="row g-3" method="GET" action="{% url 'routes:list' %}">
+                        <div class="col-12 col-md-8">
+                            <input 
+                                type="text" 
+                                class="form-control hero-search-input" 
+                                name="search"
+                                placeholder="Para onde você quer ir? (ex: W3 Sul, Asa Norte...)"
+                                aria-label="Buscar destino"
+                            >
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <button type="submit" class="btn hero-search-btn w-100">
+                                <i class="bi bi-search me-2"></i>
+                                Buscar Rotas
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Quick Actions -->
+                    <div class="quick-actions">
+                        <p class="mb-3 opacity-75">Ações rápidas:</p>
+                        <a href="{% url 'routes:list' %}" class="quick-action-btn">
+                            <i class="bi bi-list-ul"></i>
+                            Todas as Rotas
+                        </a>
+                        <a href="#" class="quick-action-btn">
+                            <i class="bi bi-geo-alt"></i>
+                            Rotas Próximas
+                        </a>
+                        <a href="#" class="quick-action-btn">
+                            <i class="bi bi-heart"></i>
+                            Favoritas
+                        </a>
+                        <a href="#" class="quick-action-btn">
+                            <i class="bi bi-clock"></i>
+                            Horários
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section py-5 text-white text-center">
+    <div class="container position-relative">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h2 class="display-4 fw-bold mb-4">
+                    Pronto para transformar seus deslocamentos?
+                </h2>
+                <p class="lead mb-5">
+                    Junte-se a milhares de brasilienses que já descobriram 
+                    uma forma mais inteligente de usar o transporte público.
+                </p>
+                
+                <div class="row g-3 justify-content-center">
+                    <div class="col-auto">
+                        <a href="{% url 'routes:list' %}" class="btn btn-light btn-lg hover-lift">
+                            <i class="bi bi-search me-2"></i>
+                            Explorar Rotas
+                        </a>
+                    </div>
+                    <div class="col-auto">
+                        <a href="#" class="btn btn-outline-light btn-lg hover-lift">
+                            <i class="bi bi-play-circle me-2"></i>
+                            Ver Demo
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="py-5" style="background: var(--body-bg);">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <h2 class="display-5 fw-bold mb-3">O que nossos usuários dizem</h2>
+                <p class="lead text-muted">Depoimentos reais de quem usa o BusFeed no dia a dia</p>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <div class="testimonial-card">
+                    <p class="mb-4">
+                        "O BusFeed revolucionou meus deslocamentos. Agora sei exatamente 
+                        quando o ônibus vai chegar e posso planejar melhor meu tempo."
+                    </p>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div class="avatar bg-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                            <i class="bi bi-person text-white"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-0">Maria Silva</h6>
+                            <small class="text-muted">Estudante - UnB</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="testimonial-card">
+                    <p class="mb-4">
+                        "Interface muito intuitiva e informações sempre atualizadas. 
+                        Consegui reduzir meu tempo de espera em 40%!"
+                    </p>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div class="avatar bg-success rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                            <i class="bi bi-person text-white"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-0">João Santos</h6>
+                            <small class="text-muted">Funcionário Público</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="testimonial-card">
+                    <p class="mb-4">
+                        "Aplicativo essencial para quem depende do transporte público. 
+                        As notificações me salvaram várias vezes!"
+                    </p>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div class="avatar bg-warning rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                            <i class="bi bi-person text-white"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-0">Ana Costa</h6>
+                            <small class="text-muted">Profissional Liberal</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Counter Animation
+    function animateCounters() {
+        const counters = document.querySelectorAll('.stat-number');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target;
+                    const target = parseInt(counter.getAttribute('data-count'));
+                    const duration = 2000; // 2 seconds
+                    const increment = target / (duration / 16); // 60fps
+                    let current = 0;
+                    
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= target) {
+                            counter.textContent = target.toLocaleString();
+                            clearInterval(timer);
+                        } else {
+                            counter.textContent = Math.floor(current).toLocaleString();
+                        }
+                    }, 16);
+                    
+                    observer.unobserve(counter);
+                }
+            });
+        });
+        
+        counters.forEach(counter => observer.observe(counter));
+    }
+
+    // Enhanced form interactions
+    function enhanceSearchForm() {
+        const searchInput = document.querySelector('.hero-search-input');
+        const searchForm = searchInput?.closest('form');
+        
+        if (searchInput) {
+            // Add real-time suggestions (placeholder for future implementation)
+            searchInput.addEventListener('input', function() {
+                // TODO: Implement search suggestions
+                console.log('Search query:', this.value);
+            });
+            
+            // Enhanced form submission
+            searchForm?.addEventListener('submit', function(e) {
+                if (!searchInput.value.trim()) {
+                    e.preventDefault();
+                    showToast('Por favor, digite um destino para buscar.', 'warning');
+                    searchInput.focus();
+                    return;
+                }
+                
+                showLoading('Buscando rotas...');
+            });
+        }
+    }
+
+    // Parallax effect for hero section
+    function addParallaxEffect() {
+        const hero = document.querySelector('.hero-section');
+        
+        if (hero) {
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                const parallax = hero.querySelector('.hero-section::before');
+                if (parallax) {
+                    parallax.style.transform = `translateY(${scrolled * 0.5}px)`;
+                }
+            });
+        }
+    }
+
+    // Smooth reveal animations
+    function addRevealAnimations() {
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, index * 100); // Stagger the animations
+                    
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Apply to feature cards and other elements
+        document.querySelectorAll('.feature-card, .stat-card, .testimonial-card').forEach((el, index) => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+    }
+
+    // Initialize all enhancements
+    document.addEventListener('DOMContentLoaded', function() {
+        animateCounters();
+        enhanceSearchForm();
+        addParallaxEffect();
+        addRevealAnimations();
+        
+        // Show welcome toast for first-time visitors
+        if (!localStorage.getItem('busfeed_visited')) {
+            setTimeout(() => {
+                showToast('Bem-vindo ao BusFeed! Descubra uma nova forma de se locomover.', 'info', 8000);
+                localStorage.setItem('busfeed_visited', 'true');
+            }, 1000);
+        }
+    });
+</script>
+{% endblock %} 

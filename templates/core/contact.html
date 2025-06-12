@@ -1,107 +1,136 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}{{ page_title }}{% endblock %}
-{% block meta_description %}{{ meta_description }}{% endblock %}
-
-{% block breadcrumb %}
-<nav aria-label="Localização atual" class="container">
-    <ol class="breadcrumb bg-light p-3 mt-3 rounded">
-        <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Início</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Contato</li>
-    </ol>
-</nav>
-{% endblock %}
+{% block title %}Contato - BusFeed{% endblock %}
 
 {% block content %}
 <div class="container py-5">
-    <div class="row">
-        <div class="col-lg-8 mx-auto">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Header -->
             <div class="text-center mb-5">
-                <h1 class="display-5 fw-bold mb-4">Entre em Contato</h1>
-                <p class="lead">
-                    Sua opinião é fundamental para melhorarmos o BusFeed. 
-                    Envie sugestões, reporte problemas ou tire suas dúvidas.
+                <h1 class="display-4 mb-3">
+                    <i class="bi bi-envelope text-primary me-3"></i>
+                    Entre em Contato
+                </h1>
+                <p class="lead text-muted">
+                    Envie suas sugestões, dúvidas ou reporte problemas
                 </p>
             </div>
 
-            <div class="card shadow-sm">
-                <div class="card-body p-4">
-                    <form method="post" aria-labelledby="contact-form-title">
-                        {% csrf_token %}
-                        <h2 id="contact-form-title" class="h4 mb-4">Formulário de Contato</h2>
-                        
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label for="nome" class="form-label">Nome completo *</label>
-                                <input type="text" class="form-control" id="nome" name="nome" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="email" class="form-label">E-mail *</label>
-                                <input type="email" class="form-control" id="email" name="email" required>
-                            </div>
+            <div class="row">
+                <!-- Formulário de Contato -->
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="h5 mb-0">
+                                <i class="bi bi-chat-text me-2"></i>
+                                Envie sua Mensagem
+                            </h2>
                         </div>
-                        
-                        <div class="mb-3 mt-3">
-                            <label for="assunto" class="form-label">Assunto *</label>
-                            <select class="form-select" id="assunto" name="assunto" required>
-                                <option value="">Selecione o assunto</option>
-                                <option value="sugestao">Sugestão de melhoria</option>
-                                <option value="problema">Reportar problema</option>
-                                <option value="duvida">Dúvida sobre funcionamento</option>
-                                <option value="acessibilidade">Questão de acessibilidade</option>
-                                <option value="parceria">Proposta de parceria</option>
-                                <option value="outro">Outro</option>
-                            </select>
+                        <div class="card-body">
+                            <form method="post" data-validate>
+                                {% csrf_token %}
+                                
+                                <div class="mb-3">
+                                    <label for="nome" class="form-label">Nome *</label>
+                                    <input type="text" class="form-control" id="nome" name="nome" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email *</label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="categoria" class="form-label">Categoria</label>
+                                    <select class="form-select" id="categoria" name="categoria">
+                                        <option value="">Selecione uma categoria</option>
+                                        <option value="sugestao">Sugestão de melhoria</option>
+                                        <option value="problema">Problema técnico</option>
+                                        <option value="dados">Dados incorretos</option>
+                                        <option value="acessibilidade">Acessibilidade</option>
+                                        <option value="outros">Outros</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="mensagem" class="form-label">Mensagem *</label>
+                                    <textarea class="form-control" id="mensagem" name="mensagem" rows="5" required
+                                              placeholder="Descreva sua mensagem de forma clara e detalhada..."></textarea>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-send me-2"></i>
+                                    Enviar Mensagem
+                                </button>
+                            </form>
                         </div>
-                        
-                        <div class="mb-3">
-                            <label for="mensagem" class="form-label">Mensagem *</label>
-                            <textarea class="form-control" id="mensagem" name="mensagem" rows="6" 
-                                      placeholder="Descreva detalhadamente sua mensagem..." required></textarea>
-                            <div class="form-text">Mínimo de 10 caracteres</div>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="privacy" required>
-                                <label class="form-check-label" for="privacy">
-                                    Concordo com a <a href="{% url 'core:privacy' %}" target="_blank">política de privacidade</a> *
-                                </label>
-                            </div>
-                        </div>
-                        
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary btn-lg">
-                                <i class="bi bi-send me-2" aria-hidden="true"></i>
-                                Enviar Mensagem
-                            </button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Informações de Contato -->
-            <div class="row mt-5 g-4">
-                <div class="col-md-4">
-                    <div class="text-center">
-                        <i class="bi bi-envelope text-primary mb-3" style="font-size: 2.5rem;" aria-hidden="true"></i>
-                        <h3 class="h5 fw-bold">E-mail</h3>
-                        <p class="text-muted">contato@busfeed.df.gov.br</p>
+                <!-- Informações de Contato -->
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="h5 mb-0">
+                                <i class="bi bi-info-circle me-2"></i>
+                                Outras Formas de Contato
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <h6 class="text-muted">Email</h6>
+                                <p class="mb-0">contato@busfeed.com.br</p>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <h6 class="text-muted">Telefone</h6>
+                                <p class="mb-0">(61) 3344-5566</p>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <h6 class="text-muted">Horário de Atendimento</h6>
+                                <p class="mb-0">Segunda a Sexta, 8h às 18h</p>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <h6 class="text-muted">Endereço</h6>
+                                <p class="mb-0">Brasília, DF</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="text-center">
-                        <i class="bi bi-clock text-success mb-3" style="font-size: 2.5rem;" aria-hidden="true"></i>
-                        <h3 class="h5 fw-bold">Horário de Atendimento</h3>
-                        <p class="text-muted">Segunda a Sexta<br>8h às 18h</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="text-center">
-                        <i class="bi bi-chat-dots text-warning mb-3" style="font-size: 2.5rem;" aria-hidden="true"></i>
-                        <h3 class="h5 fw-bold">Tempo de Resposta</h3>
-                        <p class="text-muted">Até 48 horas<br>em dias úteis</p>
+
+                    <!-- Links Úteis -->
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h2 class="h5 mb-0">
+                                <i class="bi bi-link-45deg me-2"></i>
+                                Links Úteis
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-unstyled mb-0">
+                                <li class="mb-2">
+                                    <a href="{% url 'core:help' %}" class="text-decoration-none">
+                                        <i class="bi bi-question-circle me-2"></i>
+                                        Central de Ajuda
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="{% url 'core:about' %}" class="text-decoration-none">
+                                        <i class="bi bi-info-circle me-2"></i>
+                                        Sobre o BusFeed
+                                    </a>
+                                </li>
+                                <li class="mb-2">
+                                    <a href="{% url 'core:health_check' %}" class="text-decoration-none">
+                                        <i class="bi bi-shield-check me-2"></i>
+                                        Status do Sistema
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

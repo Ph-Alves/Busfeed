@@ -3215,31 +3215,27 @@ Micro-interactions, Loading States e Animações Profissionais
 .btn-outline-primary,
 .btn-outline-secondary,
 .btn-sm,
-.btn-lg,
-button[type="submit"],
-input[type="submit"],
-a.btn {
+.btn-lg {
     height: var(--btn-height-md) !important;
     padding: 0 var(--btn-padding-x-md) !important;
-    font-size: var(--text-sm) !important;
+    font-size: var(--text-base) !important;
     font-weight: var(--font-weight-medium) !important;
-    border-radius: var(--radius-md) !important;
+    border-radius: var(--radius-lg) !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: var(--spacing-1) !important;
+    gap: var(--spacing-2) !important;
     min-width: fit-content !important;
     max-width: none !important;
     white-space: nowrap !important;
     transition: var(--transition-all) !important;
     line-height: 1 !important;
-    box-sizing: border-box !important;
 }
 
 .btn-sm {
     height: var(--btn-height-sm) !important;
     padding: 0 var(--btn-padding-x-sm) !important;
-    font-size: var(--text-xs) !important;
+    font-size: var(--text-sm) !important;
 }
 
 .btn-lg {
@@ -3325,51 +3321,8 @@ input:focus {
 .route-card .btn {
     height: 32px !important;
     padding: 0 12px !important;
-    font-size: var(--text-xs) !important;
+    font-size: var(--text-sm) !important;
     min-width: 80px !important;
-}
-
-/* === Sobrescrevendo Bootstrap com força máxima === */
-.btn.btn-primary,
-.btn.btn-secondary,
-.btn.btn-outline-primary,
-.btn.btn-outline-secondary,
-button.btn,
-input.btn,
-a.btn-primary,
-a.btn-secondary {
-    height: 36px !important;
-    padding: 0 14px !important;
-    font-size: 13px !important;
-    line-height: 1 !important;
-    border-radius: 6px !important;
-    min-width: fit-content !important;
-    max-width: none !important;
-}
-
-/* === Botões pequenos ainda menores === */
-.btn-sm.btn-primary,
-.btn-sm.btn-secondary,
-.btn.btn-sm {
-    height: 30px !important;
-    padding: 0 10px !important;
-    font-size: 12px !important;
-}
-
-/* === Hero buttons específicos === */
-.hero-search-btn {
-    height: 42px !important;
-    padding: 0 20px !important;
-    font-size: 14px !important;
-}
-
-/* === Formulários === */
-.btn[type="submit"],
-button[type="submit"],
-input[type="submit"] {
-    height: 36px !important;
-    padding: 0 16px !important;
-    font-size: 13px !important;
 }
 
 /* === Correção para breadcrumbs - removendo padding desnecessário === */

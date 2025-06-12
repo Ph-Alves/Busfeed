@@ -54,6 +54,24 @@
     <!-- Skip to main content for accessibility -->
     <a href="#main-content" class="visually-hidden-focusable">Pular para o conteúdo principal</a>
     
+    <!-- Loading Overlay Global -->
+    <div id="global-loading" class="loading-overlay d-none">
+        <div class="loading-content">
+            <div class="loading-spinner-advanced"></div>
+            <p class="loading-text mt-3">Carregando...</p>
+        </div>
+    </div>
+
+    <!-- Toast Container para Notificações -->
+    <div id="toast-container" class="toast-container">
+        <!-- Toasts serão inseridos aqui dinamicamente -->
+    </div>
+
+    <!-- Progress Bar Global -->
+    <div id="global-progress" class="progress-bar-custom d-none">
+        <div class="progress-bar-fill" style="width: 0%"></div>
+    </div>
+    
     <!-- Navigation -->
     {% include 'components/navbar.html' %}
     
@@ -88,83 +106,7 @@
     
     <!-- Footer -->
     <footer class="mt-5" role="contentinfo">
-        <div class="container py-5">
-            <div class="row">
-                <div class="col-lg-2 col-md-6 mb-4">
-                    <div class="d-flex align-items-center mb-3">
-                        <i class="bi bi-bus-front me-2 fs-3" aria-hidden="true"></i>
-                        <h5 class="mb-0">BusFeed</h5>
-                    </div>
-                    <p class="text-body mb-3">
-                        Sistema inteligente de transporte público para Brasília, 
-                        facilitando a mobilidade urbana com informações em tempo real.
-                    </p>
-                    <div class="d-flex gap-3">
-                        <a href="#" class="text-decoration-none" aria-label="Facebook" onclick="alert('Em desenvolvimento')">
-                            <i class="bi bi-facebook fs-5"></i>
-                        </a>
-                        <a href="#" class="text-decoration-none" aria-label="Twitter" onclick="alert('Em desenvolvimento')">
-                            <i class="bi bi-twitter fs-5"></i>
-                        </a>
-                        <a href="#" class="text-decoration-none" aria-label="Instagram" onclick="alert('Em desenvolvimento')">
-                            <i class="bi bi-instagram fs-5"></i>
-                        </a>
-                        <a href="#" class="text-decoration-none" aria-label="GitHub" onclick="alert('Em desenvolvimento')">
-                            <i class="bi bi-github fs-5"></i>
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="col-lg-2 col-md-3 col-6 mb-4">
-                    <h6>Navegação</h6>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="{% url 'core:home' %}">Início</a></li>
-                        <li class="mb-2"><a href="{% url 'core:about' %}">Sobre</a></li>
-                        <li class="mb-2"><a href="{% url 'core:contact' %}">Contato</a></li>
-                        <li class="mb-2"><a href="{% url 'core:help' %}">Ajuda</a></li>
-                    </ul>
-                </div>
-                
-                <div class="col-lg-2 col-md-3 col-6 mb-4">
-                    <h6>Recursos</h6>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="{% url 'core:api' %}">API</a></li>
-                        <li class="mb-2"><a href="{% url 'core:status' %}">Status</a></li>
-                        <li class="mb-2"><a href="#" onclick="alert('Em desenvolvimento')">Mapa</a></li>
-                        <li class="mb-2"><a href="#" onclick="alert('Em desenvolvimento')">Mobile App</a></li>
-                    </ul>
-                </div>
-                
-                <div class="col-lg-2 col-md-6 col-6 mb-4">
-                    <h6>Legal</h6>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="{% url 'core:privacy' %}">Privacidade</a></li>
-                        <li class="mb-2"><a href="{% url 'core:accessibility' %}">Acessibilidade</a></li>
-                        <li class="mb-2"><a href="#" onclick="alert('Em desenvolvimento')">Termos</a></li>
-                    </ul>
-                </div>
-                
-                <div class="col-lg-2 col-md-6 col-12 mb-4">
-                    <h6>Contato</h6>
-                    <div class="contact-info">
-                        <div class="mb-2">
-                            <i class="bi bi-envelope me-1" aria-hidden="true"></i>
-                            <small>contato@busfeed.com.br</small>
-                        </div>
-                        <div class="mb-2">
-                            <i class="bi bi-telephone me-1" aria-hidden="true"></i>
-                            <small>(61) 3344-5566</small>
-                        </div>
-                        <div class="mb-2">
-                            <i class="bi bi-geo-alt me-1" aria-hidden="true"></i>
-                            <small>Brasília, DF</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <hr class="my-4">
-            
+        <div class="container py-3">
             <div class="row align-items-center">
                 <div class="col-md-6">
                     <p class="text-body-sm mb-0">
@@ -190,20 +132,7 @@
     
     {% block extra_js %}{% endblock %}
     
-    <!-- Service Worker for PWA capabilities -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(function(registration) {
-                        console.log('ServiceWorker registrado com sucesso: ', registration.scope);
-                    })
-                    .catch(function(error) {
-                        console.log('ServiceWorker falhou ao registrar: ', error);
-                    });
-            });
-        }
-    </script>
+
     
     {% block extra_body %}{% endblock %}
 </body>

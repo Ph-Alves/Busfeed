@@ -3,310 +3,288 @@
 
 {% block title %}Ajuda - BusFeed{% endblock %}
 
-{% block extra_css %}
-<style>
-    .help-section {
-        padding: 2rem 0;
-    }
-    
-    .faq-item {
-        background: white;
-        border-radius: 12px;
-        padding: 1.5rem;
-        margin-bottom: 1rem;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        border-left: 4px solid #1e3a5f;
-    }
-    
-    .faq-question {
-        font-weight: 600;
-        color: #1e3a5f;
-        margin-bottom: 0.5rem;
-        cursor: pointer;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    
-    .faq-answer {
-        color: #666;
-        margin-top: 1rem;
-    }
-    
-    .category-section {
-        margin-bottom: 3rem;
-    }
-    
-    .category-title {
-        color: #1e3a5f;
-        border-bottom: 2px solid #f39c12;
-        padding-bottom: 0.5rem;
-        margin-bottom: 1.5rem;
-    }
-    
-    .help-nav {
-        background: #f8f9fa;
-        border-radius: 12px;
-        padding: 1.5rem;
-        margin-bottom: 2rem;
-    }
-    
-    .help-nav a {
-        color: #1e3a5f;
-        text-decoration: none;
-        display: block;
-        padding: 0.5rem 0;
-        border-bottom: 1px solid #dee2e6;
-    }
-    
-    .help-nav a:last-child {
-        border-bottom: none;
-    }
-    
-    .help-nav a:hover {
-        color: #f39c12;
-    }
-</style>
-{% endblock %}
-
-{% block breadcrumb %}
-<nav aria-label="breadcrumb" class="bg-light py-2">
-    <div class="container">
-        <ol class="breadcrumb mb-0">
-            <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Início</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Ajuda</li>
-        </ol>
-    </div>
-</nav>
-{% endblock %}
-
 {% block content %}
-<div class="container help-section">
-    <div class="row">
-        <div class="col-lg-3">
-            <div class="help-nav">
-                <h5>Navegação Rápida</h5>
-                <a href="#introducao">Introdução</a>
-                <a href="#busca">Busca de Rotas</a>
-                <a href="#mapas">Usando os Mapas</a>
-                <a href="#acessibilidade">Acessibilidade</a>
-                <a href="#problemas">Problemas Comuns</a>
-                <a href="#contato">Fale Conosco</a>
-            </div>
-        </div>
-        
-        <div class="col-lg-9">
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <!-- Header -->
             <div class="text-center mb-5">
-                <h1 class="display-4 mb-3">Central de Ajuda</h1>
-                <p class="lead">Encontre respostas para suas dúvidas sobre o BusFeed</p>
+                <h1 class="display-4 mb-3">
+                    <i class="bi bi-question-circle text-primary me-3"></i>
+                    Central de Ajuda
+                </h1>
+                <p class="lead text-muted">
+                    Encontre respostas para suas dúvidas sobre o BusFeed
+                </p>
             </div>
-            
-            <!-- Introdução -->
-            <div id="introducao" class="category-section">
-                <h2 class="category-title">Introdução ao BusFeed</h2>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        O que é o BusFeed?
-                        <i class="bi bi-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        O BusFeed é um sistema inteligente de transporte público desenvolvido especificamente para Brasília e o Distrito Federal. Ele permite consultar rotas de ônibus, visualizar paradas no mapa, verificar horários e encontrar a melhor forma de se locomover pela cidade usando transporte público.
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        O BusFeed é gratuito?
-                        <i class="bi bi-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        Sim! O BusFeed é completamente gratuito e foi desenvolvido para facilitar a vida dos usuários de transporte público do DF. Nosso objetivo é tornar a mobilidade urbana mais acessível e eficiente para todos.
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Busca de Rotas -->
-            <div id="busca" class="category-section">
-                <h2 class="category-title">Busca de Rotas</h2>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        Como buscar rotas para um destino?
-                        <i class="bi bi-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        Na página inicial, digite seu destino no campo de busca (ex: "UnB", "Taguatinga", "Shopping"). O sistema mostrará todas as rotas que passam pelo local ou próximo a ele. Você também pode usar nomes de bairros, pontos de referência ou terminais.
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        Como interpretar as informações das rotas?
-                        <i class="bi bi-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        Cada rota mostra: número da linha, nome do trajeto, empresa responsável, tarifa e se possui acessibilidade para cadeirantes. Clique em "Ver Detalhes" para ver o trajeto completo com todas as paradas no mapa.
+
+            <!-- Busca -->
+            <div class="card mb-5">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <input type="search" class="form-control form-control-lg" 
+                                   placeholder="Busque sua dúvida..." 
+                                   aria-label="Buscar na ajuda">
+                        </div>
+                        <div class="col-md-4 mt-3 mt-md-0">
+                            <button class="btn btn-primary btn-lg w-100" type="button">
+                                <i class="bi bi-search me-2"></i>
+                                Buscar
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-            
-            <!-- Mapas -->
-            <div id="mapas" class="category-section">
-                <h2 class="category-title">Usando os Mapas</h2>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        Como navegar no mapa?
-                        <i class="bi bi-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        Use o mouse para arrastar o mapa, a roda do mouse ou os botões + e - para aproximar/afastar. Em dispositivos móveis, use gestos de toque. Clique nos marcadores das paradas para ver informações detalhadas.
+
+            <!-- FAQ -->
+            <div class="row">
+                <!-- Primeiros Passos -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <h2 class="h5 mb-0">
+                                <i class="bi bi-play-circle text-success me-2"></i>
+                                Primeiros Passos
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="accordion" id="accordion-getting-started">
+                                <div class="accordion-item">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" 
+                                                data-bs-target="#help-1" aria-expanded="true" aria-controls="help-1">
+                                            Como usar o BusFeed?
+                                        </button>
+                                    </h3>
+                                    <div id="help-1" class="accordion-collapse collapse show" 
+                                         data-bs-parent="#accordion-getting-started">
+                                        <div class="accordion-body">
+                                            <p>O BusFeed é simples de usar:</p>
+                                            <ol>
+                                                <li>Na página inicial, você pode buscar rotas digitando o número da linha ou destino</li>
+                                                <li>Use "Paradas Próximas" para encontrar paradas perto de você</li>
+                                                <li>Consulte horários em tempo real clicando em qualquer rota</li>
+                                                <li>Use os atalhos de teclado (Alt+1, Alt+2, Alt+3) para navegar rapidamente</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                                data-bs-target="#help-2" aria-expanded="false" aria-controls="help-2">
+                                            Como encontrar paradas próximas?
+                                        </button>
+                                    </h3>
+                                    <div id="help-2" class="accordion-collapse collapse" 
+                                         data-bs-parent="#accordion-getting-started">
+                                        <div class="accordion-body">
+                                            <p>Para encontrar paradas próximas:</p>
+                                            <ol>
+                                                <li>Clique em "Paradas Próximas" na página inicial</li>
+                                                <li>Permita o acesso à sua localização quando solicitado</li>
+                                                <li>O sistema mostrará as paradas mais próximas com distância</li>
+                                                <li>Clique em qualquer parada para ver quais linhas passam por ela</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        O que significam as cores e símbolos no mapa?
-                        <i class="bi bi-chevron-down"></i>
+
+                <!-- Rotas e Horários -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <h2 class="h5 mb-0">
+                                <i class="bi bi-diagram-3 text-primary me-2"></i>
+                                Rotas e Horários
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="accordion" id="accordion-routes">
+                                <div class="accordion-item">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                                data-bs-target="#help-3" aria-expanded="false" aria-controls="help-3">
+                                            Como pesquisar rotas?
+                                        </button>
+                                    </h3>
+                                    <div id="help-3" class="accordion-collapse collapse" 
+                                         data-bs-parent="#accordion-routes">
+                                        <div class="accordion-body">
+                                            <p>Você pode pesquisar rotas de várias formas:</p>
+                                            <ul>
+                                                <li><strong>Por número da linha:</strong> Digite "101" para encontrar a linha 101</li>
+                                                <li><strong>Por destino:</strong> Digite "Taguatinga" para ver rotas que vão para lá</li>
+                                                <li><strong>Por ponto de referência:</strong> Digite "Rodoviária" para ver rotas que passam lá</li>
+                                            </ul>
+                                            <p>O sistema mostra sugestões conforme você digita.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                                data-bs-target="#help-4" aria-expanded="false" aria-controls="help-4">
+                                            Os horários são em tempo real?
+                                        </button>
+                                    </h3>
+                                    <div id="help-4" class="accordion-collapse collapse" 
+                                         data-bs-parent="#accordion-routes">
+                                        <div class="accordion-body">
+                                            <p>Sim! Os horários no BusFeed são atualizados em tempo real usando dados oficiais do sistema de transporte público de Brasília.</p>
+                                            <p>Isso significa que você vê:</p>
+                                            <ul>
+                                                <li>Previsão real de chegada dos ônibus</li>
+                                                <li>Atrasos ou adiantamentos</li>
+                                                <li>Informações sobre interrupções no serviço</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="faq-answer">
-                        <strong>Paradas simples:</strong> marcadores cinza pequenos<br>
-                        <strong>Terminais:</strong> marcadores vermelhos maiores<br>
-                        <strong>Estações de metrô:</strong> marcadores laranja<br>
-                        <strong>Rotas ativas:</strong> linhas coloridas conectando as paradas<br>
-                        <strong>Números nos marcadores:</strong> sequência de paradas na rota
+                </div>
+
+                <!-- Acessibilidade -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <h2 class="h5 mb-0">
+                                <i class="bi bi-universal-access text-info me-2"></i>
+                                Acessibilidade
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="accordion" id="accordion-accessibility">
+                                <div class="accordion-item">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                                data-bs-target="#help-5" aria-expanded="false" aria-controls="help-5">
+                                            Atalhos de teclado disponíveis
+                                        </button>
+                                    </h3>
+                                    <div id="help-5" class="accordion-collapse collapse" 
+                                         data-bs-parent="#accordion-accessibility">
+                                        <div class="accordion-body">
+                                            <p>O BusFeed oferece vários atalhos para navegação rápida:</p>
+                                            <ul>
+                                                <li><kbd>Alt + 1</kbd> - Ir para página inicial</li>
+                                                <li><kbd>Alt + 2</kbd> - Focar no campo de busca</li>
+                                                <li><kbd>Alt + 3</kbd> - Ir para paradas</li>
+                                                <li><kbd>Alt + R</kbd> - Ir para rotas</li>
+                                                <li><kbd>Alt + H</kbd> - Ir para horários</li>
+                                                <li><kbd>Alt + M</kbd> - Focar no menu principal</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                                data-bs-target="#help-6" aria-expanded="false" aria-controls="help-6">
+                                            Compatibilidade com leitores de tela
+                                        </button>
+                                    </h3>
+                                    <div id="help-6" class="accordion-collapse collapse" 
+                                         data-bs-parent="#accordion-accessibility">
+                                        <div class="accordion-body">
+                                            <p>O BusFeed é totalmente compatível com leitores de tela:</p>
+                                            <ul>
+                                                <li>NVDA (Windows)</li>
+                                                <li>JAWS (Windows)</li>
+                                                <li>VoiceOver (Mac/iOS)</li>
+                                                <li>TalkBack (Android)</li>
+                                            </ul>
+                                            <p>Todas as informações são anunciadas claramente e a navegação é otimizada para uso apenas com teclado.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Problemas Técnicos -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <h2 class="h5 mb-0">
+                                <i class="bi bi-tools text-warning me-2"></i>
+                                Problemas Técnicos
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="accordion" id="accordion-technical">
+                                <div class="accordion-item">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                                data-bs-target="#help-7" aria-expanded="false" aria-controls="help-7">
+                                            O que fazer se o site não carrega?
+                                        </button>
+                                    </h3>
+                                    <div id="help-7" class="accordion-collapse collapse" 
+                                         data-bs-parent="#accordion-technical">
+                                        <div class="accordion-body">
+                                            <p>Se o BusFeed não está carregando:</p>
+                                            <ol>
+                                                <li>Verifique sua conexão com a internet</li>
+                                                <li>Tente recarregar a página (F5 ou Ctrl+R)</li>
+                                                <li>Limpe o cache do navegador</li>
+                                                <li>Tente em modo anônimo/privado</li>
+                                                <li>Verifique se não há bloqueadores de anúncio interferindo</li>
+                                            </ol>
+                                            <p>Se o problema persistir, <a href="{% url 'core:contact' %}">entre em contato</a> conosco.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h3 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                                data-bs-target="#help-8" aria-expanded="false" aria-controls="help-8">
+                                            Como reportar dados incorretos?
+                                        </button>
+                                    </h3>
+                                    <div id="help-8" class="accordion-collapse collapse" 
+                                         data-bs-parent="#accordion-technical">
+                                        <div class="accordion-body">
+                                            <p>Se você encontrou informações incorretas:</p>
+                                            <ol>
+                                                <li>Anote exatamente qual informação está errada</li>
+                                                <li>Inclua a linha, parada ou horário específico</li>
+                                                <li>Use nosso <a href="{% url 'core:contact' %}">formulário de contato</a></li>
+                                                <li>Selecione "Dados incorretos" como categoria</li>
+                                                <li>Descreva o problema detalhadamente</li>
+                                            </ol>
+                                            <p>Nossa equipe investigará e corrigirá rapidamente.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            
-            <!-- Acessibilidade -->
-            <div id="acessibilidade" class="category-section">
-                <h2 class="category-title">Acessibilidade</h2>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        Como encontrar rotas acessíveis?
-                        <i class="bi bi-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        Na página de rotas, use o filtro "Apenas acessíveis" para mostrar somente linhas com ônibus adaptados para cadeirantes. O ícone <i class="bi bi-universal-access text-success"></i> indica rotas e paradas acessíveis.
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        O site funciona com leitores de tela?
-                        <i class="bi bi-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        Sim! O BusFeed foi desenvolvido seguindo padrões de acessibilidade web (WCAG). É compatível com leitores de tela como NVDA, JAWS e VoiceOver. Use a tecla Tab para navegar pelos elementos e Enter para ativar links e botões.
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Problemas Comuns -->
-            <div id="problemas" class="category-section">
-                <h2 class="category-title">Problemas Comuns</h2>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        O mapa não está carregando
-                        <i class="bi bi-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        Verifique sua conexão com a internet. Se o problema persistir, tente recarregar a página (F5) ou limpar o cache do navegador. Em dispositivos móveis, certifique-se de que o JavaScript está habilitado.
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        Não encontrei minha rota
-                        <i class="bi bi-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        Tente diferentes termos de busca: nome do bairro, ponto de referência próximo, ou terminal mais próximo. Se ainda não encontrar, a rota pode não estar em nossa base de dados ainda. <a href="{% url 'core:contact' %}">Entre em contato</a> para reportar rotas faltantes.
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        Os horários estão incorretos
-                        <i class="bi bi-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        Os dados são atualizados regularmente, mas pode haver variações nos horários reais devido a trânsito, eventos ou mudanças operacionais. Sempre confirme os horários nos terminais ou com a empresa responsável pela linha.
-                    </div>
-                </div>
-            </div>
-            
+
             <!-- Contato -->
-            <div id="contato" class="category-section">
-                <h2 class="category-title">Fale Conosco</h2>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        Como reportar problemas ou sugestões?
-                        <i class="bi bi-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        Use nossa <a href="{% url 'core:contact' %}">página de contato</a> para enviar sugestões, reportar problemas ou tirar dúvidas. Responderemos em até 48 horas. Você também pode nos enviar um email direto para contato@busfeed.com.br.
+            <div class="text-center mt-5">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="h4">Não encontrou sua resposta?</h2>
+                        <p class="text-muted mb-4">Nossa equipe está sempre pronta para ajudar!</p>
+                        <a href="{% url 'core:contact' %}" class="btn btn-primary btn-lg">
+                            <i class="bi bi-envelope me-2"></i>
+                            Entre em Contato
+                        </a>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Call to action -->
-            <div class="text-center mt-5 p-4 bg-light rounded">
-                <h3>Não encontrou sua resposta?</h3>
-                <p class="text-muted">Entre em contato conosco e teremos prazer em ajudar!</p>
-                <a href="{% url 'core:contact' %}" class="btn btn-primary">
-                    <i class="bi bi-envelope me-2"></i>
-                    Fale Conosco
-                </a>
             </div>
         </div>
     </div>
 </div>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Accordion functionality para FAQ
-    document.querySelectorAll('.faq-question').forEach(question => {
-        question.addEventListener('click', function() {
-            const answer = this.nextElementSibling;
-            const icon = this.querySelector('i');
-            
-            // Toggle da resposta
-            if (answer.style.display === 'none' || answer.style.display === '') {
-                answer.style.display = 'block';
-                icon.className = 'bi bi-chevron-up';
-            } else {
-                answer.style.display = 'none';
-                icon.className = 'bi bi-chevron-down';
-            }
-        });
-    });
-    
-    // Inicializar todas as respostas como fechadas
-    document.querySelectorAll('.faq-answer').forEach(answer => {
-        answer.style.display = 'none';
-    });
-    
-    // Smooth scroll para âncoras internas
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
-});
-</script>
 {% endblock %} 

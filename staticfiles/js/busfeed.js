@@ -1,94 +1,68 @@
 /**
- * BusFeed - Sistema de transporte público inteligente para Brasília
- * JavaScript principal com foco em acessibilidade e experiência do usuário
+ * BusFeed JavaScript - Sistema de transporte público inteligente
+ * 
+ * Funcionalidades principais:
+ * - Acessibilidade e navegação por teclado
+ * - Validação de formulários básica
+ * - Interface responsiva
+ * 
+ * @author Equipe BusFeed
+ * @version 1.0.0
  */
 
 (function() {
     'use strict';
 
-    // Configuração global do BusFeed
+    // Namespace global do BusFeed
     window.BusFeed = {
         version: '1.0.0',
-        initialized: false,
         settings: {
-            apiUrl: '/api/v1/',
-            mapCenter: [-15.7801, -47.9292], // Brasília
-            mapZoom: 11,
-            refreshInterval: 30000, // 30 segundos
-            searchDelay: 300 // 300ms
+            searchDelay: 300,
+            debug: false
         }
     };
 
-    /**
-     * Inicialização principal do sistema
-     */
+    // Inicializar quando DOM estiver pronto
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+
     function init() {
-        if (BusFeed.initialized) return;
-        
-        console.log('Inicializando BusFeed v' + BusFeed.version);
-        
-        // Configurar acessibilidade
+        console.log('BusFeed v' + BusFeed.version + ' iniciado');
         setupAccessibility();
-        
-        // Configurar atalhos de teclado
         setupKeyboardShortcuts();
-        
-        // Configurar formulários
         setupForms();
-        
-        // Configurar notificações
-        setupNotifications();
-        
-        // Configurar Service Worker para PWA
-        setupServiceWorker();
-        
-        BusFeed.initialized = true;
-        console.log('BusFeed inicializado com sucesso');
     }
 
-    /**
-     * Configurações de acessibilidade
-     */
     function setupAccessibility() {
-        // Melhorar navegação por teclado
-        document.addEventListener('keydown', function(e) {
-            // Escape para fechar modais e menus
-            if (e.key === 'Escape') {
-                closeModalsAndMenus();
-            }
-        });
+        // Skip link para conteúdo principal
+        const skipLink = document.querySelector('a[href="#main-content"]');
+        if (skipLink) {
+            skipLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                const mainContent = document.querySelector('#main-content');
+                if (mainContent) {
+                    mainContent.focus();
+                    announceToScreenReader('Navegou para o conteúdo principal');
+                }
+            });
+        }
 
-        // Adicionar indicadores visuais para elementos focados
-        document.addEventListener('focusin', function(e) {
-            e.target.classList.add('focused');
+        // Melhorar acessibilidade de botões collapse
+        const toggleButtons = document.querySelectorAll('[data-bs-toggle]');
+        toggleButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                setTimeout(function() {
+                    updateAriaExpanded(button);
+                }, 100);
+            });
         });
-
-        document.addEventListener('focusout', function(e) {
-            e.target.classList.remove('focused');
-        });
-
-        // Anunciar mudanças dinâmicas para leitores de tela
-        window.announceToScreenReader = function(message) {
-            const announcement = document.createElement('div');
-            announcement.setAttribute('aria-live', 'polite');
-            announcement.setAttribute('aria-atomic', 'true');
-            announcement.className = 'sr-only';
-            announcement.textContent = message;
-            
-            document.body.appendChild(announcement);
-            
-            setTimeout(function() {
-                document.body.removeChild(announcement);
-            }, 1000);
-        };
     }
 
-    /**
-     * Configurar atalhos de teclado
-     */
     function setupKeyboardShortcuts() {
         document.addEventListener('keydown', function(e) {
-            // Verificar se Alt está pressionado
             if (!e.altKey) return;
             
             switch(e.key) {
@@ -104,6 +78,16 @@
                     e.preventDefault();
                     window.location.href = '/paradas/';
                     break;
+                case 'r':
+                case 'R':
+                    e.preventDefault();
+                    window.location.href = '/rotas/';
+                    break;
+                case 'h':
+                case 'H':
+                    e.preventDefault();
+                    window.location.href = '/horarios/';
+                    break;
                 case 'm':
                 case 'M':
                     e.preventDefault();
@@ -113,9 +97,6 @@
         });
     }
 
-    /**
-     * Configurar formulários com validação e feedback
-     */
     function setupForms() {
         // Formulário de busca com debounce
         const searchInputs = document.querySelectorAll('input[type="search"], .search-input');
@@ -130,89 +111,32 @@
             });
         });
 
-        // Validação de formulários em tempo real
+        // Validação de formulários
         const forms = document.querySelectorAll('form[data-validate]');
         forms.forEach(setupFormValidation);
-
-        // Botão de trocar origem/destino
-        const swapButton = document.querySelector('button[aria-label*="Trocar"]');
-        if (swapButton) {
-            swapButton.addEventListener('click', handleSwapOriginDestination);
-        }
     }
 
-    /**
-     * Configurar sistema de notificações
-     */
-    function setupNotifications() {
-        // Verificar suporte a notificações
-        if ('Notification' in window) {
-            // Solicitar permissão se ainda não foi concedida
-            if (Notification.permission === 'default') {
-                Notification.requestPermission();
-            }
-        }
-
-        // Configurar notificações do sistema
-        window.showNotification = function(title, options) {
-            options = options || {};
-            
-            if (Notification.permission === 'granted') {
-                const notification = new Notification(title, {
-                    icon: '/static/images/icon-192x192.png',
-                    badge: '/static/images/badge-72x72.png',
-                    ...options
-                });
-                
-                notification.onclick = function() {
-                    window.focus();
-                    notification.close();
-                };
-                
-                // Auto-close após 5 segundos
-                setTimeout(function() {
-                    notification.close();
-                }, 5000);
-            }
-        };
+    // Utilitários de acessibilidade
+    function announceToScreenReader(message) {
+        const announcement = document.createElement('div');
+        announcement.setAttribute('aria-live', 'polite');
+        announcement.setAttribute('aria-atomic', 'true');
+        announcement.className = 'visually-hidden';
+        announcement.textContent = message;
+        
+        document.body.appendChild(announcement);
+        
+        setTimeout(function() {
+            document.body.removeChild(announcement);
+        }, 1000);
     }
 
-    /**
-     * Configurar Service Worker para PWA
-     */
-    function setupServiceWorker() {
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js')
-                .then(function(registration) {
-                    console.log('Service Worker registrado:', registration);
-                })
-                .catch(function(error) {
-                    console.log('Erro ao registrar Service Worker:', error);
-                });
+    function updateAriaExpanded(button) {
+        const target = document.querySelector(button.getAttribute('data-bs-target'));
+        if (target) {
+            const isExpanded = target.classList.contains('show');
+            button.setAttribute('aria-expanded', isExpanded);
         }
-    }
-
-    /**
-     * Utilitários
-     */
-    function closeModalsAndMenus() {
-        // Fechar modais do Bootstrap
-        const modals = document.querySelectorAll('.modal.show');
-        modals.forEach(function(modal) {
-            const modalInstance = bootstrap.Modal.getInstance(modal);
-            if (modalInstance) {
-                modalInstance.hide();
-            }
-        });
-
-        // Fechar dropdowns
-        const dropdowns = document.querySelectorAll('.dropdown-menu.show');
-        dropdowns.forEach(function(dropdown) {
-            const toggle = dropdown.previousElementSibling;
-            if (toggle) {
-                bootstrap.Dropdown.getInstance(toggle)?.hide();
-            }
-        });
     }
 
     function focusSearchForm() {
@@ -237,7 +161,6 @@
     function handleSearchInput(input) {
         const value = input.value.trim();
         if (value.length >= 3) {
-            // Implementar busca/autocomplete aqui
             console.log('Buscando por:', value);
         }
     }
@@ -248,10 +171,6 @@
         inputs.forEach(function(input) {
             input.addEventListener('blur', function() {
                 validateField(input);
-            });
-            
-            input.addEventListener('input', function() {
-                clearFieldError(input);
             });
         });
         
@@ -265,20 +184,15 @@
 
     function validateField(field) {
         const value = field.value.trim();
-        const fieldName = field.name;
         let isValid = true;
         let errorMessage = '';
 
-        // Validações específicas
         if (field.required && !value) {
             isValid = false;
             errorMessage = 'Este campo é obrigatório';
         } else if (field.type === 'email' && value && !isValidEmail(value)) {
             isValid = false;
             errorMessage = 'Digite um email válido';
-        } else if (fieldName === 'mensagem' && value.length < 10) {
-            isValid = false;
-            errorMessage = 'A mensagem deve ter pelo menos 10 caracteres';
         }
 
         if (isValid) {
@@ -292,15 +206,15 @@
 
     function validateForm(form) {
         const fields = form.querySelectorAll('input, select, textarea');
-        let isFormValid = true;
-
+        let isValid = true;
+        
         fields.forEach(function(field) {
             if (!validateField(field)) {
-                isFormValid = false;
+                isValid = false;
             }
         });
-
-        return isFormValid;
+        
+        return isValid;
     }
 
     function markFieldAsValid(field) {
@@ -315,48 +229,28 @@
         showFieldError(field, message);
     }
 
-    function clearFieldError(field) {
-        field.classList.remove('is-invalid', 'is-valid');
-        removeFieldError(field);
-    }
-
     function showFieldError(field, message) {
         removeFieldError(field);
         
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'invalid-feedback';
-        errorDiv.textContent = message;
-        errorDiv.setAttribute('aria-live', 'polite');
+        const error = document.createElement('div');
+        error.className = 'invalid-feedback';
+        error.textContent = message;
+        error.setAttribute('role', 'alert');
         
-        field.parentNode.appendChild(errorDiv);
+        field.parentNode.appendChild(error);
     }
 
     function removeFieldError(field) {
-        const errorDiv = field.parentNode.querySelector('.invalid-feedback');
-        if (errorDiv) {
-            errorDiv.remove();
+        const error = field.parentNode.querySelector('.invalid-feedback');
+        if (error) {
+            error.remove();
         }
     }
 
     function focusFirstError(form) {
-        const firstInvalidField = form.querySelector('.is-invalid');
-        if (firstInvalidField) {
-            firstInvalidField.focus();
-            firstInvalidField.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-    }
-
-    function handleSwapOriginDestination() {
-        const origemInput = document.getElementById('origem');
-        const destinoInput = document.getElementById('destino');
-        
-        if (origemInput && destinoInput) {
-            const temp = origemInput.value;
-            origemInput.value = destinoInput.value;
-            destinoInput.value = temp;
-            
-            origemInput.focus();
-            announceToScreenReader('Origem e destino foram trocados');
+        const firstError = form.querySelector('.is-invalid');
+        if (firstError) {
+            firstError.focus();
         }
     }
 
@@ -365,45 +259,5 @@
         return emailRegex.test(email);
     }
 
-    /**
-     * Utilitários para APIs
-     */
-    window.BusFeed.api = {
-        get: function(endpoint, callback) {
-            fetch(BusFeed.settings.apiUrl + endpoint)
-                .then(response => response.json())
-                .then(callback)
-                .catch(error => console.error('Erro na API:', error));
-        },
-        
-        post: function(endpoint, data, callback) {
-            fetch(BusFeed.settings.apiUrl + endpoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': getCsrfToken()
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(callback)
-            .catch(error => console.error('Erro na API:', error));
-        }
-    };
-
-    function getCsrfToken() {
-        return document.querySelector('[name=csrfmiddlewaretoken]')?.value || '';
-    }
-
-    // Inicializar quando o DOM estiver pronto
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-    } else {
-        init();
-    }
-
-    // Expor algumas funções globalmente para uso em templates
-    window.announceToScreenReader = window.announceToScreenReader;
-    window.showNotification = window.showNotification;
-
+})(); 
 })(); 

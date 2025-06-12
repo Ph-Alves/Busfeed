@@ -326,15 +326,15 @@ function initMap() {
 // Carrega dados das rotas via API
 async function loadRoutesData() {
     try {
-        const response = await fetch('{% url "routes:all_routes_map_data" %}');
+        const response = await fetch('{% url "routes:map_data_api" %}');
         const data = await response.json();
         
-        if (data.status === 'success') {
+        if (data.success) {
             routesData = data.routes;
             displayRoutes(routesData);
-            updateStats();
+            updateStats(data.statistics);
         } else {
-            console.error('Erro ao carregar rotas:', data.message);
+            console.error('Erro ao carregar rotas:', data.error);
             showError('Erro ao carregar dados das rotas');
         }
     } catch (error) {
@@ -347,103 +347,93 @@ async function loadRoutesData() {
 
 // Exibe as rotas no mapa
 function displayRoutes(routes) {
-    // Limpa layers existentes
+    // Limpa layers anteriores
     clearMapLayers();
     
     let totalStops = 0;
     
     routes.forEach(route => {
-        if (route.stops && route.stops.length > 0) {
-            // Organiza paradas por direção
-            const stopsByDirection = {
-                ida: route.stops.filter(s => s.direction === 'ida').sort((a, b) => a.sequence - b.sequence),
-                volta: route.stops.filter(s => s.direction === 'volta').sort((a, b) => a.sequence - b.sequence),
-                circular: route.stops.filter(s => s.direction === 'circular').sort((a, b) => a.sequence - b.sequence)
-            };
-            
-            // Se não há direções específicas, trata todas as paradas como ida
-            if (stopsByDirection.ida.length === 0 && stopsByDirection.volta.length === 0 && stopsByDirection.circular.length === 0) {
-                stopsByDirection.ida = route.stops.sort((a, b) => a.sequence - b.sequence);
-            }
-            
-            // Desenha linhas para cada direção
-            Object.entries(stopsByDirection).forEach(([direction, stops]) => {
-                if (stops.length > 1) {
-                    const coordinates = stops.map(stop => [stop.lat, stop.lng]);
-                    
-                    // Cor da linha baseada na direção
-                    let lineColor = route.color || '#007bff';
-                    let lineOpacity = 0.7;
-                    let lineWeight = 4;
-                    
-                    if (direction === 'volta') {
-                        lineOpacity = 0.5;
-                        lineWeight = 3;
-                    } else if (direction === 'circular') {
-                        lineWeight = 5;
-                    }
-                    
-                    const polyline = L.polyline(coordinates, {
-                        color: lineColor,
-                        weight: lineWeight,
-                        opacity: lineOpacity,
-                        smoothFactor: 1
-                    }).addTo(map);
-                    
-                    // Popup da rota
-                    polyline.bindPopup(`
-                        <div class="route-popup">
-                            <h6>${route.number} - ${route.name}</h6>
-                            <p><strong>Tipo:</strong> ${route.type}</p>
-                            <p><strong>Empresa:</strong> ${route.company}</p>
-                            <p><strong>Direção:</strong> ${direction}</p>
-                            <p><strong>Paradas:</strong> ${stops.length}</p>
-                            ${route.fare ? `<p><strong>Tarifa:</strong> R$ ${route.fare.toFixed(2)}</p>` : ''}
-                            ${route.wheelchair_accessible ? '<p><i class="bi bi-universal-access"></i> Acessível</p>' : ''}
-                        </div>
-                    `);
-                    
-                    routeLayers.push(polyline);
+        if (!route.stops || Object.keys(route.stops).length === 0) {
+            return; // Pula rotas sem paradas
+        }
+        
+        // Processa cada direção da rota
+        Object.entries(route.stops).forEach(([direction, stops]) => {
+            if (stops.length > 1) {
+                const coordinates = stops.map(stop => [stop.lat, stop.lng]);
+                
+                // Cor da linha baseada no tipo de rota
+                let lineColor = route.color || '#007bff';
+                let lineOpacity = 0.7;
+                let lineWeight = 4;
+                
+                if (direction === 'volta') {
+                    lineOpacity = 0.5;
+                    lineWeight = 3;
+                } else if (route.is_circular) {
+                    lineWeight = 5;
                 }
                 
-                // Adiciona marcadores das paradas
-                stops.forEach((stop, index) => {
-                    // Tamanho do marcador baseado na importância
-                    let markerRadius = 5;
-                    if (index === 0 || index === stops.length - 1) {
-                        markerRadius = 7; // Paradas inicial e final maiores
-                    }
-                    
-                    const marker = L.circleMarker([stop.lat, stop.lng], {
-                        radius: markerRadius,
-                        fillColor: route.color || '#007bff',
-                        color: '#fff',
-                        weight: 2,
-                        opacity: 1,
-                        fillOpacity: 0.8
-                    }).addTo(map);
-                    
-                    marker.bindPopup(`
-                        <div class="stop-popup">
-                            <h6>${stop.name}</h6>
-                            <p><strong>Código:</strong> ${stop.code}</p>
-                            <p><strong>Bairro:</strong> ${stop.neighborhood || 'N/A'}</p>
-                            <p><strong>Rota:</strong> ${route.number} - ${route.name}</p>
-                            <p><strong>Direção:</strong> ${direction}</p>
-                            <p><strong>Sequência:</strong> ${stop.sequence}ª parada</p>
-                            ${stop.distance_from_origin ? `<p><strong>Distância:</strong> ${stop.distance_from_origin.toFixed(1)} km</p>` : ''}
-                            ${stop.estimated_time_from_origin ? `<p><strong>Tempo estimado:</strong> ${stop.estimated_time_from_origin} min</p>` : ''}
-                            ${stop.wheelchair_accessible ? '<p><i class="bi bi-universal-access"></i> Acessível</p>' : ''}
-                            ${stop.has_shelter ? '<p><i class="bi bi-house"></i> Com abrigo</p>' : ''}
-                            ${stop.has_seating ? '<p><i class="bi bi-chair"></i> Com assentos</p>' : ''}
-                        </div>
-                    `);
-                    
-                    stopMarkers.push(marker);
-                    totalStops++;
-                });
+                const polyline = L.polyline(coordinates, {
+                    color: lineColor,
+                    weight: lineWeight,
+                    opacity: lineOpacity,
+                    smoothFactor: 1
+                }).addTo(map);
+                
+                // Popup da rota
+                polyline.bindPopup(`
+                    <div class="route-popup">
+                        <h6>${route.number} - ${route.name}</h6>
+                        <p><strong>Tipo:</strong> ${route.type}</p>
+                        <p><strong>Empresa:</strong> ${route.company}</p>
+                        <p><strong>Direção:</strong> ${direction}</p>
+                        <p><strong>Paradas:</strong> ${stops.length}</p>
+                        ${route.fare ? `<p><strong>Tarifa:</strong> R$ ${route.fare.toFixed(2)}</p>` : ''}
+                        ${route.wheelchair_accessible ? '<p><i class="bi bi-universal-access"></i> Acessível</p>' : ''}
+                    </div>
+                `);
+                
+                routeLayers.push(polyline);
+            }
+            
+            // Adiciona marcadores das paradas
+            stops.forEach((stop, index) => {
+                // Tamanho do marcador baseado na importância
+                let markerRadius = 5;
+                if (index === 0 || index === stops.length - 1) {
+                    markerRadius = 7; // Paradas inicial e final maiores
+                }
+                
+                const marker = L.circleMarker([stop.lat, stop.lng], {
+                    radius: markerRadius,
+                    fillColor: route.color || '#007bff',
+                    color: '#fff',
+                    weight: 2,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                }).addTo(map);
+                
+                marker.bindPopup(`
+                    <div class="stop-popup">
+                        <h6>${stop.name}</h6>
+                        <p><strong>Código:</strong> ${stop.code}</p>
+                        <p><strong>Bairro:</strong> ${stop.neighborhood || 'N/A'}</p>
+                        <p><strong>Rota:</strong> ${route.number} - ${route.name}</p>
+                        <p><strong>Direção:</strong> ${direction}</p>
+                        <p><strong>Sequência:</strong> ${stop.sequence}ª parada</p>
+                        ${stop.distance_from_origin ? `<p><strong>Distância:</strong> ${stop.distance_from_origin.toFixed(1)} km</p>` : ''}
+                        ${stop.estimated_time_from_origin ? `<p><strong>Tempo estimado:</strong> ${stop.estimated_time_from_origin} min</p>` : ''}
+                        ${stop.wheelchair_accessible ? '<p><i class="bi bi-universal-access"></i> Acessível</p>' : ''}
+                        ${stop.has_shelter ? '<p><i class="bi bi-house"></i> Com abrigo</p>' : ''}
+                        ${stop.has_seating ? '<p><i class="bi bi-chair"></i> Com assentos</p>' : ''}
+                    </div>
+                `);
+                
+                stopMarkers.push(marker);
+                totalStops++;
             });
-        }
+        });
     });
     
     // Atualiza estatísticas
@@ -465,54 +455,94 @@ function clearMapLayers() {
     stopMarkers = [];
 }
 
+// Atualiza estatísticas na interface
+function updateStats(statistics) {
+    if (statistics) {
+        document.getElementById('total-routes').textContent = statistics.total_routes;
+        document.getElementById('total-stops').textContent = statistics.total_stops;
+        
+        // Atualiza contadores por tipo se existirem
+        if (statistics.routes_by_type) {
+            Object.entries(statistics.routes_by_type).forEach(([type, count]) => {
+                const element = document.getElementById(`${type.toLowerCase()}-count`);
+                if (element) {
+                    element.textContent = count;
+                }
+            });
+        }
+    }
+}
+
+// Funções de controle da interface
+function hideLoading() {
+    const loadingOverlay = document.getElementById('loading-overlay');
+    if (loadingOverlay) {
+        loadingOverlay.style.display = 'none';
+    }
+}
+
+function showLoading(message = 'Carregando...') {
+    const loadingOverlay = document.getElementById('loading-overlay');
+    if (loadingOverlay) {
+        loadingOverlay.style.display = 'flex';
+        const loadingText = loadingOverlay.querySelector('.loading-text');
+        if (loadingText) {
+            loadingText.textContent = message;
+        }
+    }
+}
+
+function showError(message) {
+    console.error(message);
+    hideLoading();
+    
+    // Criar um alerta simples
+    const alertDiv = document.createElement('div');
+    alertDiv.className = 'alert alert-danger alert-dismissible fade show position-fixed';
+    alertDiv.style.top = '100px';
+    alertDiv.style.right = '20px';
+    alertDiv.style.zIndex = '9999';
+    alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    document.body.appendChild(alertDiv);
+    
+    // Remove o alerta após 5 segundos
+    setTimeout(() => {
+        if (alertDiv && alertDiv.parentNode) {
+            alertDiv.parentNode.removeChild(alertDiv);
+        }
+    }, 5000);
+}
+
 // Aplica filtros
 function applyFilters() {
     const typeFilter = document.getElementById('route-type-filter').value;
     const companyFilter = document.getElementById('company-filter').value;
     const wheelchairFilter = document.getElementById('wheelchair-filter').checked;
     
-    // Constrói URL com parâmetros de filtro
-    let apiUrl = '{% url "routes:all_routes_map_data" %}';
-    const params = new URLSearchParams();
-    
-    if (typeFilter) {
-        params.append('type', typeFilter);
-    }
-    
-    if (companyFilter) {
-        params.append('company', companyFilter);
-    }
-    
-    if (wheelchairFilter) {
-        params.append('wheelchair', 'true');
-    }
-    
-    if (params.toString()) {
-        apiUrl += '?' + params.toString();
-    }
-    
     // Mostra loading
     showLoading('Aplicando filtros...');
     
-    // Faz requisição com filtros
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                displayRoutes(data.routes);
-                updateStats(data.routes.length, data.total);
-            } else {
-                console.error('Erro ao aplicar filtros:', data.message);
-                showError('Erro ao aplicar filtros');
-            }
-        })
-        .catch(error => {
-            console.error('Erro na requisição:', error);
-            showError('Erro de conexão ao aplicar filtros');
-        })
-        .finally(() => {
-            hideLoading();
-        });
+    // Filtra rotas localmente
+    let filteredRoutes = routesData;
+    
+    if (typeFilter) {
+        filteredRoutes = filteredRoutes.filter(route => route.type === typeFilter);
+    }
+    
+    if (companyFilter) {
+        filteredRoutes = filteredRoutes.filter(route => route.company === companyFilter);
+    }
+    
+    if (wheelchairFilter) {
+        filteredRoutes = filteredRoutes.filter(route => route.wheelchair_accessible);
+    }
+    
+    // Exibe rotas filtradas
+    displayRoutes(filteredRoutes);
+    hideLoading();
 }
 
 // Limpa filtros
@@ -525,45 +555,15 @@ function clearFilters() {
     loadRoutesData();
 }
 
-// Funções auxiliares atualizadas
-function updateStats(visibleRoutes = null, totalRoutes = null) {
-    if (visibleRoutes !== null) {
-        document.getElementById('visible-routes').textContent = visibleRoutes;
-    }
-    if (totalRoutes !== null) {
-        document.getElementById('total-routes').textContent = totalRoutes;
-    }
-}
-
-function showLoading(message = 'Carregando rotas...') {
-    const overlay = document.getElementById('loading-overlay');
-    overlay.innerHTML = `
-        <div class="loading-spinner"></div>
-        <div class="loading-text">${message}</div>
-    `;
-    overlay.style.display = 'flex';
-}
-
-function hideLoading() {
-    document.getElementById('loading-overlay').style.display = 'none';
-}
-
-function showError(message) {
-    const overlay = document.getElementById('loading-overlay');
-    overlay.innerHTML = `
-        <div style="text-align: center; color: #dc3545;">
-            <i class="bi bi-exclamation-triangle" style="font-size: 2rem; margin-bottom: 15px;"></i>
-            <div>${message}</div>
-            <button class="btn btn-primary btn-sm mt-3" onclick="location.reload()">
-                Tentar Novamente
-            </button>
-        </div>
-    `;
-}
-
-// Inicializa quando a página carrega
+// Evento para inicializar quando a página carregar
 document.addEventListener('DOMContentLoaded', function() {
     initMap();
 });
+
+// Funções para filtros de controle
+document.getElementById('route-type-filter')?.addEventListener('change', applyFilters);
+document.getElementById('company-filter')?.addEventListener('change', applyFilters);
+document.getElementById('wheelchair-filter')?.addEventListener('change', applyFilters);
+document.getElementById('apply-filters-btn')?.addEventListener('click', applyFilters);
 </script>
 {% endblock %} 

@@ -127,9 +127,9 @@ class StopService:
         stops_data = cache.get(cache_key)
         
         if not stops_data:
-            stops = cls.get_active_stops_queryset().only(
+            stops = BusStop.objects.filter(is_active=True).only(
                 'id', 'code', 'name', 'neighborhood', 'latitude', 'longitude',
-                'wheelchair_accessible', 'has_shelter', 'has_bench'
+                'wheelchair_accessible', 'has_shelter', 'has_seating'
             )
             
             stops_data = []
@@ -146,7 +146,7 @@ class StopService:
                         },
                         'wheelchair_accessible': stop.wheelchair_accessible,
                         'has_shelter': stop.has_shelter,
-                        'has_bench': stop.has_bench,
+                        'has_seating': stop.has_seating,
                     })
             
             cache.set(cache_key, stops_data, 1800)  # 30 minutos

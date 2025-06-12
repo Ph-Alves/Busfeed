@@ -92,7 +92,6 @@ LOCAL_APPS = [
     'routes',         # Gerenciamento de rotas de ônibus
     'stops',          # Gerenciamento de paradas
     'schedules',      # Horários e cronogramas
-    'notifications',  # Sistema de notificações
 ]
 
 # Lista completa de apps instalados seguindo ordem de dependência
@@ -402,6 +401,10 @@ LOGGING = {
             'format': '{levelname} {message}',
             'style': '{',
         },
+        'development': {
+            'format': '{levelname} {module}: {message}',
+            'style': '{',
+        },
         'json': {
             'format': '{"level": "%(levelname)s", "time": "%(asctime)s", "module": "%(module)s", "message": "%(message)s"}',
             'style': '%',
@@ -412,7 +415,7 @@ LOGGING = {
     'handlers': {
         'console': {
             'class': 'logging.StreamHandler',
-            'formatter': 'simple',
+            'formatter': 'development' if DEBUG else 'simple',
         },
         'file': {
             'class': 'logging.handlers.RotatingFileHandler',
@@ -440,18 +443,28 @@ LOGGING = {
     # Loggers específicos
     'loggers': {
         'django': {
-            'handlers': ['console', 'file', 'error_file'],
-            'level': config('DJANGO_LOG_LEVEL', default='INFO'),
+            'handlers': ['console', 'file', 'error_file'] if not DEBUG else ['console'],
+            'level': config('DJANGO_LOG_LEVEL', default='WARNING' if DEBUG else 'INFO'),
             'propagate': False,
         },
         'busfeed': {
-            'handlers': ['console', 'file', 'error_file'],
-            'level': 'DEBUG' if DEBUG else 'INFO',
+            'handlers': ['console', 'file', 'error_file'] if not DEBUG else ['console'],
+            'level': 'INFO' if DEBUG else 'INFO',
             'propagate': False,
         },
         'django.db.backends': {
-            'handlers': ['file'],
-            'level': 'DEBUG' if DEBUG else 'INFO',
+            'handlers': ['file'] if not DEBUG else [],
+            'level': 'WARNING' if DEBUG else 'INFO',
+            'propagate': False,
+        },
+        'django.request': {
+            'handlers': ['console'] if DEBUG else ['console', 'file', 'error_file'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        'django.server': {
+            'handlers': ['console'],
+            'level': 'WARNING' if DEBUG else 'INFO',
             'propagate': False,
         },
     },

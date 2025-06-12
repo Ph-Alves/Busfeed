@@ -224,11 +224,11 @@
                     </p>
                 </div>
                 <div class="d-none d-md-block">
-                    <a href="{% url 'routes:routes_list' %}" class="btn btn-outline-primary me-2">
+                                            <a href="{% url 'routes:list' %}" class="btn btn-outline-primary me-2">
                         <i class="fas fa-list me-1"></i>
                         Lista de Rotas
                     </a>
-                    <a href="{% url 'stops:stops_list' %}" class="btn btn-outline-secondary">
+                    <a href="{% url 'stops:list' %}" class="btn btn-outline-secondary">
                         <i class="fas fa-map-marker-alt me-1"></i>
                         Paradas
                     </a>
@@ -468,12 +468,12 @@ class TransportMap {
             
             if (data.success) {
                 this.routesData = data.routes;
-                this.stopsData = data.stops_by_type;
+                this.stopsData = data.stops || [];
                 this.updateStatistics(data.statistics);
                 this.renderRoutes();
                 this.hideLoading();
             } else {
-                throw new Error(data.error);
+                throw new Error(data.error || 'Erro desconhecido');
             }
         } catch (error) {
             console.error('Erro ao carregar dados:', error);
@@ -491,46 +491,32 @@ class TransportMap {
     createRouteLayer(route) {
         const routeGroup = L.layerGroup();
         
-        // Criar linha para ida
-        if (route.stops.ida && route.stops.ida.length > 1) {
-            const idaCoords = route.stops.ida
-                .filter(stop => stop.lat && stop.lng) // Filtra paradas sem coordenadas
-                .map(stop => [stop.lat, stop.lng]);
-            
-            if (idaCoords.length > 1) {
-                const idaLine = L.polyline(idaCoords, {
-                    color: route.color || '#007bff',
-                    weight: route.weight || 3,
-                    opacity: 0.8,
-                    className: `route-line route-${route.type.replace(/\s+/g, '-')}`
-                });
-                
-                idaLine.bindPopup(() => this.createRoutePopup(route, 'ida'));
-                idaLine.on('click', () => this.showRouteDetails(route));
-                routeGroup.addLayer(idaLine);
-            }
+        if (!route.stops || Object.keys(route.stops).length === 0) {
+            return; // Pula rotas sem paradas
         }
         
-        // Criar linha para volta (se não for circular)
-        if (!route.is_circular && route.stops.volta && route.stops.volta.length > 1) {
-            const voltaCoords = route.stops.volta
-                .filter(stop => stop.lat && stop.lng) // Filtra paradas sem coordenadas
-                .map(stop => [stop.lat, stop.lng]);
+        // Processa cada direção da rota
+        Object.entries(route.stops).forEach(([direction, stops]) => {
+            if (stops && stops.length > 1) {
+                const coords = stops
+                    .filter(stop => stop.lat && stop.lng)
+                    .map(stop => [stop.lat, stop.lng]);
                 
-            if (voltaCoords.length > 1) {
-                const voltaLine = L.polyline(voltaCoords, {
-                    color: route.color || '#007bff',
-                    weight: (route.weight || 3) - 1,
-                    opacity: 0.6,
-                    dashArray: '5, 5',
-                    className: `route-line route-${route.type.replace(/\s+/g, '-')}`
-                });
-                
-                voltaLine.bindPopup(() => this.createRoutePopup(route, 'volta'));
-                voltaLine.on('click', () => this.showRouteDetails(route));
-                routeGroup.addLayer(voltaLine);
+                if (coords.length > 1) {
+                    const line = L.polyline(coords, {
+                        color: route.color || '#007bff',
+                        weight: direction === 'volta' ? 3 : 4,
+                        opacity: direction === 'volta' ? 0.6 : 0.8,
+                        dashArray: direction === 'volta' ? '5, 5' : '',
+                        className: `route-line route-${route.type.replace(/\s+/g, '-')}`
+                    });
+                    
+                    line.bindPopup(() => this.createRoutePopup(route, direction, stops));
+                    line.on('click', () => this.showRouteDetails(route, direction, stops));
+                    routeGroup.addLayer(line);
+                }
             }
-        }
+        });
         
         this.routeLayers[route.id] = {
             layer: routeGroup,
@@ -539,166 +525,103 @@ class TransportMap {
     }
     
     createStopLayers() {
-        Object.entries(this.stopsData).forEach(([type, typeData]) => {
-            const stopGroup = L.layerGroup();
-            
-            typeData.stops.forEach(stop => {
+        if (!this.stopsData || !Array.isArray(this.stopsData)) {
+            return;
+        }
+        
+        const stopGroup = L.layerGroup();
+        
+        this.stopsData.forEach(stop => {
+            if (stop.coordinates && stop.coordinates.lat && stop.coordinates.lng) {
                 const icon = L.divIcon({
-                    html: `<i class="fas fa-${typeData.type_info.icon}" style="color: ${typeData.type_info.color};"></i>`,
+                    html: `<i class="fas fa-bus" style="color: #007bff;"></i>`,
                     iconSize: [20, 20],
-                    className: `stop-marker stop-${type.replace(/\s+/g, '-')}`
+                    className: 'stop-marker'
                 });
                 
-                const marker = L.marker([stop.lat, stop.lng], {icon})
-                    .bindPopup(() => this.createStopPopup(stop, typeData.type_info));
+                const marker = L.marker([stop.coordinates.lat, stop.coordinates.lng], {icon})
+                    .bindPopup(() => this.createStopPopup(stop));
                 
                 stopGroup.addLayer(marker);
-            });
-            
-            this.stopLayers[type] = stopGroup;
+            }
         });
+        
+        this.stopLayers['all'] = stopGroup;
     }
     
-    createRoutePopup(route, direction) {
-        const directionText = direction === 'ida' ? 'Ida' : 'Volta';
-        const stops = route.stops[direction] || [];
-        const fare = route.fare || 0;
-        const frequency = route.frequency || 'N/A';
-        const company = route.company || 'N/A';
+    createRoutePopup(route, direction, stops) {
+        const stopsCount = stops ? stops.length : 0;
         
         return `
             <div class="popup-header">
-                <h6 class="mb-1">${route.number} - ${route.name}</h6>
-                <small>${directionText} • ${route.type}</small>
+                <h6>${route.number} - ${route.name}</h6>
+                <small>${route.company} • ${route.type}</small>
             </div>
             <div class="popup-section">
-                <strong>Empresa:</strong> ${company}<br>
-                <strong>Tarifa:</strong> R$ ${fare.toFixed(2)}<br>
-                <strong>Frequência:</strong> ${frequency} min
+                <strong>Direção:</strong> ${direction}<br>
+                <strong>Paradas:</strong> ${stopsCount}<br>
+                ${route.fare ? `<strong>Tarifa:</strong> R$ ${route.fare.toFixed(2)}<br>` : ''}
+                <strong>Acessível:</strong> ${route.wheelchair_accessible ? 'Sim' : 'Não'}
             </div>
             <div class="popup-section">
-                <span class="popup-badge">${stops.length} paradas</span>
                 ${route.wheelchair_accessible ? '<span class="popup-badge">♿ Acessível</span>' : ''}
-            </div>
-            <div class="text-center mt-3">
-                <a href="/rotas/${route.number}/" class="btn btn-primary btn-sm me-2">
-                    <i class="fas fa-eye me-1"></i>Ver Detalhes
-                </a>
-                <a href="/horarios/linha/${route.id}/" class="btn btn-outline-primary btn-sm">
-                    <i class="fas fa-clock me-1"></i>Horários
-                </a>
+                ${route.is_circular ? '<span class="popup-badge">🔄 Circular</span>' : ''}
             </div>
         `;
     }
     
-    createStopPopup(stop, typeInfo) {
+    createStopPopup(stop) {
         return `
             <div class="popup-header">
-                <h6 class="mb-1">${stop.name}</h6>
-                <small>${stop.code} • ${typeInfo.name}</small>
+                <h6>${stop.name}</h6>
+                <small>${stop.code}</small>
             </div>
             <div class="popup-section">
                 <strong>Bairro:</strong> ${stop.neighborhood}<br>
-                <strong>Rotas:</strong> ${stop.routes_count} linha(s)
+                <strong>Acessível:</strong> ${stop.wheelchair_accessible ? 'Sim' : 'Não'}
             </div>
             <div class="popup-section">
-                ${stop.accessibility.wheelchair ? '<span class="popup-badge">♿ Acessível</span>' : ''}
-                ${stop.accessibility.shelter ? '<span class="popup-badge">🏠 Abrigo</span>' : ''}
-                ${stop.accessibility.seating ? '<span class="popup-badge">💺 Assento</span>' : ''}
+                ${stop.wheelchair_accessible ? '<span class="popup-badge">♿ Acessível</span>' : ''}
+                ${stop.has_shelter ? '<span class="popup-badge">🏠 Abrigo</span>' : ''}
+                ${stop.has_seating ? '<span class="popup-badge">💺 Assentos</span>' : ''}
             </div>
         `;
     }
     
-    showRouteDetails(route) {
+    showRouteDetails(route, direction, stops) {
         const panel = document.getElementById('route-info-panel');
         const title = document.getElementById('route-title');
         const details = document.getElementById('route-details');
         
         title.textContent = `${route.number} - ${route.name}`;
         
-        const idaStops = route.stops.ida || [];
-        const voltaStops = route.stops.volta || [];
-        const fare = route.fare || 0;
-        const frequency = route.frequency || 'N/A';
-        const duration = route.duration || 'N/A';
-        const company = route.company || 'N/A';
-        const operates = route.operates || {};
+        const stopsHtml = stops.map((stop, index) => `
+            <div class="d-flex justify-content-between align-items-center py-2 ${index < stops.length - 1 ? 'border-bottom' : ''}">
+                <div>
+                    <strong>${stop.sequence || index + 1}. ${stop.name}</strong><br>
+                    <small class="text-muted">${stop.code} • ${stop.neighborhood}</small>
+                </div>
+                <small class="text-end">
+                    ${stop.estimated_time_from_origin ? `${stop.estimated_time_from_origin}min` : ''}<br>
+                    ${stop.distance_from_origin ? `${stop.distance_from_origin.toFixed(1)}km` : ''}
+                </small>
+            </div>
+        `).join('');
         
         details.innerHTML = `
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <h6><i class="fas fa-info-circle me-2"></i>Informações Gerais</h6>
-                    <p class="mb-2"><strong>Tipo:</strong> ${route.type}</p>
-                    <p class="mb-2"><strong>Empresa:</strong> ${company}</p>
-                    <p class="mb-2"><strong>Tarifa:</strong> R$ ${fare.toFixed(2)}</p>
-                    <p class="mb-2"><strong>Frequência:</strong> ${frequency} minutos</p>
-                    <p class="mb-0"><strong>Duração:</strong> ${duration} minutos</p>
-                </div>
-                <div class="col-md-6">
-                    <h6><i class="fas fa-clock me-2"></i>Operação</h6>
-                    <div class="mb-2">
-                        ${operates.weekdays ? '<span class="popup-badge">Segunda-Sexta</span>' : ''}
-                        ${operates.saturdays ? '<span class="popup-badge">Sábado</span>' : ''}
-                        ${operates.sundays ? '<span class="popup-badge">Domingo</span>' : ''}
-                    </div>
-                    <div>
-                        ${route.wheelchair_accessible ? '<span class="popup-badge">♿ Acessível</span>' : ''}
-                        ${route.is_circular ? '<span class="popup-badge">🔄 Circular</span>' : ''}
-                    </div>
-                </div>
+            <div class="mb-3">
+                <h6><i class="fas fa-info-circle me-2"></i>Informações da Rota</h6>
+                <p class="mb-1"><strong>Empresa:</strong> ${route.company}</p>
+                <p class="mb-1"><strong>Tipo:</strong> ${route.type}</p>
+                <p class="mb-1"><strong>Direção:</strong> ${direction}</p>
+                ${route.fare ? `<p class="mb-1"><strong>Tarifa:</strong> R$ ${route.fare.toFixed(2)}</p>` : ''}
             </div>
             
-            <hr>
-            
-            <div class="row g-3">
-                ${idaStops.length > 0 ? `
-                <div class="col-md-${voltaStops.length > 0 ? '6' : '12'}">
-                    <h6><i class="fas fa-arrow-right me-2"></i>Ida (${idaStops.length} paradas)</h6>
-                    <div style="max-height: 150px; overflow-y: auto;">
-                        ${idaStops.map((stop, index) => `
-                            <div class="d-flex justify-content-between align-items-center py-1 ${index < idaStops.length - 1 ? 'border-bottom' : ''}">
-                                <div>
-                                    <small class="fw-bold">${stop.sequence || index + 1}. ${stop.name}</small><br>
-                                    <small class="text-muted">${stop.code || 'N/A'}</small>
-                                </div>
-                                <small class="text-end">
-                                    ${stop.time || 0}min<br>
-                                    <span class="text-muted">${(stop.distance || 0).toFixed(1)}km</span>
-                                </small>
-                            </div>
-                        `).join('')}
-                    </div>
+            <div class="mb-3">
+                <h6><i class="fas fa-map-marker-alt me-2"></i>Paradas (${stops.length})</h6>
+                <div style="max-height: 200px; overflow-y: auto;">
+                    ${stopsHtml}
                 </div>
-                ` : ''}
-                
-                ${voltaStops.length > 0 ? `
-                <div class="col-md-6">
-                    <h6><i class="fas fa-arrow-left me-2"></i>Volta (${voltaStops.length} paradas)</h6>
-                    <div style="max-height: 150px; overflow-y: auto;">
-                        ${voltaStops.map((stop, index) => `
-                            <div class="d-flex justify-content-between align-items-center py-1 ${index < voltaStops.length - 1 ? 'border-bottom' : ''}">
-                                <div>
-                                    <small class="fw-bold">${stop.sequence || index + 1}. ${stop.name}</small><br>
-                                    <small class="text-muted">${stop.code || 'N/A'}</small>
-                                </div>
-                                <small class="text-end">
-                                    ${stop.time || 0}min<br>
-                                    <span class="text-muted">${(stop.distance || 0).toFixed(1)}km</span>
-                                </small>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-                ` : ''}
-            </div>
-            
-            <div class="text-center mt-3">
-                <a href="/rotas/${route.number}/" class="btn btn-primary btn-sm me-2">
-                    <i class="fas fa-eye me-1"></i>Ver Detalhes
-                </a>
-                <a href="/horarios/linha/${route.id}/" class="btn btn-outline-primary btn-sm">
-                    <i class="fas fa-clock me-1"></i>Horários
-                </a>
             </div>
         `;
         
@@ -706,7 +629,10 @@ class TransportMap {
     }
     
     hideRoutePanel() {
-        document.getElementById('route-info-panel').classList.remove('visible');
+        const panel = document.getElementById('route-info-panel');
+        if (panel) {
+            panel.classList.remove('visible');
+        }
     }
     
     setFilter(type) {
@@ -762,37 +688,55 @@ class TransportMap {
         this.hideRoutePanel();
     }
     
-    updateStatistics(stats) {
-        if (!stats) return;
+    updateStatistics(statistics) {
+        if (!statistics) return;
         
-        const routeTypes = stats.route_types || {};
-        document.getElementById('total-routes').textContent = stats.total_routes || 0;
-        document.getElementById('bus-count').textContent = routeTypes.bus || 0;
-        document.getElementById('metro-count').textContent = routeTypes.metro || 0;
-        document.getElementById('brt-count').textContent = routeTypes.brt || 0;
-        document.getElementById('express-count').textContent = routeTypes.express || 0;
-        document.getElementById('circular-count').textContent = routeTypes.circular || 0;
+        // Atualiza estatísticas nos elementos da interface
+        const totalRoutesEl = document.getElementById('total-routes');
+        const totalStopsEl = document.getElementById('total-stops');
+        const mobileRoutesEl = document.getElementById('mobile-total-routes');
+        const mobileStopsEl = document.getElementById('mobile-total-stops');
         
-        // Mobile stats
-        document.getElementById('mobile-total-routes').textContent = stats.total_routes || 0;
-        document.getElementById('mobile-total-stops').textContent = stats.total_stops || 0;
+        if (totalRoutesEl) totalRoutesEl.textContent = statistics.total_routes || 0;
+        if (totalStopsEl) totalStopsEl.textContent = statistics.total_stops || 0;
+        if (mobileRoutesEl) mobileRoutesEl.textContent = statistics.total_routes || 0;
+        if (mobileStopsEl) mobileStopsEl.textContent = statistics.total_stops || 0;
+        
+        // Atualiza contadores por tipo
+        if (statistics.routes_by_type) {
+            Object.entries(statistics.routes_by_type).forEach(([type, count]) => {
+                const countEl = document.getElementById(`${type.toLowerCase().replace(/\s+/g, '-')}-count`);
+                if (countEl) countEl.textContent = count;
+            });
+        }
     }
     
     hideLoading() {
-        document.getElementById('loading').style.display = 'none';
+        const loading = document.getElementById('loading');
+        if (loading) {
+            loading.style.display = 'none';
+        }
     }
     
     showError(message) {
-        const loading = document.getElementById('loading');
-        loading.innerHTML = `
-            <div class="text-center">
-                <i class="fas fa-exclamation-triangle text-warning mb-3" style="font-size: 3rem;"></i>
-                <p class="mb-0">${message}</p>
-                <button class="btn btn-primary mt-2" onclick="location.reload()">
-                    Tentar Novamente
-                </button>
-            </div>
-        `;
+        console.error(message);
+        this.hideLoading();
+        
+        const mapContainer = document.getElementById('mapContainer');
+        if (mapContainer) {
+            mapContainer.innerHTML = `
+                <div class="d-flex align-items-center justify-content-center h-100 text-center">
+                    <div>
+                        <i class="fas fa-exclamation-triangle text-warning" style="font-size: 3rem; margin-bottom: 20px;"></i>
+                        <h5>Erro ao carregar mapa</h5>
+                        <p class="text-muted">${message}</p>
+                        <button class="btn btn-primary" onclick="location.reload()">
+                            <i class="fas fa-refresh me-2"></i>Tentar Novamente
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
     }
 }
 

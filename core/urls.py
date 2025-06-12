@@ -3,8 +3,7 @@ URLs do app core - Rotas centrais do BusFeed.
 
 Define as URLs para as páginas básicas do sistema:
 - Página inicial
-- Páginas informativas 
-- Endpoints de monitoramento
+- Páginas informativas essenciais
 """
 
 from django.urls import path
@@ -16,20 +15,11 @@ urlpatterns = [
     # Página inicial
     path('', views.HomeView.as_view(), name='home'),
     
-    # Páginas informativas
+    # Páginas informativas essenciais
     path('sobre/', views.AboutView.as_view(), name='about'),
     path('contato/', views.ContactView.as_view(), name='contact'),
-    path('privacidade/', views.PrivacyView.as_view(), name='privacy'),
-    path('acessibilidade/', views.AccessibilityView.as_view(), name='accessibility'),
-    
-    # Recursos e documentação
     path('ajuda/', views.HelpView.as_view(), name='help'),
-    path('api/', views.APIView.as_view(), name='api'),
     
-    # Monitoramento
-    path('status/', views.StatusView.as_view(), name='status'),
+    # Monitoramento básico
     path('health/', views.health_check, name='health_check'),
-    
-    # Service Worker
-    path('sw.js', views.service_worker, name='service_worker'),
 ] 

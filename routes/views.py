@@ -95,7 +95,7 @@ class RouteDetailView(DetailView):
     template_name = 'routes/route_detail.html'
     context_object_name = 'route'
     slug_field = 'number'
-    slug_url_kwarg = 'route_number'
+    slug_url_arg = 'route_number'
     
     def get_object(self):
         """
@@ -267,6 +267,18 @@ class RoutesMapView(TemplateView):
         return context
 
 
+class AdvancedMapView(TemplateView):
+    """
+    View para mapa avançado com funcionalidades completas.
+    """
+    template_name = 'routes/map.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Mapa Avançado de Transporte'
+        return context
+
+
 @require_http_methods(["GET"])
 def routes_statistics_api(request):
     """
@@ -284,27 +296,8 @@ def routes_statistics_api(request):
 
 
 # =============================================================================
-# VIEWS LEGADAS (para compatibilidade) - Simplificadas
+# VIEWS DE COMPATIBILIDADE (simplificadas)
 # =============================================================================
-
-@require_http_methods(["GET"])
-def routes_list(request):
-    """
-    View legada para lista de rotas (redirecionamento).
-    """
-    return redirect('routes:route_list')
-
-
-# View removida - usar RoutesMapView diretamente nas URLs
-
-
-@require_http_methods(["GET"])
-def stops_list(request):
-    """
-    View legada para lista de paradas (redirecionamento para stops app).
-    """
-    from django.urls import reverse
-    return redirect(reverse('stops:list'))
 
 
 @require_http_methods(["GET"])
@@ -395,15 +388,79 @@ def map_data_api(request):
     API geral para dados de mapa (rotas e paradas).
     """
     try:
-        routes_data = RouteMapService.get_all_routes_map_data()
+        # Obter todas as rotas com dados para mapa
+        routes = RouteService.get_active_routes_queryset().select_related(
+            'route_type', 'transport_company'
+        ).prefetch_related('route_stops__stop')
+        
+        routes_data = []
+        for route in routes:
+            # Preparar dados das paradas por direção
+            stops_by_direction = {}
+            route_stops = route.route_stops.select_related('stop').filter(
+                stop__latitude__isnull=False,
+                stop__longitude__isnull=False
+            ).order_by('direction', 'sequence')
+            
+            for route_stop in route_stops:
+                direction = route_stop.direction
+                if direction not in stops_by_direction:
+                    stops_by_direction[direction] = []
+                
+                stop_data = {
+                    'id': str(route_stop.stop.id),
+                    'code': route_stop.stop.code,
+                    'name': route_stop.stop.name,
+                    'sequence': route_stop.sequence,
+                    'lat': float(route_stop.stop.latitude),
+                    'lng': float(route_stop.stop.longitude),
+                    'wheelchair_accessible': route_stop.stop.wheelchair_accessible,
+                    'has_shelter': route_stop.stop.has_shelter,
+                    'has_seating': route_stop.stop.has_seating,
+                    'neighborhood': route_stop.stop.neighborhood or 'N/A',
+                    'distance_from_origin': route_stop.distance_from_origin,
+                    'estimated_time_from_origin': route_stop.estimated_time_from_origin
+                }
+                stops_by_direction[direction].append(stop_data)
+            
+            route_data = {
+                'id': str(route.id),
+                'number': route.number,
+                'name': route.name,
+                'type': route.route_type.name if route.route_type else 'Convencional',
+                'color': route.route_type.color if route.route_type else '#007bff',
+                'company': route.transport_company.short_name if route.transport_company else 'N/A',
+                'wheelchair_accessible': route.wheelchair_accessible,
+                'fare': float(route.get_current_fare()) if route.get_current_fare() else None,
+                'is_circular': route.is_circular,
+                'is_bidirectional': route.is_bidirectional,
+                'stops': stops_by_direction
+            }
+            routes_data.append(route_data)
         
         # Dados simplificados de paradas
         from stops.services import StopService
         stops_data = StopService.get_map_data()
         
+        # Estatísticas
+        statistics = {
+            'total_routes': len(routes_data),
+            'total_stops': len(stops_data),
+            'routes_by_type': {},
+        }
+        
+        # Contar rotas por tipo
+        for route in routes_data:
+            route_type = route['type']
+            if route_type not in statistics['routes_by_type']:
+                statistics['routes_by_type'][route_type] = 0
+            statistics['routes_by_type'][route_type] += 1
+        
         response_data = {
+            'success': True,
             'routes': routes_data,
             'stops': stops_data,
+            'statistics': statistics,
             'metadata': {
                 'routes_count': len(routes_data),
                 'stops_count': len(stops_data),
@@ -415,7 +472,12 @@ def map_data_api(request):
         
     except Exception as e:
         logger.error(f'Error in map_data_api: {e}')
-        return JsonResponse({'error': 'Server error'}, status=500)
+        from django.conf import settings
+        return JsonResponse({
+            'success': False,
+            'error': 'Erro ao carregar dados do mapa',
+            'message': str(e) if settings.DEBUG else 'Server error'
+        }, status=500)
 
 
 @require_http_methods(["GET"])
@@ -451,52 +513,7 @@ def route_stops_api(request, route_number):
         return JsonResponse({'error': 'Server error'}, status=500)
 
 
-@require_http_methods(["GET"])
-def stop_detail(request, stop_code):
-    """
-    Detalhes de uma parada específica (simplificada).
-    """
-    try:
-        stop = get_object_or_404(BusStop, code=stop_code, is_active=True)
-        
-        # Rotas que passam por esta parada
-        route_stops = RouteStop.objects.select_related(
-            'route', 'route__route_type', 'route__transport_company'
-        ).filter(
-            stop=stop, route__is_active=True
-        ).order_by('route__number')
-        
-        context = {
-            'stop': stop,
-            'route_stops': route_stops,
-            'routes_count': route_stops.count(),
-        }
-        
-        return render(request, 'stops/stop_detail.html', context)
-        
-    except Exception as e:
-        logger.error(f'Error in stop detail view: {e}')
-        messages.error(request, 'Erro ao carregar detalhes da parada')
-        return redirect('routes:route_list')
 
-
-@require_http_methods(["GET"])
-def home(request):
-    """
-    Página inicial do sistema (simplificada).
-    """
-    try:
-        context = {
-            'statistics': RouteStatisticsService.get_route_statistics(),
-            'featured_routes': RouteService.get_active_routes_queryset()[:6],
-        }
-        
-        return render(request, 'routes/home.html', context)
-        
-    except Exception as e:
-        logger.error(f'Error in home view: {e}')
-        context = {'error': 'Erro ao carregar página inicial'}
-        return render(request, 'routes/home.html', context)
 
 
 # =============================================================================
