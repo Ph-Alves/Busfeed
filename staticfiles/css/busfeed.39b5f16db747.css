@@ -1807,7 +1807,7 @@ main#main-content {
 main#main-content > .container-fluid:first-child,
 main#main-content > .container:first-child,
 main#main-content > div:first-child {
-    padding-top: 2rem !important; /* Aumentado para garantir espaçamento visível */
+    padding-top: 1rem;
 }
 
 /* === Ajuste específico para páginas full-height === */
@@ -1854,12 +1854,4 @@ main#main-content > * {
 .schedules-header h1 {
     margin-top: 0;
     padding-top: var(--spacing-md);
-}
-
-/* === Override específico para páginas com display: block === */
-body[style*="display: block"] main#main-content,
-main#main-content[style*="padding-top: 2rem"] {
-    padding-top: 2rem !important;
-    flex: unset !important;
-    margin-top: 0 !important;
 }

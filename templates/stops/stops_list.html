@@ -12,12 +12,13 @@
         background-color: #f5f5f5;
     }
     
-    /* Container principal com melhor espaçamento */
-    .container-fluid {
-        height: calc(100vh - 76px);
-        padding: var(--spacing-lg);
-        background: var(--gray-light);
-    }
+          /* Container principal com melhor espaçamento */
+      .container-fluid {
+          min-height: calc(100vh - 80px);
+          height: auto;
+          padding: var(--spacing-lg);
+          background: var(--gray-light);
+      }
     
     .row.g-0 {
         height: 100%;
@@ -32,7 +33,7 @@
         background: var(--white);
         border-right: 3px solid var(--gray-light);
         overflow-y: auto;
-        max-height: calc(100vh - 76px - var(--spacing-2xl));
+        max-height: calc(100vh - 80px - var(--spacing-2xl));
         position: relative;
     }
     
@@ -201,7 +202,7 @@
     
     /* Container de mapa melhorado */
     .map-container {
-        height: calc(100vh - 76px - var(--spacing-2xl));
+        height: calc(100vh - 80px - var(--spacing-2xl));
         background: var(--white);
         position: relative;
         display: flex;

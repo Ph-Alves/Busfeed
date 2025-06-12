@@ -1026,7 +1026,18 @@ main > .internal-header {
 footer {
     background: var(--gray-dark);
     color: rgba(255, 255, 255, 0.9);
-    margin-top: var(--spacing-4xl);
+}
+
+/* Remove espaçamento superior do footer */
+footer .container {
+    padding-top: 0 !important;
+}
+
+/* Remove margin-bottom do último elemento do main para eliminar gap com footer */
+main > *:last-child,
+main .container:last-child,
+main .container-fluid:last-child {
+    margin-bottom: 0 !important;
 }
 
 footer h5, footer h6 {

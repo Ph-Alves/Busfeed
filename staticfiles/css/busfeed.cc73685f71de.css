@@ -88,14 +88,11 @@ body {
     font-family: var(--font-family-primary);
     line-height: 1.6;
     color: var(--text-primary);
-    background: var(--body-bg);
+    background-color: var(--primary-color);
     margin: 0;
     padding: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
 }
 
 /* === Melhorias de Foco para Acessibilidade === */
@@ -791,7 +788,7 @@ main > .container-fluid:first-child {
     background: var(--primary-color) !important;
     border-bottom: 3px solid var(--quaternary-color);
     box-shadow: var(--shadow-lg);
-    position: sticky !important;
+    position: fixed !important;
     top: 0;
     left: 0;
     right: 0;
@@ -867,7 +864,13 @@ main > .container-fluid:first-child {
     color: var(--primary-color);
 }
 
-/* === Ajustes para Body - Removendo padding-top fixo === */
+/* === Ajustes para Body com Header Fixo === */
+body {
+    padding-top: 80px !important; /* Altura da navbar fixa */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
 
 body.no-padding-top {
     padding-top: 0 !important;
@@ -890,26 +893,11 @@ body.full-height-layout main#main-content {
     flex: unset;
 }
 
-/* === Correção para Breadcrumb e Elementos Principais === */
-/* Breadcrumb ajuste para header sticky */
+/* === Breadcrumb ajuste para header fixo === */
 nav[aria-label="breadcrumb"],
 nav[aria-label="Localização atual"] {
     margin-top: 0 !important;
-    padding-top: 0 !important;
-}
-
-/* === Container principal após navbar === */
-.container,
-.container-fluid,
-main > .container,
-main > .container-fluid {
-    position: relative;
-}
-
-/* Remove padding-top desnecessário já que navbar não é mais fixed */
-main .container:first-child,
-main .container-fluid:first-child {
-    padding-top: 0 !important;
+    padding-top: 1rem;
 }
 
 /* === Breadcrumb específico com classe mt-3 === */
@@ -917,14 +905,14 @@ nav[aria-label="breadcrumb"].container.mt-3,
 nav[aria-label="Localização atual"].container.mt-3,
 main nav[aria-label="breadcrumb"],
 main nav[aria-label="Localização atual"] {
-    margin-top: var(--spacing-md) !important;
-    padding-top: 0 !important;
+    margin-top: 0 !important;
+    padding-top: 1rem;
 }
 
 /* === Container após navbar === */
 .container-after-navbar {
     margin-top: 0 !important;
-    padding-top: 0;
+    padding-top: 1rem;
 }
 
 /* === Ajuste geral para primeiros elementos após header === */
@@ -932,54 +920,19 @@ main#main-content > *:first-child,
 main#main-content .container:first-child,
 main#main-content nav:first-child {
     margin-top: 0 !important;
-    padding-top: 0;
-}
-
-/* === Override específico para Bootstrap mt-3 === */
-main nav.container.mt-3,
-main .container.mt-3:first-child,
-body > main nav[aria-label="breadcrumb"],
-body main nav.container {
-    margin-top: var(--spacing-md) !important;
-    padding-top: 0 !important;
-}
-
-/* === Ajustes específicos para conteúdo === */
-main .py-4,
-main .container.py-4,
-.hero-section,
-.internal-header {
-    position: relative;
-    z-index: 1;
-}
-
-/* === Garantir espaçamento natural para containers principais === */
-main > div:first-child,
-main > section:first-child,
-main > .hero-section,
-main > .internal-header {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-}
-
-/* === Restaurar comportamento natural do Bootstrap === */
-.mt-3:first-child,
-.mt-4:first-child,
-.mt-5:first-child {
-    margin-top: var(--spacing-md) !important;
-    padding-top: 0 !important;
+    padding-top: 1rem;
 }
 
 /* === Responsivo para Navbar === */
 @media (max-width: 991.98px) {
     
     .navbar {
-        position: sticky !important;
+        position: fixed !important;
         min-height: 76px;
     }
     
     body {
-        /* Remove padding-top já que não é mais fixed */
+        padding-top: 76px !important; /* Altura ajustada para mobile */
     }
     
     .navbar-nav .nav-link {
@@ -1005,7 +958,7 @@ main > .internal-header {
     }
     
     body {
-        /* Remove padding-top já que não é mais fixed */
+        padding-top: 70px !important; /* Altura menor para telas muito pequenas */
     }
     
     .navbar-brand {
@@ -1794,72 +1747,4 @@ span, div, label, small {
     background-color: var(--quaternary-color);
     border-color: var(--quaternary-color);
     color: var(--primary-color);
-}
-
-/* === Ajustes para conteúdo após navbar sticky === */
-body > main,
-main#main-content {
-    margin-top: 0;
-    padding-top: 0;
-}
-
-/* === Garantir espaço adequado após navbar === */
-main#main-content > .container-fluid:first-child,
-main#main-content > .container:first-child,
-main#main-content > div:first-child {
-    padding-top: 2rem !important; /* Aumentado para garantir espaçamento visível */
-}
-
-/* === Ajuste específico para páginas full-height === */
-main .container-fluid {
-    position: relative;
-}
-
-main .row.g-0 {
-    position: relative;
-}
-
-/* === Garantir que elementos com height 100vh não sobreponham a navbar === */
-.col-lg-4,
-.col-lg-8 {
-    position: relative;
-}
-
-/* === Cabeçalhos sticky em páginas internas devem ficar abaixo da navbar === */
-.routes-header,
-.stops-list-header,
-.schedules-header {
-    position: sticky !important;
-    top: 0;
-    z-index: 100;
-    margin-top: 0;
-    background: var(--white);
-    border-bottom: 2px solid var(--gray-light);
-}
-
-/* === Override para garantir que o primeiro elemento não seja sobreposto === */
-main#main-content > * {
-    position: relative;
-}
-
-/* === Ajuste específico para templates que usam layout de duas colunas === */
-.container-fluid > .row:first-child {
-    padding-top: 0;
-    margin-top: 0;
-}
-
-/* === Garantir que cabeçalhos de seção tenham espaçamento adequado === */
-.routes-header h1,
-.stops-list-header h1,
-.schedules-header h1 {
-    margin-top: 0;
-    padding-top: var(--spacing-md);
-}
-
-/* === Override específico para páginas com display: block === */
-body[style*="display: block"] main#main-content,
-main#main-content[style*="padding-top: 2rem"] {
-    padding-top: 2rem !important;
-    flex: unset !important;
-    margin-top: 0 !important;
 }

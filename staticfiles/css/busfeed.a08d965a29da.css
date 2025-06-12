@@ -1026,7 +1026,55 @@ main > .internal-header {
 footer {
     background: var(--gray-dark);
     color: rgba(255, 255, 255, 0.9);
-    margin-top: var(--spacing-4xl);
+}
+
+/* Remove espaçamento superior do footer */
+footer .container {
+    padding-top: 0 !important;
+}
+
+/* Remove margin-bottom do último elemento do main para eliminar gap com footer */
+main > *:last-child,
+main .container:last-child,
+main .container-fluid:last-child {
+    margin-bottom: 0 !important;
+}
+
+/* Layout especializado para páginas full-width (rotas e paradas) */
+.container-xxl.px-0 {
+    max-width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+/* Páginas de rotas e paradas seguem layout natural */
+.routes-page,
+.stops-page {
+    margin: 0;
+    padding: 0;
+}
+
+.routes-page .container-fluid,
+.stops-page .container-fluid {
+    padding: 0;
+    margin: 0;
+}
+
+/* Garante que essas páginas tenham altura natural */
+body:has(.routes-page) main,
+body:has(.stops-page) main,
+body.routes-layout main,
+body.stops-layout main {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+/* Remove qualquer padding específico do main nessas páginas */
+body:has(.routes-page) main#main-content,
+body:has(.stops-page) main#main-content,
+body.routes-layout main#main-content,
+body.stops-layout main#main-content {
+    padding: 0 !important;
 }
 
 footer h5, footer h6 {

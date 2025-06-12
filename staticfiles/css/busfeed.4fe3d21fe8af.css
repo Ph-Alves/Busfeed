@@ -155,7 +155,7 @@ main > .container-fluid:first-child {
 
 /* === Hero Section - Tela Principal === */
 .hero-section {
-    min-height: 100vh;
+    min-height: calc(100vh - 80px); /* Altura total menos navbar */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -883,11 +883,34 @@ body.full-height-layout {
 main#main-content {
     flex: 1;
     margin-top: 0;
+    margin-bottom: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 80px - 120px); /* Total menos navbar e footer aproximado */
 }
 
 /* === Main content para layout full-height === */
 body.full-height-layout main#main-content {
     flex: unset;
+}
+
+/* Páginas normais: conteúdo se adapta para preencher espaço */
+main#main-content > .container:only-child,
+main#main-content > .container-fluid:only-child {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/* Para páginas com container.py-5, garantir que ocupem todo espaço */
+main#main-content > .container.py-5 {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    padding-bottom: 0 !important;
 }
 
 /* === Correção para Breadcrumb e Elementos Principais === */
@@ -1026,7 +1049,92 @@ main > .internal-header {
 footer {
     background: var(--gray-dark);
     color: rgba(255, 255, 255, 0.9);
-    margin-top: var(--spacing-4xl);
+}
+
+/* Remove espaçamento superior do footer */
+footer .container {
+    padding-top: 0 !important;
+}
+
+/* Remove margin-bottom do último elemento do main para eliminar gap com footer */
+main > *:last-child,
+main .container:last-child,
+main .container-fluid:last-child {
+    margin-bottom: 0 !important;
+}
+
+/* Layout full-height para páginas de rotas e paradas */
+.container-xxl.px-0 {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    height: calc(100vh - 80px); /* Altura total menos navbar */
+    overflow: hidden;
+}
+
+/* Container interno das páginas especiais */
+.routes-page,
+.stops-page {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.routes-page .container-fluid,
+.stops-page .container-fluid {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    flex: 1;
+}
+
+.routes-page .row.g-0,
+.stops-page .row.g-0 {
+    height: 100%;
+    margin: 0;
+}
+
+/* Colunas ocupam toda altura disponível */
+.routes-page .col-lg-4,
+.routes-page .col-lg-8,
+.stops-page .col-lg-4,
+.stops-page .col-lg-8 {
+    height: 100%;
+    overflow-y: auto;
+}
+
+/* Remove layout flex do body para essas páginas */
+body:has(.routes-page),
+body:has(.stops-page),
+body.routes-layout,
+body.stops-layout {
+    min-height: 100vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* Main content para páginas full-height */
+body:has(.routes-page) main#main-content,
+body:has(.stops-page) main#main-content,
+body.routes-layout main#main-content,
+body.stops-layout main#main-content {
+    flex: 1 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+}
+
+/* Footer permanece no final */
+body:has(.routes-page) footer,
+body:has(.stops-page) footer,
+body.routes-layout footer,
+body.stops-layout footer {
+    margin-top: 0 !important;
+    flex-shrink: 0 !important;
 }
 
 footer h5, footer h6 {

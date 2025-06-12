@@ -1026,7 +1026,39 @@ main > .internal-header {
 footer {
     background: var(--gray-dark);
     color: rgba(255, 255, 255, 0.9);
-    margin-top: var(--spacing-4xl);
+}
+
+/* Remove espaçamento superior do footer */
+footer .container {
+    padding-top: 0 !important;
+}
+
+/* Remove margin-bottom do último elemento do main para eliminar gap com footer */
+main > *:last-child,
+main .container:last-child,
+main .container-fluid:last-child {
+    margin-bottom: 0 !important;
+}
+
+/* Layout natural para páginas de rotas e paradas - remove altura fixa */
+.routes-page .container-fluid,
+.stops-page .container-fluid {
+    min-height: auto !important;
+    height: auto !important;
+}
+
+.routes-page .row.g-0,
+.stops-page .row.g-0 {
+    min-height: auto !important;
+    height: auto !important;
+}
+
+.routes-page .col-lg-4,
+.routes-page .col-lg-8,
+.stops-page .col-lg-4,
+.stops-page .col-lg-8 {
+    min-height: auto !important;
+    max-height: none !important;
 }
 
 footer h5, footer h6 {

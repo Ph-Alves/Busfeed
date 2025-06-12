@@ -1026,7 +1026,57 @@ main > .internal-header {
 footer {
     background: var(--gray-dark);
     color: rgba(255, 255, 255, 0.9);
-    margin-top: var(--spacing-4xl);
+}
+
+/* Remove espaçamento superior do footer */
+footer .container {
+    padding-top: 0 !important;
+}
+
+/* Remove margin-bottom do último elemento do main para eliminar gap com footer */
+main > *:last-child,
+main .container:last-child,
+main .container-fluid:last-child {
+    margin-bottom: 0 !important;
+}
+
+/* Layout natural para páginas de rotas e paradas - remove altura fixa */
+.routes-page .container-fluid,
+.stops-page .container-fluid {
+    min-height: auto !important;
+    height: auto !important;
+}
+
+.routes-page .row.g-0,
+.stops-page .row.g-0 {
+    min-height: auto !important;
+    height: auto !important;
+}
+
+.routes-page .col-lg-4,
+.routes-page .col-lg-8,
+.stops-page .col-lg-4,
+.stops-page .col-lg-8 {
+    min-height: auto !important;
+    max-height: none !important;
+}
+
+/* Remove comportamento flex do body para páginas específicas */
+body:has(.routes-page),
+body:has(.stops-page),
+body.routes-layout,
+body.stops-layout {
+    min-height: auto !important;
+    display: block !important;
+}
+
+/* Garante que o main também não tenha altura forçada */
+body:has(.routes-page) main,
+body:has(.stops-page) main,
+body.routes-layout main,
+body.stops-layout main {
+    flex: none !important;
+    min-height: auto !important;
 }
 
 footer h5, footer h6 {

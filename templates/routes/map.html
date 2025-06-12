@@ -183,7 +183,8 @@
         }
         
         #mapContainer {
-            height: 60vh;
+            height: 50vh;
+            min-height: 400px;
         }
         
         .route-info-panel {
@@ -191,9 +192,18 @@
             bottom: auto;
             left: auto;
             right: auto;
-            transform: none;
-            opacity: 1;
+            transform: none !important;
+            opacity: 1 !important;
             margin-top: 1rem;
+            max-height: none;
+        }
+        
+        .popup-content {
+            font-size: 0.9rem;
+        }
+        
+        .legend {
+            display: none;
         }
     }
 </style>
@@ -483,33 +493,43 @@ class TransportMap {
         
         // Criar linha para ida
         if (route.stops.ida && route.stops.ida.length > 1) {
-            const idaCoords = route.stops.ida.map(stop => [stop.lat, stop.lng]);
-            const idaLine = L.polyline(idaCoords, {
-                color: route.color,
-                weight: route.weight,
-                opacity: 0.8,
-                className: `route-line route-${route.type.replace(/\s+/g, '-')}`
-            });
+            const idaCoords = route.stops.ida
+                .filter(stop => stop.lat && stop.lng) // Filtra paradas sem coordenadas
+                .map(stop => [stop.lat, stop.lng]);
             
-            idaLine.bindPopup(() => this.createRoutePopup(route, 'ida'));
-            idaLine.on('click', () => this.showRouteDetails(route));
-            routeGroup.addLayer(idaLine);
+            if (idaCoords.length > 1) {
+                const idaLine = L.polyline(idaCoords, {
+                    color: route.color || '#007bff',
+                    weight: route.weight || 3,
+                    opacity: 0.8,
+                    className: `route-line route-${route.type.replace(/\s+/g, '-')}`
+                });
+                
+                idaLine.bindPopup(() => this.createRoutePopup(route, 'ida'));
+                idaLine.on('click', () => this.showRouteDetails(route));
+                routeGroup.addLayer(idaLine);
+            }
         }
         
         // Criar linha para volta (se não for circular)
         if (!route.is_circular && route.stops.volta && route.stops.volta.length > 1) {
-            const voltaCoords = route.stops.volta.map(stop => [stop.lat, stop.lng]);
-            const voltaLine = L.polyline(voltaCoords, {
-                color: route.color,
-                weight: route.weight - 1,
-                opacity: 0.6,
-                dashArray: '5, 5',
-                className: `route-line route-${route.type.replace(/\s+/g, '-')}`
-            });
-            
-            voltaLine.bindPopup(() => this.createRoutePopup(route, 'volta'));
-            voltaLine.on('click', () => this.showRouteDetails(route));
-            routeGroup.addLayer(voltaLine);
+            const voltaCoords = route.stops.volta
+                .filter(stop => stop.lat && stop.lng) // Filtra paradas sem coordenadas
+                .map(stop => [stop.lat, stop.lng]);
+                
+            if (voltaCoords.length > 1) {
+                const voltaLine = L.polyline(voltaCoords, {
+                    color: route.color || '#007bff',
+                    weight: (route.weight || 3) - 1,
+                    opacity: 0.6,
+                    dashArray: '5, 5',
+                    className: `route-line route-${route.type.replace(/\s+/g, '-')}`
+                });
+                
+                voltaLine.bindPopup(() => this.createRoutePopup(route, 'volta'));
+                voltaLine.on('click', () => this.showRouteDetails(route));
+                routeGroup.addLayer(voltaLine);
+            }
         }
         
         this.routeLayers[route.id] = {
@@ -541,7 +561,10 @@ class TransportMap {
     
     createRoutePopup(route, direction) {
         const directionText = direction === 'ida' ? 'Ida' : 'Volta';
-        const stops = route.stops[direction];
+        const stops = route.stops[direction] || [];
+        const fare = route.fare || 0;
+        const frequency = route.frequency || 'N/A';
+        const company = route.company || 'N/A';
         
         return `
             <div class="popup-header">
@@ -549,17 +572,22 @@ class TransportMap {
                 <small>${directionText} • ${route.type}</small>
             </div>
             <div class="popup-section">
-                <strong>Empresa:</strong> ${route.company}<br>
-                <strong>Tarifa:</strong> R$ ${route.fare.toFixed(2)}<br>
-                <strong>Frequência:</strong> ${route.frequency} min
+                <strong>Empresa:</strong> ${company}<br>
+                <strong>Tarifa:</strong> R$ ${fare.toFixed(2)}<br>
+                <strong>Frequência:</strong> ${frequency} min
             </div>
             <div class="popup-section">
                 <span class="popup-badge">${stops.length} paradas</span>
                 ${route.wheelchair_accessible ? '<span class="popup-badge">♿ Acessível</span>' : ''}
             </div>
-            <button class="btn btn-sm btn-primary w-100" onclick="transportMap.showRouteDetails(${JSON.stringify(route).replace(/"/g, '&quot;')})">
-                Ver Detalhes Completos
-            </button>
+            <div class="text-center mt-3">
+                <a href="/rotas/${route.number}/" class="btn btn-primary btn-sm me-2">
+                    <i class="fas fa-eye me-1"></i>Ver Detalhes
+                </a>
+                <a href="/horarios/linha/${route.id}/" class="btn btn-outline-primary btn-sm">
+                    <i class="fas fa-clock me-1"></i>Horários
+                </a>
+            </div>
         `;
     }
     
@@ -590,23 +618,28 @@ class TransportMap {
         
         const idaStops = route.stops.ida || [];
         const voltaStops = route.stops.volta || [];
+        const fare = route.fare || 0;
+        const frequency = route.frequency || 'N/A';
+        const duration = route.duration || 'N/A';
+        const company = route.company || 'N/A';
+        const operates = route.operates || {};
         
         details.innerHTML = `
             <div class="row g-3">
                 <div class="col-md-6">
                     <h6><i class="fas fa-info-circle me-2"></i>Informações Gerais</h6>
                     <p class="mb-2"><strong>Tipo:</strong> ${route.type}</p>
-                    <p class="mb-2"><strong>Empresa:</strong> ${route.company}</p>
-                    <p class="mb-2"><strong>Tarifa:</strong> R$ ${route.fare.toFixed(2)}</p>
-                    <p class="mb-2"><strong>Frequência:</strong> ${route.frequency} minutos</p>
-                    <p class="mb-0"><strong>Duração:</strong> ${route.duration} minutos</p>
+                    <p class="mb-2"><strong>Empresa:</strong> ${company}</p>
+                    <p class="mb-2"><strong>Tarifa:</strong> R$ ${fare.toFixed(2)}</p>
+                    <p class="mb-2"><strong>Frequência:</strong> ${frequency} minutos</p>
+                    <p class="mb-0"><strong>Duração:</strong> ${duration} minutos</p>
                 </div>
                 <div class="col-md-6">
                     <h6><i class="fas fa-clock me-2"></i>Operação</h6>
                     <div class="mb-2">
-                        ${route.operates.weekdays ? '<span class="popup-badge">Segunda-Sexta</span>' : ''}
-                        ${route.operates.saturdays ? '<span class="popup-badge">Sábado</span>' : ''}
-                        ${route.operates.sundays ? '<span class="popup-badge">Domingo</span>' : ''}
+                        ${operates.weekdays ? '<span class="popup-badge">Segunda-Sexta</span>' : ''}
+                        ${operates.saturdays ? '<span class="popup-badge">Sábado</span>' : ''}
+                        ${operates.sundays ? '<span class="popup-badge">Domingo</span>' : ''}
                     </div>
                     <div>
                         ${route.wheelchair_accessible ? '<span class="popup-badge">♿ Acessível</span>' : ''}
@@ -625,12 +658,12 @@ class TransportMap {
                         ${idaStops.map((stop, index) => `
                             <div class="d-flex justify-content-between align-items-center py-1 ${index < idaStops.length - 1 ? 'border-bottom' : ''}">
                                 <div>
-                                    <small class="fw-bold">${stop.sequence}. ${stop.name}</small><br>
-                                    <small class="text-muted">${stop.code}</small>
+                                    <small class="fw-bold">${stop.sequence || index + 1}. ${stop.name}</small><br>
+                                    <small class="text-muted">${stop.code || 'N/A'}</small>
                                 </div>
                                 <small class="text-end">
-                                    ${stop.time}min<br>
-                                    <span class="text-muted">${stop.distance.toFixed(1)}km</span>
+                                    ${stop.time || 0}min<br>
+                                    <span class="text-muted">${(stop.distance || 0).toFixed(1)}km</span>
                                 </small>
                             </div>
                         `).join('')}
@@ -645,12 +678,12 @@ class TransportMap {
                         ${voltaStops.map((stop, index) => `
                             <div class="d-flex justify-content-between align-items-center py-1 ${index < voltaStops.length - 1 ? 'border-bottom' : ''}">
                                 <div>
-                                    <small class="fw-bold">${stop.sequence}. ${stop.name}</small><br>
-                                    <small class="text-muted">${stop.code}</small>
+                                    <small class="fw-bold">${stop.sequence || index + 1}. ${stop.name}</small><br>
+                                    <small class="text-muted">${stop.code || 'N/A'}</small>
                                 </div>
                                 <small class="text-end">
-                                    ${stop.time}min<br>
-                                    <span class="text-muted">${stop.distance.toFixed(1)}km</span>
+                                    ${stop.time || 0}min<br>
+                                    <span class="text-muted">${(stop.distance || 0).toFixed(1)}km</span>
                                 </small>
                             </div>
                         `).join('')}
@@ -730,16 +763,19 @@ class TransportMap {
     }
     
     updateStatistics(stats) {
-        document.getElementById('total-routes').textContent = stats.total_routes;
-        document.getElementById('bus-count').textContent = stats.route_types.bus;
-        document.getElementById('metro-count').textContent = stats.route_types.metro;
-        document.getElementById('brt-count').textContent = stats.route_types.brt;
-        document.getElementById('express-count').textContent = stats.route_types.express;
-        document.getElementById('circular-count').textContent = stats.route_types.circular;
+        if (!stats) return;
+        
+        const routeTypes = stats.route_types || {};
+        document.getElementById('total-routes').textContent = stats.total_routes || 0;
+        document.getElementById('bus-count').textContent = routeTypes.bus || 0;
+        document.getElementById('metro-count').textContent = routeTypes.metro || 0;
+        document.getElementById('brt-count').textContent = routeTypes.brt || 0;
+        document.getElementById('express-count').textContent = routeTypes.express || 0;
+        document.getElementById('circular-count').textContent = routeTypes.circular || 0;
         
         // Mobile stats
-        document.getElementById('mobile-total-routes').textContent = stats.total_routes;
-        document.getElementById('mobile-total-stops').textContent = stats.total_stops;
+        document.getElementById('mobile-total-routes').textContent = stats.total_routes || 0;
+        document.getElementById('mobile-total-stops').textContent = stats.total_stops || 0;
     }
     
     hideLoading() {

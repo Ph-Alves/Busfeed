@@ -88,12 +88,14 @@ body {
     font-family: var(--font-family-primary);
     line-height: 1.6;
     color: var(--text-primary);
-    background-color: var(--primary-color);
+    background: var(--body-bg);
     margin: 0;
     padding: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    padding-top: 100px; /* Altura da navbar + espaçamento extra */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 /* === Melhorias de Foco para Acessibilidade === */
@@ -120,10 +122,7 @@ body {
     margin: var(--section-margin-y) 0;
 }
 
-/* Main content com espaçamento extra após header */
-main#main-content {
-    margin-top: var(--spacing-lg);
-}
+/* Main content com espaçamento apropriado */
 
 /* Containers com padding consistente */
 .container,
@@ -792,12 +791,13 @@ main > .container-fluid:first-child {
     background: var(--primary-color) !important;
     border-bottom: 3px solid var(--quaternary-color);
     box-shadow: var(--shadow-lg);
-    position: fixed;
+    position: sticky !important;
     top: 0;
     left: 0;
     right: 0;
-    z-index: 1030;
+    z-index: 1030 !important;
     min-height: 80px;
+    width: 100%;
 }
 
 .navbar-brand {
@@ -867,24 +867,119 @@ main > .container-fluid:first-child {
     color: var(--primary-color);
 }
 
-/* === Ajustes para Body === */
-body {
-    padding-top: 100px; /* Altura da navbar + espaçamento extra */
-}
+/* === Ajustes para Body - Removendo padding-top fixo === */
 
 body.no-padding-top {
+    padding-top: 0 !important;
+}
+
+/* === Layout para páginas com estrutura full-height === */
+body.full-height-layout {
+    display: block;
+    min-height: auto;
+}
+
+/* === Main content deve ocupar espaço restante === */
+main#main-content {
+    flex: 1;
+    margin-top: 0;
+}
+
+/* === Main content para layout full-height === */
+body.full-height-layout main#main-content {
+    flex: unset;
+}
+
+/* === Correção para Breadcrumb e Elementos Principais === */
+/* Breadcrumb ajuste para header sticky */
+nav[aria-label="breadcrumb"],
+nav[aria-label="Localização atual"] {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+/* === Container principal após navbar === */
+.container,
+.container-fluid,
+main > .container,
+main > .container-fluid {
+    position: relative;
+}
+
+/* Remove padding-top desnecessário já que navbar não é mais fixed */
+main .container:first-child,
+main .container-fluid:first-child {
+    padding-top: 0 !important;
+}
+
+/* === Breadcrumb específico com classe mt-3 === */
+nav[aria-label="breadcrumb"].container.mt-3,
+nav[aria-label="Localização atual"].container.mt-3,
+main nav[aria-label="breadcrumb"],
+main nav[aria-label="Localização atual"] {
+    margin-top: var(--spacing-md) !important;
+    padding-top: 0 !important;
+}
+
+/* === Container após navbar === */
+.container-after-navbar {
+    margin-top: 0 !important;
     padding-top: 0;
+}
+
+/* === Ajuste geral para primeiros elementos após header === */
+main#main-content > *:first-child,
+main#main-content .container:first-child,
+main#main-content nav:first-child {
+    margin-top: 0 !important;
+    padding-top: 0;
+}
+
+/* === Override específico para Bootstrap mt-3 === */
+main nav.container.mt-3,
+main .container.mt-3:first-child,
+body > main nav[aria-label="breadcrumb"],
+body main nav.container {
+    margin-top: var(--spacing-md) !important;
+    padding-top: 0 !important;
+}
+
+/* === Ajustes específicos para conteúdo === */
+main .py-4,
+main .container.py-4,
+.hero-section,
+.internal-header {
+    position: relative;
+    z-index: 1;
+}
+
+/* === Garantir espaçamento natural para containers principais === */
+main > div:first-child,
+main > section:first-child,
+main > .hero-section,
+main > .internal-header {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+/* === Restaurar comportamento natural do Bootstrap === */
+.mt-3:first-child,
+.mt-4:first-child,
+.mt-5:first-child {
+    margin-top: var(--spacing-md) !important;
+    padding-top: 0 !important;
 }
 
 /* === Responsivo para Navbar === */
 @media (max-width: 991.98px) {
     
     .navbar {
-        position: relative;
+        position: sticky !important;
+        min-height: 76px;
     }
     
     body {
-        padding-top: var(--spacing-lg); /* Mantém espaçamento mesmo em mobile */
+        /* Remove padding-top já que não é mais fixed */
     }
     
     .navbar-nav .nav-link {
@@ -896,16 +991,34 @@ body.no-padding-top {
         margin-top: var(--spacing-md);
         padding: var(--spacing-md);
         border-radius: var(--radius-md);
+        position: absolute;
+        top: 100%;
+        left: 15px;
+        right: 15px;
+        box-shadow: var(--shadow-lg);
     }
 }
 
 @media (max-width: 575.98px) {
+    .navbar {
+        min-height: 70px;
+    }
+    
+    body {
+        /* Remove padding-top já que não é mais fixed */
+    }
+    
     .navbar-brand {
         font-size: 1.25rem;
     }
     
     .navbar-nav .nav-link span {
         font-size: 0.9rem;
+    }
+    
+    .navbar-collapse {
+        left: 10px;
+        right: 10px;
     }
 }
 
@@ -1681,4 +1794,72 @@ span, div, label, small {
     background-color: var(--quaternary-color);
     border-color: var(--quaternary-color);
     color: var(--primary-color);
+}
+
+/* === Ajustes para conteúdo após navbar sticky === */
+body > main,
+main#main-content {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+/* === Garantir espaço adequado após navbar === */
+main#main-content > .container-fluid:first-child,
+main#main-content > .container:first-child,
+main#main-content > div:first-child {
+    padding-top: 2rem !important; /* Aumentado para garantir espaçamento visível */
+}
+
+/* === Ajuste específico para páginas full-height === */
+main .container-fluid {
+    position: relative;
+}
+
+main .row.g-0 {
+    position: relative;
+}
+
+/* === Garantir que elementos com height 100vh não sobreponham a navbar === */
+.col-lg-4,
+.col-lg-8 {
+    position: relative;
+}
+
+/* === Cabeçalhos sticky em páginas internas devem ficar abaixo da navbar === */
+.routes-header,
+.stops-list-header,
+.schedules-header {
+    position: sticky !important;
+    top: 0;
+    z-index: 100;
+    margin-top: 0;
+    background: var(--white);
+    border-bottom: 2px solid var(--gray-light);
+}
+
+/* === Override para garantir que o primeiro elemento não seja sobreposto === */
+main#main-content > * {
+    position: relative;
+}
+
+/* === Ajuste específico para templates que usam layout de duas colunas === */
+.container-fluid > .row:first-child {
+    padding-top: 0;
+    margin-top: 0;
+}
+
+/* === Garantir que cabeçalhos de seção tenham espaçamento adequado === */
+.routes-header h1,
+.stops-list-header h1,
+.schedules-header h1 {
+    margin-top: 0;
+    padding-top: var(--spacing-md);
+}
+
+/* === Override específico para páginas com display: block === */
+body[style*="display: block"] main#main-content,
+main#main-content[style*="padding-top: 2rem"] {
+    padding-top: 2rem !important;
+    flex: unset !important;
+    margin-top: 0 !important;
 }
