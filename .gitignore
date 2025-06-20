@@ -1,3 +1,5 @@
+.cursor
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -58,8 +60,10 @@ cover/
 # Django stuff:
 *.log
 local_settings.py
-db.sqlite3
-db.sqlite3-journal
+data/databases/db.sqlite3
+data/databases/db.sqlite3-journal
+data/databases/*.sqlite3
+data/logs/*.log
 
 # Flask stuff:
 instance/
@@ -135,6 +139,9 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+backend/.env
+backend/.env.local
+backend/.env.production
 
 # Spyder project settings
 .spyderproject
