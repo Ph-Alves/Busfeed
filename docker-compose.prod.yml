@@ -1,0 +1,118 @@
+# BusFeed - Configuração Docker para Produção
+# PostgreSQL + PostGIS + Django + React + Redis + Nginx
+
+version: '3.8'
+
+services:
+  # Banco de dados PostgreSQL com extensão PostGIS
+  db:
+    image: postgis/postgis:15-3.3
+    container_name: busfeed_db_prod
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_data_prod:/var/lib/postgresql/data
+    networks:
+      - busfeed_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Redis para cache e sessions
+  redis:
+    image: redis:7-alpine
+    container_name: busfeed_redis_prod
+    command: redis-server --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - redis_data_prod:/data
+    networks:
+      - busfeed_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Aplicação Django
+  web:
+    build: 
+      context: .
+      dockerfile: Dockerfile.prod
+    container_name: busfeed_web_prod
+    command: gunicorn busfeed.wsgi:application --bind 0.0.0.0:8000 --workers 3
+    volumes:
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    networks:
+      - busfeed_network
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      - DEBUG=0
+      - DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
+      - REDIS_URL=redis://:${REDIS_PASSWORD}@redis:6379/1
+      - SECRET_KEY=${SECRET_KEY}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+      - DFTRANS_API_KEY=${DFTRANS_API_KEY}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Frontend React buildado
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    container_name: busfeed_frontend_prod
+    volumes:
+      - frontend_build:/app/build
+    networks:
+      - busfeed_network
+
+  # Nginx como proxy reverso e servidor de arquivos estáticos
+  nginx:
+    image: nginx:alpine
+    container_name: busfeed_nginx_prod
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.prod.conf:/etc/nginx/nginx.conf:ro
+      - static_volume:/var/www/static
+      - media_volume:/var/www/media
+      - frontend_build:/var/www/html
+      - ./ssl:/etc/nginx/ssl:ro
+    networks:
+      - busfeed_network
+    depends_on:
+      - web
+      - frontend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  postgres_data_prod:
+  redis_data_prod:
+  static_volume:
+  media_volume:
+  frontend_build:
+
+networks:
+  busfeed_network:
+    driver: bridge 

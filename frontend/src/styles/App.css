@@ -1,0 +1,326 @@
+/**
+ * BusFeed - Estilos Principais da Aplicação
+ * 
+ * Importa as variáveis de cores oficiais e define estilos globais com foco em:
+ * - Acessibilidade (contraste, foco, navegação por teclado)
+ * - Responsividade (mobile-first)
+ * - Performance (carregamento otimizado)
+ * - Consistência visual através de variáveis CSS
+ */
+
+/* Importação da paleta de cores oficial */
+@import './colors.css';
+
+/* Reset e configurações base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+}
+
+/* Configurações de acessibilidade - usando cor primária para foco */
+*:focus {
+  outline: var(--border-focus);
+  outline-offset: 2px;
+}
+
+/* Container principal da aplicação */
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0; /* Remove padding desnecessário */
+  margin: 0; /* Remove margem desnecessária */
+}
+
+/* Página Home - Layout principal */
+.home-page {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Mapa de fundo simples - usando apenas cores sólidas */
+.map-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--color-tertiary); /* Cor base do mapa - terciária sólida */
+  /* Textura sutil usando apenas cor sólida com pseudo-elementos */
+}
+
+/* Overlay sobre o mapa - usando cor quaternária mais escura para melhor contraste */
+.map-background::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--color-quaternary-90); /* Quaternária com mais opacidade para melhor contraste */
+}
+
+/* Retângulos decorativos principais - elementos HTML independentes */
+.main-rectangle {
+  position: absolute;
+  width: 60%;
+  height: 40px;
+  background: var(--color-primary); /* Cor primária */
+  border-radius: 20px;
+  z-index: 5;
+}
+
+/* Retângulo principal superior esquerdo */
+.main-top-left {
+  top: 20px;
+  left: 5%;
+}
+
+/* Retângulo principal inferior direito */
+.main-bottom-right {
+  bottom: 20px;
+  right: 5%; /* Posicionado na direita com mesmo espaçamento */
+}
+
+/* Retângulos decorativos dos cantos - elementos HTML independentes */
+.corner-rectangle {
+  position: absolute;
+  width: 300px;
+  height: 40px;
+  background: var(--color-primary); /* Cor primária */
+  border-radius: 20px;
+  z-index: 5;
+}
+
+/* Retângulo do canto superior direito - alinhado com o principal */
+.corner-top-right {
+  top: 20px; /* Alinhado com o retângulo principal superior */
+  right: -30px; /* Parcialmente fora da tela */
+}
+
+/* Retângulo do canto inferior esquerdo - alinhado com o principal */
+.corner-bottom-left {
+  bottom: 20px; /* Alinhado com o retângulo principal inferior */
+  left: -30px; /* Parcialmente fora da tela */
+}
+
+/* Conteúdo centralizado - posicionado em relação aos retângulos decorativos */
+.home-content {
+  position: relative;
+  z-index: 20; /* Z-index alto para ficar acima dos retângulos */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  /* Altura ajustada para descontar o espaço dos retângulos */
+  height: calc(100% - 160px); /* 80px para cada retângulo (40px altura + 20px de cada lado) */
+  margin-top: 10px; /* Espaço do retângulo superior */
+  padding: 20px;
+}
+
+/* Seção de boas-vindas */
+.welcome-section {
+  text-align: center;
+  max-width: 500px;
+  width: 100%;
+}
+
+/* Títulos - usando branco com shadow forte para máximo contraste */
+.welcome-title {
+  color: var(--color-white); /* Branco */
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  /* Shadow mais forte para melhor contraste */
+  text-shadow: 2px 2px 8px var(--color-quaternary), 
+               -1px -1px 4px var(--color-quaternary),
+               1px -1px 4px var(--color-quaternary),
+               -1px 1px 4px var(--color-quaternary);
+}
+
+.welcome-subtitle {
+  color: var(--color-white); /* Branco */
+  font-size: 1.8rem;
+  font-weight: 500;
+  margin-bottom: 2rem;
+  /* Shadow mais forte para melhor contraste */
+  text-shadow: 1px 1px 6px var(--color-quaternary),
+               -1px -1px 3px var(--color-quaternary),
+               1px -1px 3px var(--color-quaternary),
+               -1px 1px 3px var(--color-quaternary);
+}
+
+/* Campo de busca - melhor contraste e visibilidade */
+.search-input-container {
+  margin-bottom: 2rem;
+}
+
+.search-input {
+  width: 100%;
+  max-width: 400px;
+  padding: 15px 20px;
+  font-size: 1.1rem;
+  border: 2px solid var(--color-primary-30);
+  border-radius: 25px;
+  background: var(--color-white); /* Fundo branco para melhor contraste */
+  color: var(--color-black); /* Black text */
+  text-align: center;
+  box-shadow: var(--shadow-medium);
+}
+
+.search-input::placeholder {
+  color: var(--color-quaternary-50); /* Placeholder mais visível */
+  opacity: 1; /* Garante visibilidade total do placeholder */
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-30);
+  background: var(--color-white);
+}
+
+/* Botões de navegação */
+.navigation-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+/* Botão primário - melhor contraste */
+.btn-primary {
+  background: var(--color-primary); /* Cor primária */
+  color: var(--color-black); /* Black text for better contrast */
+  border: 2px solid var(--color-primary);
+  padding: 15px 40px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border-radius: 25px;
+  min-width: 200px;
+  box-shadow: var(--shadow-medium);
+  transition: all 0.3s ease;
+}
+
+/* Botões secundários - melhor contraste e visibilidade */
+.btn-secondary {
+  background: var(--color-white); /* Fundo branco para melhor contraste */
+  color: var(--color-black); /* Black text */
+  border: 2px solid var(--color-quaternary); /* Borda quaternária */
+  padding: 15px 40px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 25px;
+  min-width: 200px;
+  box-shadow: var(--shadow-medium);
+  transition: all 0.3s ease;
+}
+
+.btn-third {
+  background: var(--color-secondary); /* Fundo secundário */
+  color: var(--color-white); /* Texto branco para contraste */
+  border: 2px solid var(--color-secondary);
+}
+
+/* Hover states melhorados */
+.btn-primary:hover,
+.btn-primary:focus {
+  background: var(--color-quaternary);
+  color: var(--color-primary);
+  border-color: var(--color-quaternary);
+  transform: translateY(-2px);
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus {
+  background: var(--color-quaternary);
+  color: var(--color-white);
+  border-color: var(--color-quaternary);
+  transform: translateY(-2px);
+}
+
+.btn-third:hover,
+.btn-third:focus {
+  background: var(--color-quaternary);
+  color: var(--color-secondary);
+  border-color: var(--color-quaternary);
+  transform: translateY(-2px);
+}
+
+/* Responsividade melhorada */
+@media (max-width: 768px) {
+  .welcome-title {
+    font-size: 2rem;
+  }
+
+  .welcome-subtitle {
+    font-size: 1.4rem;
+  }
+
+  .search-input {
+    font-size: 1rem;
+    padding: 12px 18px;
+  }
+
+  .btn-primary,
+  .btn-secondary,
+  .btn-third {
+    min-width: 180px;
+    font-size: 1rem;
+    padding: 12px 30px;
+  }
+}
+
+/* Container do mapa nas outras páginas */
+.map-container {
+  position: relative;
+  height: calc(100vh - 70px); /* Altura ajustada considerando o header fixo */
+  border-radius: 0;
+  overflow: hidden;
+}
+
+/* Busca geral melhorada */
+.search-container {
+  position: relative;
+  z-index: 1000;
+  padding: 20px;
+  background: var(--color-white);
+  border-radius: 12px;
+  box-shadow: var(--shadow-medium);
+  margin: 20px;
+  border: 1px solid var(--color-tertiary);
+}
+
+/* Botões de navegação globais */
+.navigation-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+/* Classe de acessibilidade - screen reader only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+} 

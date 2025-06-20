@@ -1,8 +1,0 @@
-<li class="nav-item">
-    <a class="nav-link{% if is_active %} active{% endif %}"
-       href="{% if namespace %}{% url namespace:{{url_name}} %}{% else %}{% url 'core:'{{url_name}} %}{% endif %}"
-       aria-current="{{ aria_current }}">
-        <i class="bi {{ icon_class }} me-1" aria-hidden="true"></i>
-        <span>{{ label }}</span>
-    </a>
-</li> 

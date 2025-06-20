@@ -1,0 +1,264 @@
+/**
+ * BusFeed - Estilos da Página de Linhas
+ * 
+ * Estilos para a listagem de linhas de ônibus baseados no design fornecido.
+ * Mantém consistência com a paleta de cores e padrões de design da aplicação.
+ */
+
+/* === LAYOUT PRINCIPAL === */
+.linhas-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--color-tertiary) 0%, var(--color-primary-10) 100%);
+  padding-top: 90px; /* Padding maior para evitar sobreposição com header fixo */
+  padding-bottom: 20px; /* Padding inferior para espaçamento */
+}
+
+.linhas-content {
+  padding: 2rem 1rem;
+}
+
+/* === CARD PRINCIPAL === */
+.linhas-card {
+  background: var(--color-white); /* Fundo branco para melhor contraste */
+  border: 2px solid var(--color-quaternary-20); /* Borda sutil */
+  border-radius: 20px;
+  box-shadow: var(--shadow-heavy);
+  overflow: hidden;
+}
+
+/* === LISTA DE LINHAS === */
+.linhas-lista {
+  padding: 0;
+}
+
+.linha-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: transparent;
+  color: var(--color-black); /* Black text for contrast */
+  position: relative;
+  border: none;
+  text-decoration: none;
+}
+
+/* Separador entre itens - mais visível */
+.linha-item.com-separador::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 2rem;
+  right: 2rem;
+  height: 1px;
+  background: var(--color-quaternary-20); /* Separador mais visível */
+}
+
+/* Hover e focus melhorados */
+.linha-item:hover {
+  background: var(--color-primary-10); /* Fundo primário suave no hover */
+  transform: translateX(5px);
+  color: var(--color-black); /* Keep black text */
+}
+
+.linha-item:focus {
+  outline: 3px solid var(--color-primary);
+  outline-offset: -3px;
+  background: var(--color-primary-10);
+}
+
+/* === INFORMAÇÕES DA LINHA === */
+.linha-info {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.linha-numero-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.linha-numero {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-black); /* Black text for better contrast */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* === BOTÃO ESTRELA === */
+.btn-estrela {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--color-quaternary-30); /* Cor mais visível por padrão */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0.25rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-estrela:hover {
+  color: var(--color-primary);
+  transform: scale(1.2);
+}
+
+.btn-estrela.favorita {
+  color: var(--color-primary); /* Cyan color for favorites */
+  text-shadow: 0 0 10px var(--color-secondary-50);
+}
+
+.btn-estrela:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* === PREÇO E SETA === */
+.linha-preco-container {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.linha-preco {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary); /* Cyan color for prices */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.linha-seta {
+  font-size: 1.5rem;
+  color: var(--color-quaternary-50); /* Seta mais visível */
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+.linha-item:hover .linha-seta {
+  color: var(--color-primary);
+  transform: translateX(5px);
+}
+
+/* === RESPONSIVIDADE === */
+@media (max-width: 768px) {
+  .linhas-page {
+    padding-top: 100px; /* Padding maior em tablets */
+  }
+
+  .linhas-content {
+    padding: 1rem 0.5rem;
+  }
+  
+  .linha-item {
+    padding: 1.25rem 1.5rem;
+  }
+  
+  .linha-numero,
+  .linha-preco {
+    font-size: 1.25rem;
+  }
+  
+  .btn-estrela,
+  .linha-seta {
+    font-size: 1.25rem;
+  }
+  
+  .linha-preco-container {
+    gap: 1rem;
+  }
+  
+  .linha-numero-container {
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .linhas-page {
+    padding-top: 110px; /* Padding ainda maior em celulares */
+  }
+
+  .linha-item {
+    padding: 1rem 1rem;
+  }
+  
+  .linha-item.com-separador::after {
+    left: 1rem;
+    right: 1rem;
+  }
+  
+  .linha-numero,
+  .linha-preco {
+    font-size: 1.1rem;
+  }
+  
+  .btn-estrela,
+  .linha-seta {
+    font-size: 1.1rem;
+  }
+}
+
+/* === ESTADOS DE CARREGAMENTO E VAZIO === */
+.linhas-loading {
+  text-align: center;
+  padding: 3rem 2rem;
+      color: var(--color-black); /* Black text */
+}
+
+.linhas-empty {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: var(--color-quaternary-50);
+}
+
+/* === ACESSIBILIDADE === */
+@media (prefers-reduced-motion: reduce) {
+  .linha-item,
+  .btn-estrela,
+  .linha-seta {
+    transition: none;
+  }
+
+  .linha-item:hover {
+    transform: none;
+  }
+
+  .btn-estrela:hover {
+    transform: none;
+  }
+
+  .linha-item:hover .linha-seta {
+    transform: none;
+  }
+}
+
+/* === MODO ESCURO (OPCIONAL) === */
+@media (prefers-color-scheme: dark) {
+  .linhas-card {
+    background: var(--color-quaternary);
+    border-color: var(--color-primary-30);
+  }
+
+  .linha-item {
+    color: var(--color-white); /* White text in dark mode */
+  }
+
+  .linha-numero {
+    color: var(--color-white); /* White text in dark mode */
+  }
+
+  .linha-preco {
+    color: var(--color-primary);
+  }
+
+  .linha-item:hover {
+    background: var(--color-quaternary-90);
+  }
+} 

@@ -1,0 +1,81 @@
+/**
+ * BusFeed - Paleta de Cores Oficial
+ * 
+ * Variáveis CSS globais para manter consistência visual em toda a aplicação.
+ * Todas as cores utilizadas devem estar definidas neste arquivo para facilitar
+ * manutenção e garantir uniformidade no design.
+ * 
+ * PALETA APROVADA:
+ * ================
+ * Primária:    #42F2F7 (azul claro vibrante) - botões principais, destaques, foco
+ * Secundária:  #028090 (azul petróleo) - textos importantes, elementos de apoio
+ * Terciária:   #FCEFF9 (rosa/lilás claro) - fundos suaves, campos de entrada
+ * Quaternária: #114B5F (azul escuro) - overlay, textos escuros, contrastes
+ * 
+ * CORES NEUTRAS AUXILIARES:
+ * =========================
+ * Branco e preto apenas quando estritamente necessário para legibilidade
+ */
+
+:root {
+  /* === PALETA PRINCIPAL === */
+  --color-primary: #42F2F7;          /* Azul claro vibrante */
+  --color-secondary: #028090;        /* Azul petróleo */
+  --color-tertiary: #FCEFF9;         /* Rosa/lilás claro */
+  --color-quaternary: #114B5F;       /* Azul escuro */
+  
+  /* === VARIAÇÕES COM TRANSPARÊNCIA === */
+  /* Primária com transparências */
+  --color-primary-10: rgba(66, 242, 247, 0.1);   /* 10% opacidade */
+  --color-primary-20: rgba(66, 242, 247, 0.2);   /* 20% opacidade */
+  --color-primary-30: rgba(66, 242, 247, 0.3);   /* 30% opacidade */
+  --color-primary-50: rgba(66, 242, 247, 0.5);   /* 50% opacidade */
+  --color-primary-80: rgba(66, 242, 247, 0.8);   /* 80% opacidade */
+  --color-primary-90: rgba(66, 242, 247, 0.9);   /* 90% opacidade */
+  
+  /* Secundária com transparências */
+  --color-secondary-10: rgba(2, 128, 144, 0.1);  /* 10% opacidade */
+  --color-secondary-20: rgba(2, 128, 144, 0.2);  /* 20% opacidade */
+  --color-secondary-30: rgba(2, 128, 144, 0.3);  /* 30% opacidade */
+  --color-secondary-50: rgba(2, 128, 144, 0.5);  /* 50% opacidade */
+  --color-secondary-80: rgba(2, 128, 144, 0.8);  /* 80% opacidade */
+  --color-secondary-90: rgba(2, 128, 144, 0.9);  /* 90% opacidade */
+  
+  /* Terciária com transparências */
+  --color-tertiary-10: rgba(252, 239, 249, 0.1); /* 10% opacidade */
+  --color-tertiary-20: rgba(252, 239, 249, 0.2); /* 20% opacidade */
+  --color-tertiary-50: rgba(252, 239, 249, 0.5); /* 50% opacidade */
+  --color-tertiary-80: rgba(252, 239, 249, 0.8); /* 80% opacidade */
+  --color-tertiary-95: rgba(252, 239, 249, 0.95);/* 95% opacidade */
+  
+  /* Quaternária com transparências */
+  --color-quaternary-10: rgba(17, 75, 95, 0.1);  /* 10% opacidade */
+  --color-quaternary-15: rgba(17, 75, 95, 0.15); /* 15% opacidade */
+  --color-quaternary-20: rgba(17, 75, 95, 0.2);  /* 20% opacidade */
+  --color-quaternary-30: rgba(17, 75, 95, 0.3);  /* 30% opacidade */
+  --color-quaternary-85: rgba(17, 75, 95, 0.85); /* 85% opacidade */
+  --color-quaternary-90: rgba(17, 75, 95, 0.9);  /* 90% opacidade */
+  
+  /* === CORES NEUTRAS (uso limitado) === */
+  --color-white: #FFFFFF;             /* Branco puro - usar apenas quando necessário */
+  --color-black: #000000;             /* Preto puro - usar apenas quando necessário */
+  
+  /* === CORES SEMÂNTICAS BASEADAS NA PALETA === */
+  /* Estados de feedback usando as cores da paleta */
+  --color-success: var(--color-secondary);       /* Verde-azulado para sucesso */
+  --color-warning: var(--color-primary);         /* Azul claro para avisos */
+  --color-danger: var(--color-quaternary);       /* Azul escuro para erros */
+  --color-info: var(--color-tertiary);           /* Rosa claro para informações */
+  
+  /* === SOMBRAS CONSISTENTES === */
+  --shadow-light: 0 2px 10px var(--color-quaternary-10);
+  --shadow-medium: 0 4px 15px var(--color-quaternary-20);
+  --shadow-heavy: 0 6px 20px var(--color-quaternary-30);
+  --shadow-focus: 0 0 0 3px var(--color-primary-30);
+  
+  /* === BORDAS PADRONIZADAS === */
+  --border-light: 1px solid var(--color-tertiary);
+  --border-medium: 2px solid var(--color-secondary-20);
+  --border-heavy: 2px solid var(--color-quaternary);
+  --border-focus: 2px solid var(--color-primary);
+} 

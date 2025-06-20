@@ -1,0 +1,56 @@
+# BusFeed - Configuração Docker para Desenvolvimento
+# PostgreSQL com PostGIS + Django
+
+version: '3.8'
+
+services:
+  # Banco de dados PostgreSQL com extensão PostGIS para dados geográficos
+  db:
+    image: postgis/postgis:15-3.3
+    container_name: busfeed_db
+    environment:
+      POSTGRES_DB: busfeed_db
+      POSTGRES_USER: busfeed_user
+      POSTGRES_PASSWORD: busfeed_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U busfeed_user -d busfeed_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Aplicação Django (será configurada após criação do projeto)
+  web:
+    build: .
+    container_name: busfeed_web
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - DEBUG=1
+      - DATABASE_URL=postgres://busfeed_user:busfeed_password@db:5432/busfeed_db
+
+  # Frontend React
+  frontend:
+    build: ./frontend
+    container_name: busfeed_frontend
+    command: npm start
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000/api
+      - CHOKIDAR_USEPOLLING=true
+
+volumes:
+  postgres_data: 

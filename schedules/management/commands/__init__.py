@@ -1,1 +1,0 @@
-# Commands para o app schedules 
